@@ -1,6 +1,5 @@
-package akka.PoolBreakdown;
+package AkkaMessageBenchmark;
 
-import Creature.nervousSystem.electricalSignallingSystem.electricalStimulus.Stimulus;
 import Stimuli.StimulusMessage;
 import akka.actor.ActorRef;
 import akka.actor.Props;

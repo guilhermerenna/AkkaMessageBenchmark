@@ -1,4 +1,4 @@
-package akka.PoolBreakdown;
+package AkkaMessageBenchmark;
 
 import Stimuli.LuminousStimulusMessage;
 import Stimuli.SpikeStimulusMessage;

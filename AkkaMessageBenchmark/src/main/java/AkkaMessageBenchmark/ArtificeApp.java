@@ -1,12 +1,9 @@
-package akka.PoolBreakdown;
+package AkkaMessageBenchmark;
 
-import Creature.nervousSystem.electricalSignallingSystem.electricalStimulus.Stimulus;
-import Creature.nervousSystem.electricalSignallingSystem.electricalStimulus.TouchStimulus;
 import Stimuli.TouchStimulusMessage;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import akka.routing.RandomRouter;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 

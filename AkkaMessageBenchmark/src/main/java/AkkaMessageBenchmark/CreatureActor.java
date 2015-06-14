@@ -1,4 +1,4 @@
-package akka.PoolBreakdown;
+package AkkaMessageBenchmark;
 
 import Creature.EyeActor;
 import Creature.MouthActor;
