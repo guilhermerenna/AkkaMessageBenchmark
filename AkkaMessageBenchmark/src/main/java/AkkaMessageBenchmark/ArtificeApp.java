@@ -1,5 +1,6 @@
 package AkkaMessageBenchmark;
 
+import ArtificeMailbox.SenderMessage;
 import Stimuli.TouchStimulusMessage;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -24,14 +25,15 @@ public class ArtificeApp {
         ActorRef backend1 = _System.actorOf(Props.create(Backend.class), "backend1");
         // ActorRef cactus = cactusSystem.actorOf(Props.create(CactusActor.class), "cactus1");
 
-        backend1.tell(new TouchStimulusMessage("toquei"),backend1);
-//        /*backend1.tell(new TouchStimulusMessage("toquei"),backend1);
-//        backend1.tell(new TouchStimulusMessage("toquei"),backend1);
-//        backend1.tell(new TouchStimulusMessage("toquei"),backend1);
-//        backend1.tell(new TouchStimulusMessage("toquei"),backend1);
-//        backend1.tell(new TouchStimulusMessage("toquei"),backend1);
-//        backend1.tell(new TouchStimulusMessage("toquei"),backend1);*/
+        Thread.sleep(500);
 
+        for(int i=0;i<4;i++) {
+            backend1.tell(new SenderMessage(backend1, backend1, "Stimulus values test", System.currentTimeMillis()), backend1);
+            Thread.sleep(50);
+        }
 
+        Thread.sleep(1000);
+
+        _System.shutdown();
     }
 }

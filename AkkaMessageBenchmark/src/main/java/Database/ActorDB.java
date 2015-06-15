@@ -16,16 +16,18 @@ public class ActorDB extends UntypedActor {
 
     private Connection con;
     private Statement stm;
+    private String name;
     private String path;
-    private static final String username = "postgres";
-    private static final String password = "12345";
+    private static final String username = "lsi";
+    private static final String password = "win*c4s4)";
 
-    public ActorDB(String path) {
-        this.path = path;
+    public ActorDB(String name) {
+        this.name = name;
+        this.path = "localhost:5432/akkaartifice";
     }
 
     public ActorDB() {
-        this.path = "localhost:5432/akkaTest";
+        this.path = "localhost:5432/akkaartifice";
     }
 
     @Override
@@ -46,6 +48,7 @@ public class ActorDB extends UntypedActor {
     @Override
     public void onReceive(Object o) throws Exception {
         if (o instanceof ReceiverMessage) {
+            // System.out.println("Recebi estimulo. Gravando no banco...");
             insertDB(generateQuery((ReceiverMessage)o));
         } else {
             System.out.println("ActorDB says: Message received is not a ReceiverMessage!");

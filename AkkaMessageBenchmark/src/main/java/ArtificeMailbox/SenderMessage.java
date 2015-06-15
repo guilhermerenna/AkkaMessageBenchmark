@@ -53,4 +53,14 @@ public class SenderMessage {
     public void setSendingTime(long sendingTime) {
         this.sendingTime = sendingTime;
     }
+
+    @Override
+    public String toString() {
+        return "SenderMessage{" +
+                "sender=" + sender.path() +
+                ", receiver=" + receiver.path() +
+                ", stimulusValues='" + stimulusValues + '\'' +
+                ", sendingTime=" + sendingTime +
+                '}';
+    }
 }

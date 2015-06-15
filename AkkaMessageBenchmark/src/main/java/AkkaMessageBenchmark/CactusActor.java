@@ -1,16 +1,32 @@
 package AkkaMessageBenchmark;
 
+import ArtificeMailbox.ReceiverMessage;
+import ArtificeMailbox.SenderMessage;
+import Database.ActorDB;
 import Stimuli.LuminousStimulusMessage;
 import Stimuli.SpikeStimulusMessage;
 import Stimuli.StimulusMessage;
 import Stimuli.TouchStimulusMessage;
+import akka.actor.ActorRef;
+import akka.actor.Props;
 import akka.actor.UntypedActor;
+import akka.io.Udp;
+
+import java.util.List;
 
 /**
- *
+ * CactusActor utiliza NECESSARIAMENTE a mailbox personalizada ArtificeMailbox.
  */
 public class CactusActor extends UntypedActor {
     private String nome;
+    private ActorRef dbActor;
+
+    @Override
+    public void preStart() throws Exception {
+        super.preStart();
+
+        dbActor = getContext().actorOf(Props.create(ActorDB.class, this.nome+"\\dbactor"));
+    }
 
     /**
      * Construtor
@@ -27,18 +43,19 @@ public class CactusActor extends UntypedActor {
      */
     @Override
     public void onReceive(Object arg0) throws Exception {
-        if (arg0 instanceof LuminousStimulusMessage) {
-            System.out.println(this.nome + "A can see something! " + ((LuminousStimulusMessage) arg0).getMessage() + "! Ref.: " + ((StimulusMessage) arg0).getSequenceNumber());
-        } else if (arg0 instanceof TouchStimulusMessage) {
-            System.out.println(this.nome + ": " + getSender().toString() + " toched me! Spiking it back! =P Ref.: " + ((StimulusMessage) arg0).getSequenceNumber());
-            getSender().tell(new SpikeStimulusMessage("Spike sent "), this.getSelf());
-        } else if (arg0 instanceof StimulusMessage) {
-            System.out.println(this.nome+": unknown stimulus received.\n" + ((StimulusMessage) arg0).getMessage() + "\nDiscarding ref. " + ((StimulusMessage) arg0).getMessage());
+        if(arg0 instanceof List) {
+            System.out.println("List received!! What do I do with it?!? ");
+            // TODO: Implement changeState()
+        } else if(arg0 instanceof ReceiverMessage) {
+            System.out.println(this.nome+": ReceiverMessage received: "+((ReceiverMessage) arg0).toString());
+            dbActor.tell(arg0,getSelf());
+
+            //TODO: gravar no banco
+        } else if(arg0 instanceof String) {
+            System.out.println("String message received: "+(String) arg0);
         } else {
             throw new Exception("Message type not supported.");
         }
-        Thread.sleep(3000);
-        System.out.println("Woke up! Going for the next message.");
     }
 
 }

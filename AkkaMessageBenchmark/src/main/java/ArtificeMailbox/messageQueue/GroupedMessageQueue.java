@@ -1,57 +1,34 @@
 package ArtificeMailbox.messageQueue;
 
+import ArtificeMailbox.ReceiverMessage;
+import ArtificeMailbox.SenderMessage;
 import akka.actor.ActorRef;
 import akka.dispatch.Envelope;
 import akka.dispatch.MessageQueue;
 import ArtificeMailbox.MyUnboundedMessageQueueSemantics;
 
+import javax.sound.midi.Receiver;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GroupedMessageQueue implements MessageQueue,
         MyUnboundedMessageQueueSemantics {
-
-    private String hello = "";
-    private String world = "";
-
-    private String I = "";
-    private String am = "";
-    private String groot = "";
+    private SenderMessage senderMessage;
 
     private final Queue<Envelope> queue =
             new ConcurrentLinkedQueue<Envelope>();
 
     public void enqueue(ActorRef receiver, Envelope handle) {
-
-        if (handle.message() instanceof String) {
-            String message = (String) handle.message();
-            if (message.equals("I")) {
-                I = message;
-            } else if (message.equals("am")) {
-                am = message;
-            } else if (message.equals("groot")) {
-                groot = message;
-            } else if (message.equals("hello")) {
-                hello = message;
-            } else if (message.equals("world")) {
-                world = message;
-            } else {
-                queue.offer(handle);
-            }
+        if (handle.message() instanceof SenderMessage) {
+            this.senderMessage = (SenderMessage) handle.message();
+            // TODO: descobrir forma de substituir this.senderMessage por referencia do respectivo ator
+            queue.offer(new Envelope(new ReceiverMessage(this.senderMessage.getSender(), this.senderMessage.getReceiver(), this.senderMessage.getStimulusValues(), this.senderMessage.getSendingTime(), System.currentTimeMillis()),null));
         } else {
-            queue.offer(handle);
+            System.out.println("Mensagem nao suportada: "+handle.message().getClass().toString()+"\nEsperado tipo ReceiverMessage.");
         }
     }
 
     public Envelope dequeue() {
-
-        if (!I.isEmpty() && !am.isEmpty() && !groot.isEmpty()) {
-            I = am = groot = "";
-            return new Envelope("You are groot", null);
-        } else if (!hello.isEmpty() && !world.isEmpty()){
-            hello = world = "";
-            return new Envelope("We have a different mailbox", null);
-        }
         return queue.poll();
     }
 

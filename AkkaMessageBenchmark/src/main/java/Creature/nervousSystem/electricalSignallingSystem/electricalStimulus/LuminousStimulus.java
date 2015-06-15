@@ -1,8 +1,8 @@
 package Creature.nervousSystem.electricalSignallingSystem.electricalStimulus;
 
 
-import Creature.ObjectSequentialNumber;
 import Creature.nervousSystem.electricalSignallingSystem.CurrentStimulus;
+import Creature.nervousSystem.electricalSignallingSystem.ObjectSequentialNumber;
 
 /**
  * Classe que extende de <code>EnviromentalStimulus</code> e representa o estimulo luminoso de todos os componentes de software, ou seja, o que o ASCS pode enchergar
