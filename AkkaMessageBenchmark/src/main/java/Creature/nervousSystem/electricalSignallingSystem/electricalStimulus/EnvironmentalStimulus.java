@@ -1,8 +1,8 @@
 package Creature.nervousSystem.electricalSignallingSystem.electricalStimulus;
 
 
+import Creature.ObjectSequentialNumber;
 import Creature.nervousSystem.electricalSignallingSystem.CurrentStimulus;
-import artificeEncapsulatedCluster.ObjectSequentialNumber;
 
 /**
  * Classe que extende de Stimulus e generaliza todos os estímulos do ambiente.

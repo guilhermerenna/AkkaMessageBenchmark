@@ -1,7 +1,7 @@
 package Creature.nervousSystem.electricalSignallingSystem.electricalStimulus;
 
+import Creature.ObjectSequentialNumber;
 import Creature.nervousSystem.electricalSignallingSystem.CurrentStimulus;
-import artificeEncapsulatedCluster.ObjectSequentialNumber;
 
 import java.util.UUID;
 

@@ -1,7 +1,7 @@
 package Creature.nervousSystem.electricalSignallingSystem.electricalStimulus;
 
+import Creature.ObjectSequentialNumber;
 import Creature.nervousSystem.electricalSignallingSystem.CurrentStimulus;
-import artificeEncapsulatedCluster.ObjectSequentialNumber;
 
 /**
  * Classe que extende de <code>EnviromentalStimulus</code> e representa o estimulo que um componete emite ao outro quando enconstam nele.
