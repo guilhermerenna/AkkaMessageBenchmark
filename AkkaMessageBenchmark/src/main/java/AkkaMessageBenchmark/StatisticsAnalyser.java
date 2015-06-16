@@ -19,7 +19,7 @@ public class StatisticsAnalyser {
         stm = (Statement) con.createStatement();
 
         String query = "SELECT * from message;";
-        System.out.println("Exceuting query...");
+        System.out.println("Executing query...");
         stm = (Statement) con.createStatement(); //para ele poder ser executado várias vezes sem que feche o resultset
         ResultSet rs = stm.executeQuery(query);
 
@@ -42,7 +42,7 @@ public class StatisticsAnalyser {
         System.out.printf("\tSent: %10d", (sendingtime - start));
         System.out.printf("\tLatency: %3d", (receivingtime - sendingtime));
         System.out.printf("\tProcessing : %3d", (dbtime - receivingtime));
-        System.out.print(", Stimulus: " + stimulus.toString());
+        System.out.print("\tStimulus: " + stimulus.toString());
         System.out.println();
 
         while(rs.next()){

@@ -36,9 +36,9 @@
             <version>2.3.9</version>
         </dependency>
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.2-1002-jdbc4</version>
+            <version>9.3-1103-jdbc41</version>
         </dependency>
     </dependencies>
 
@@ -48,10 +48,5 @@
             <name>Typesafe Repository</name>
             <url>http://repo.typesafe.com/typesafe/releases/</url>
         </repository>
-        <repository>
-            <id>typesafe</id>
-            <url>http://repo.typesafe.com/typesafe/repo/</url>
-        </repository>
-
     </repositories>
 </project>
