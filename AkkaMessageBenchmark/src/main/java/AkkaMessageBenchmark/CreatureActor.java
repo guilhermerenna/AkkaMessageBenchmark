@@ -1,12 +1,10 @@
 package AkkaMessageBenchmark;
 
 import ArtificeMailbox.ReceiverMessage;
-import ArtificeMailbox.SenderMessage;
 import Creature.EyeActor;
 import Creature.MouthActor;
 import Creature.NoseActor;
-import Database.ActorDB;
-import Stimuli.*;
+import Database.DBActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
@@ -27,7 +25,7 @@ public class CreatureActor extends UntypedActor {
     @Override
     public void preStart() throws Exception {
         super.preStart();
-        dbActor = getContext().actorOf(Props.create(ActorDB.class, this.nome+"\\dbactor"));
+        dbActor = getContext().actorOf(Props.create(DBActor.class, this.nome+"\\dbactor"));
     }
 
     @Override

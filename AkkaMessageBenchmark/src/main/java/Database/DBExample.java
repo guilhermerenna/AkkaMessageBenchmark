@@ -1,7 +1,6 @@
 package Database;
 
 import AkkaMessageBenchmark.CactusActor;
-import ArtificeMailbox.ReceiverMessage;
 import akka.actor.*;
 
 /**
@@ -17,7 +16,7 @@ public class DBExample {
         // String path = DBExample.host + ":" + DBExample.port + "/"+DBExample.dbName;
         ActorSystem system = ActorSystem.create("DBActorSystem");
         ActorRef dbActor = system.actorOf(
-                Props.create(ActorDB.class));
+                Props.create(DBActor.class));
 
         ActorRef sender = system.actorOf(Props.create(CactusActor.class), "sender");
         ActorRef receiver = system.actorOf(Props.create(CactusActor.class), "receiver");

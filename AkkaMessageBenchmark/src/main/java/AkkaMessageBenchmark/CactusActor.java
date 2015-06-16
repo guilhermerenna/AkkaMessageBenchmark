@@ -1,16 +1,10 @@
 package AkkaMessageBenchmark;
 
 import ArtificeMailbox.ReceiverMessage;
-import ArtificeMailbox.SenderMessage;
-import Database.ActorDB;
-import Stimuli.LuminousStimulusMessage;
-import Stimuli.SpikeStimulusMessage;
-import Stimuli.StimulusMessage;
-import Stimuli.TouchStimulusMessage;
+import Database.DBActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
-import akka.io.Udp;
 
 import java.util.List;
 
@@ -25,7 +19,7 @@ public class CactusActor extends UntypedActor {
     public void preStart() throws Exception {
         super.preStart();
 
-        dbActor = getContext().actorOf(Props.create(ActorDB.class, this.nome+"\\dbactor"));
+        dbActor = getContext().actorOf(Props.create(DBActor.class, this.nome+"\\dbactor"));
     }
 
     /**

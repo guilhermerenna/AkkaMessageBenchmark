@@ -18,20 +18,25 @@ import java.util.List;
  * Created by lsi on 12/06/15.
  */
 public class Backend extends UntypedActor {
+
+
     Router router; {
         List<Routee> routees = new ArrayList<Routee>();
-        ActorRef r = getContext().actorOf(Props.create(CactusActor.class,"cactus1").withMailbox("artificeMailbox"));
-        getContext().watch(r);
-        routees.add(new ActorRefRoutee(r));
-        r = getContext().actorOf(Props.create(CreatureActor.class,"creature1").withMailbox("artificeMailbox"));
-        getContext().watch(r);
-        routees.add(new ActorRefRoutee(r));
-        r = getContext().actorOf(Props.create(CactusActor.class,"cactus2").withMailbox("artificeMailbox"));
-        getContext().watch(r);
-        routees.add(new ActorRefRoutee(r));
-        r = getContext().actorOf(Props.create(CreatureActor.class,"creature2").withMailbox("artificeMailbox"));
-        getContext().watch(r);
-        routees.add(new ActorRefRoutee(r));
+        ActorRef r;
+
+        // Creating and adding cactus actors to router
+        for(int i=0;i<ArtificeApp.nCacti;i++) {
+            r = getContext().actorOf(Props.create(CactusActor.class, "cactus"+i).withMailbox("artificeMailbox"));
+            getContext().watch(r);
+            routees.add(new ActorRefRoutee(r));
+        }
+
+        // Creating and adding creature actors to router
+        for(int i=0;i<ArtificeApp.nCreatures;i++) {
+            r = getContext().actorOf(Props.create(CreatureActor.class, "creature"+i).withMailbox("artificeMailbox"));
+            getContext().watch(r);
+            routees.add(new ActorRefRoutee(r));
+        }
 
         router = new Router(new RandomRoutingLogic(), routees);
     }

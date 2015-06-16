@@ -11,6 +11,14 @@ import com.typesafe.config.ConfigFactory;
 //import akka.kernel.Bootable;
 
 public class ArtificeApp {
+    // Number of messages sent over the whole system
+    private static final int nMessages = 200;
+    // Number of creatures per backend
+    public static final int nCreatures = 10;
+    // Number of cacti per backend
+    public static final int nCacti = 10;
+
+    public static final String path = "localhost:5432/akkaartifice";
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -27,9 +35,11 @@ public class ArtificeApp {
 
         Thread.sleep(500);
 
-        for(int i=0;i<4;i++) {
+        System.out.println("Sending " + nMessages + " messages.");
+
+        for (int i = 0; i < nMessages; i++) {
             backend1.tell(new SenderMessage(backend1, backend1, "Stimulus values test", System.currentTimeMillis()), backend1);
-            Thread.sleep(50);
+            // Thread.sleep(5);
         }
 
         Thread.sleep(1000);
