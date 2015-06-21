@@ -1,4 +1,4 @@
-package Database;
+package AkkaMessageBenchmark.ArtificeActors;
 
 import AkkaMessageBenchmark.ArtificeApp;
 import ArtificeMailbox.ReceiverMessage;
@@ -29,7 +29,7 @@ public class DBActor extends UntypedActor {
      * Inicialização do DBActor sem nome.
      */
     public DBActor() {
-        // Inicialização do DBActor sem nome.
+        System.err.println("Warning!! DBActor created without a name!");
     }
 
     @Override
@@ -50,8 +50,8 @@ public class DBActor extends UntypedActor {
     @Override
     public void onReceive(Object o) throws Exception {
         if (o instanceof ReceiverMessage) {
-            // System.out.println("Recebi estimulo. Gravando no banco...");
-            insertDB(generateQuery((ReceiverMessage)o));
+            System.out.println("Recebi estimulo. Gravando no banco:\n"+o.toString());
+            insertDB(generateQuery((ReceiverMessage) o));
         } else {
             System.out.println("DBActor says: Message received is not a ReceiverMessage!");
         }
@@ -59,8 +59,8 @@ public class DBActor extends UntypedActor {
 
     private String generateQuery(ReceiverMessage msg) {
         return "insert into MESSAGE(sender,receiver,sendingTime,receivingTime,stimulusValue,dbTime) "
-               + "values ('"+msg.getSender().path().toString() +"', "
-               + "'"+msg.getReceiver().path().toString() +"', "
+               + "values ('"+msg.getSender().path() +"', "
+               + "'"+msg.getReceiver().path() +"', "
                 + String.valueOf(msg.getSendingTime()) +", "
                 + String.valueOf(msg.getReceivingTime()) +", "
                 + "'"+msg.getStimulusValues() +"', "

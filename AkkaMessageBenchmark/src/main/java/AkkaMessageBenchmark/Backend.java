@@ -1,6 +1,7 @@
 package AkkaMessageBenchmark;
 
-import ArtificeMailbox.ReceiverMessage;
+import AkkaMessageBenchmark.ArtificeActors.CactusActor;
+import AkkaMessageBenchmark.ArtificeActors.CreatureActor;
 import ArtificeMailbox.SenderMessage;
 import Stimuli.StimulusMessage;
 import akka.actor.ActorRef;
@@ -26,14 +27,14 @@ public class Backend extends UntypedActor {
 
         // Creating and adding cactus actors to router
         for(int i=0;i<ArtificeApp.nCacti;i++) {
-            r = getContext().actorOf(Props.create(CactusActor.class, "cactus"+i).withMailbox("artificeMailbox"));
+            r = getContext().actorOf(Props.create(CactusActor.class, "cactus"+i).withMailbox("artificeMailbox"),"cactus"+i);
             getContext().watch(r);
             routees.add(new ActorRefRoutee(r));
         }
 
         // Creating and adding creature actors to router
         for(int i=0;i<ArtificeApp.nCreatures;i++) {
-            r = getContext().actorOf(Props.create(CreatureActor.class, "creature"+i).withMailbox("artificeMailbox"));
+            r = getContext().actorOf(Props.create(CreatureActor.class, "creature"+i).withMailbox("artificeMailbox"),"creature"+i);
             getContext().watch(r);
             routees.add(new ActorRefRoutee(r));
         }

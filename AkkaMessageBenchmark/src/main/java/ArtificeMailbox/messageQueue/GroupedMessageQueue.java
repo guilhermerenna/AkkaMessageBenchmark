@@ -20,11 +20,13 @@ public class GroupedMessageQueue implements MessageQueue,
 
     public void enqueue(ActorRef receiver, Envelope handle) {
         if (handle.message() instanceof SenderMessage) {
-            this.senderMessage = (SenderMessage) handle.message();
-            // TODO: descobrir forma de substituir this.senderMessage por referencia do respectivo ator
-            queue.offer(new Envelope(new ReceiverMessage(this.senderMessage.getSender(), this.senderMessage.getReceiver(), this.senderMessage.getStimulusValues(), this.senderMessage.getSendingTime(), System.currentTimeMillis()),null));
-        } else {
-            System.out.println("Mensagem nao suportada: "+handle.message().getClass().toString()+"\nEsperado tipo ReceiverMessage.");
+            System.out.println("Timestamped message arrived at mailbox.");
+            queue.offer(handle);
+        } else if (handle.message() instanceof String) {
+            queue.offer(handle);
+        }
+        else {
+            System.out.println("Mensagem nao suportada: "+handle.message().getClass().toString()+" de "+handle.sender().path()+"\nEsperado tipo SenderMessage.");
         }
     }
 

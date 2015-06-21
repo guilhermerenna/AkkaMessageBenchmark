@@ -1,4 +1,4 @@
-package AkkaMessageBenchmark;
+package AkkaMessageBenchmark.ArtificeActors;
 
 import Stimuli.DestructiveStimulusMessage;
 import Stimuli.LuminousStimulusMessage;
