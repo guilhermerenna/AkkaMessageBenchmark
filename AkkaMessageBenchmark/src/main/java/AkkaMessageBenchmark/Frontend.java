@@ -10,17 +10,23 @@ import com.typesafe.config.ConfigFactory;
 
 //import akka.kernel.Bootable;
 
-public class ArtificeApp {
-    // Number of messages sent over the whole system
-    private static final int nMessages = 20;
+public class Frontend {
     // Number of creatures per backend
-    public static final int nCreatures = 10;
+    public static int nCreatures;
     // Number of cacti per backend
-    public static final int nCacti = 10;
+    public static int nCacti;
+    // Scheduling delay time before sending the next message
+    // public static int scheduling;
+
+    public Frontend(int nCreatures, int nCacti) { //, int scheduling) {
+        this.nCreatures = nCreatures;
+        this.nCacti = nCacti;
+        // this.scheduling = scheduling;
+    }
 
     public static final String path = "localhost:5432/akkaartifice";
 
-    public void go() throws InterruptedException {
+    public void run() throws InterruptedException {
         // Override the configuration of the port
         Config config = ConfigFactory.parseString(
                 "akka.remote.netty.tcp.port=" + 2552).withFallback(
@@ -32,15 +38,20 @@ public class ArtificeApp {
         ActorRef backend1 = _System.actorOf(Props.create(Backend.class), "backend1");
         // ActorRef cactus = cactusSystem.actorOf(Props.create(CactusActor.class), "cactus1");
 
+        // Sleep 500ms, so all actors will be up
         Thread.sleep(500);
 
-        System.out.println("Sending " + nMessages + " messages.");
+        System.out.println("500ms have been passed. All actors should be starting by now...");
 
-        /* for (int i = 0; i < nMessages; i++) {
+
+        // CURRENTLY NOT BEING USED: Messages sent by loop
+        /* System.out.println("Sending " + nMessages + " messages.");
+        for (int i = 0; i < nMessages; i++) {
             backend1.tell(new SenderMessage("Stimulus values test", System.currentTimeMillis()), backend1);
             // Thread.sleep(5);
         } */
 
+        // Sleep 1000ms, so the messages can be sent across the actors
         Thread.sleep(1000);
 
         _System.shutdown();

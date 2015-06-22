@@ -1,9 +1,12 @@
 package AkkaMessageBenchmark.ArtificeActors;
 
+import AkkaMessageBenchmark.Frontend;
 import ArtificeMailbox.ReceiverMessage;
 import ArtificeMailbox.SenderMessage;
+import scala.concurrent.duration.Duration;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * CactusActor utiliza NECESSARIAMENTE a mailbox personalizada ArtificeMailbox.
@@ -39,12 +42,13 @@ public class CactusActor extends ArtificeActor {
             System.out.println(this.nome+": ReceiverMessage built!");
             dbActor.tell(msg,getSelf());
         } else if(arg0 instanceof String) {
-            System.out.println(this.nome + ": String message received: "+(String) arg0);
+            System.out.println(this.nome + ": String received: "+(String) arg0);
 
             if(((String) arg0).equals("anycast")) {
-                /*getContext().system().scheduler().scheduleOnce(
-                        Duration.create(1000, TimeUnit.MILLISECONDS),
-                        getSelf(), "tick", getContext().dispatcher(), null);*/
+                // Re-Scheduler para enviar mensagens "anycast" recursivo
+                getContext().system().scheduler().scheduleOnce(
+                        Duration.create(1, TimeUnit.NANOSECONDS),
+                        getSelf(), "anycast", getContext().dispatcher(), null);
 
                 context().parent().tell(new SenderMessage("Spike from "+this.nome+"!!", System.currentTimeMillis()),getSelf());
                 System.out.println(this.nome+": Sending spike!");

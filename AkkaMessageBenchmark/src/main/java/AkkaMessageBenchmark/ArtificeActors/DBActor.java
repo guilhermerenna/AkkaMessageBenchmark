@@ -1,6 +1,6 @@
 package AkkaMessageBenchmark.ArtificeActors;
 
-import AkkaMessageBenchmark.ArtificeApp;
+import AkkaMessageBenchmark.Frontend;
 import ArtificeMailbox.ReceiverMessage;
 import akka.actor.UntypedActor;
 
@@ -36,7 +36,7 @@ public class DBActor extends UntypedActor {
     public void preStart() {
         try {
             Class.forName("org.postgresql.Driver");
-            con = DriverManager.getConnection("jdbc:postgresql://"+ ArtificeApp.path,username,password);
+            con = DriverManager.getConnection("jdbc:postgresql://"+ Frontend.path,username,password);
             stm = (Statement) con.createStatement();
         } catch(SQLException exception) {
             System.err.println("Erro ao estabelecer conexão com o BD!");

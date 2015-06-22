@@ -11,15 +11,34 @@ public class DBCleaner {
     private static Connection con;
     private static Statement stm;
 
-    public static void go() throws InterruptedException, SQLException, ClassNotFoundException {
+    public static void run() throws InterruptedException, SQLException, ClassNotFoundException {
+
+        // TODO: Create database and table if not exists
+
+        /*
+        * create database akkaartifice;
+        *
+        * create sequence message_id_seq;
+        *
+        * create table MESSAGE (
+        * 	messageID integer primary key default nextval('message_id_seq'),
+        * 	sender varchar(150),
+        * 	receiver varchar(150),
+        * 	sendingTime bigint,
+        * 	receivingTime bigint,
+        * 	dbTime bigint,
+        * 	stimulusValue varchar(100)
+        * );
+        *
+        * */
         System.out.println("Connecting to database...");
         Class.forName("org.postgresql.Driver");
-        con = DriverManager.getConnection("jdbc:postgresql://" + ArtificeApp.path, username, password);
+        con = DriverManager.getConnection("jdbc:postgresql://" + Frontend.path, username, password);
         stm = (Statement) con.createStatement();
 
         String query = "DELETE from message;";
         System.out.println("Cleaning message table...");
-        stm = (Statement) con.createStatement(); //para ele poder ser executado várias vezes sem que feche o resultset
+        stm = (Statement) con.createStatement(); // Persistent connection, so it can be accessed without closing the Resultset
         stm.execute(query);
 
         if (stm!=null && !stm.isClosed()) {

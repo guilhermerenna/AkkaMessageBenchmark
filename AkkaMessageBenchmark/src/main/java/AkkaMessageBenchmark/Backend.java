@@ -26,14 +26,14 @@ public class Backend extends UntypedActor {
         ActorRef r;
 
         // Creating and adding cactus actors to router
-        for(int i=0;i<ArtificeApp.nCacti;i++) {
+        for(int i=0;i< Frontend.nCacti;i++) {
             r = getContext().actorOf(Props.create(CactusActor.class, "cactus"+i).withMailbox("artificeMailbox"),"cactus"+i);
             getContext().watch(r);
             routees.add(new ActorRefRoutee(r));
         }
 
         // Creating and adding creature actors to router
-        for(int i=0;i<ArtificeApp.nCreatures;i++) {
+        for(int i=0;i< Frontend.nCreatures;i++) {
             r = getContext().actorOf(Props.create(CreatureActor.class, "creature"+i).withMailbox("artificeMailbox"),"creature"+i);
             getContext().watch(r);
             routees.add(new ActorRefRoutee(r));

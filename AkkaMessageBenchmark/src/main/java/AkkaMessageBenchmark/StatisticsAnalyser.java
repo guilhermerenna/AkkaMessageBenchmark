@@ -1,11 +1,12 @@
 package AkkaMessageBenchmark;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 
 /**
  * Created by lsi on 16/06/15.
@@ -15,11 +16,25 @@ public class StatisticsAnalyser {
     private static final String password = "win*c4s4)";
     private static Connection con;
     private static Statement stm;
+    private static int totalMessages = 0;
 
-    public static void go() throws InterruptedException, SQLException, ClassNotFoundException, FileNotFoundException, UnsupportedEncodingException {
+    // Number of creatures per backend
+    public static int nCreatures;
+    // Number of cacti per backend
+    public static int nCacti;
+    // Scheduling delay time before sending the next message
+    // public static int scheduling;
+
+    public StatisticsAnalyser(int nCreatures, int nCacti) { //, int scheduling) {
+        this.nCreatures = nCreatures;
+        this.nCacti = nCacti;
+        // this.scheduling = scheduling;
+    }
+
+    public static int run() throws InterruptedException, SQLException, ClassNotFoundException, IOException {
         System.out.println("Connecting to database...");
         Class.forName("org.postgresql.Driver");
-        con = DriverManager.getConnection("jdbc:postgresql://" + ArtificeApp.path, username, password);
+        con = DriverManager.getConnection("jdbc:postgresql://" + Frontend.path, username, password);
         stm = (Statement) con.createStatement();
 
         String query = "SELECT * from message ORDER BY sendingtime;";
@@ -28,10 +43,18 @@ public class StatisticsAnalyser {
         ResultSet rs = stm.executeQuery(query);
 
         // Defines the name for the output, using the current timestamp
-        String outputPath = new SimpleDateFormat("'output-'yyyyMMddhhmm'.csv'").format(new java.util.Date());
+        String outputPath = new SimpleDateFormat("'output-age"+nCreatures+"cac"+nCacti+"-'yyyyMMddhhmm'.csv'").format(new java.util.Date());
+
+        // Writes to a string the home directory from System (i.e. finds out which user folder it should use)
         outputPath = System.getProperty("user.home")+"/output/" + outputPath;
 
-                // Creates the pointer to the output file
+        // Creates the path based on the string created above
+        Path path = Paths.get(outputPath);
+
+        // Creates directory, if not exists
+        Files.createDirectories(path.getParent());
+
+        // Creates the pointer to the output file, and opens it
         PrintWriter writer = new PrintWriter(outputPath, "UTF-8");
 
         // Sets up the output format
@@ -70,6 +93,8 @@ public class StatisticsAnalyser {
                 (dbtime - receivingtime),
                 stimulus.toString()
         );
+
+        totalMessages++;
 
         // Saves data to file...
         writer.printf(
@@ -126,12 +151,15 @@ public class StatisticsAnalyser {
                     (receivingtime - sendingtime),
                     (dbtime - receivingtime),
                     stimulus.toString());
+            totalMessages++;
         }
+
         writer.close();
 
         System.out.println("\n\nData saved to file " + outputPath);
         // System.out.println("Time: " + (new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())).toString());
 
+        System.out.println(totalMessages + " messages sent.");
 
         if (rs!=null && !rs.isClosed()) {
             rs.close();
@@ -142,5 +170,7 @@ public class StatisticsAnalyser {
         if (con!= null && !con.isClosed()) {
             con.close();
         }
+
+        return totalMessages;
     }
 }

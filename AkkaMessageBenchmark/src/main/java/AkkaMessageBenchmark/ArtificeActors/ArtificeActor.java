@@ -25,11 +25,13 @@ public  abstract class ArtificeActor extends UntypedActor {
         // Instancia DBActor
         dbActor = getContext().actorOf(Props.create(DBActor.class, this.nome + "\\dbactor"));
 
-        /*/getContext().system().scheduler().scheduleOnce(
+        // Scheduler para enviar mensagens "anycast" recursivo
+        getContext().system().scheduler().scheduleOnce(
                 Duration.create(500, TimeUnit.MILLISECONDS),
-                getSelf(), "tick", getContext().dispatcher(), null);*/
+                getSelf(), "anycast", getContext().dispatcher(), null);
 
         // Scheduler para enviar mensagens "anycast" a cada 50ms
+        /*
         getContext().system().scheduler().schedule(
                 Duration.Zero(),
                 Duration.create(50, TimeUnit.MILLISECONDS),
@@ -38,5 +40,6 @@ public  abstract class ArtificeActor extends UntypedActor {
                 getContext().system().dispatcher(),
                 null
         );
+        */
     }
 }

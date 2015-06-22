@@ -1,5 +1,6 @@
 package AkkaMessageBenchmark.ArtificeActors;
 
+import AkkaMessageBenchmark.Frontend;
 import ArtificeMailbox.ReceiverMessage;
 import ArtificeMailbox.SenderMessage;
 import Creature.EyeActor;
@@ -8,6 +9,9 @@ import Creature.NoseActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.routing.RoundRobinRouter;
+import scala.concurrent.duration.Duration;
+
+import java.util.concurrent.TimeUnit;
 
 public class CreatureActor extends ArtificeActor {
     private final ActorRef mouth = getContext().actorOf(Props.create(MouthActor.class).withRouter(new RoundRobinRouter(5)), "mouth");
@@ -40,12 +44,16 @@ public class CreatureActor extends ArtificeActor {
 //        }
 
         else if (arg0 instanceof String) {
-            System.out.println(this.nome + ": String message received: " + (String) arg0);
+            System.out.println(this.nome + ": String received: " + (String) arg0);
+
+            //
 
             if (((String) arg0).equals("anycast")) {
-                /*getContext().system().scheduler().scheduleOnce(
-                        Duration.create(1000, TimeUnit.MILLISECONDS),
-                        getSelf(), "tick", getContext().dispatcher(), null);*/
+
+                // Re-Scheduler para enviar mensagens "anycast" recursivo
+                getContext().system().scheduler().scheduleOnce(
+                        Duration.create(1, TimeUnit.NANOSECONDS),
+                        getSelf(), "anycast", getContext().dispatcher(), null);
 
                 context().parent().tell(new SenderMessage("Touch from "+this.nome+"!!", System.currentTimeMillis()), getSelf());
                 System.out.println(this.nome + ": sending touch stimulus!");
