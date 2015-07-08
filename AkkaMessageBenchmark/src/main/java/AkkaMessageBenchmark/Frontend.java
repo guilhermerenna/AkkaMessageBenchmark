@@ -1,7 +1,5 @@
 package AkkaMessageBenchmark;
 
-import ArtificeMailbox.SenderMessage;
-import Stimuli.TouchStimulusMessage;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
@@ -18,13 +16,22 @@ public class Frontend {
     // Scheduling delay time before sending the next message
     // public static int scheduling;
 
-    public Frontend(int nCreatures, int nCacti) { //, int scheduling) {
+    private String path;
+    private String username;
+    private String password;
+
+    // Extracts database username and password from artifice.xml
+    private DataExtractor de;
+
+    public Frontend(String path, String username, String password, int nCreatures, int nCacti) { //, int scheduling) {
         this.nCreatures = nCreatures;
         this.nCacti = nCacti;
         // this.scheduling = scheduling;
-    }
 
-    public static final String path = "localhost:5432/akkaartifice";
+        this.path = path;
+        this.username = username;
+        this.password = password;
+    }
 
     public void run() throws InterruptedException {
         // Override the configuration of the port
@@ -35,7 +42,7 @@ public class Frontend {
         ActorSystem _System = ActorSystem.create("ArtificeSystem", config);
         // ConfigFactory.load().getConfig("ArtificeRouter"));
 
-        ActorRef backend1 = _System.actorOf(Props.create(Backend.class), "backend1");
+        ActorRef backend1 = _System.actorOf(Props.create(Backend.class, "backend1", this.path, this.username, this.password), "backend1");
         // ActorRef cactus = cactusSystem.actorOf(Props.create(CactusActor.class), "cactus1");
 
         // Sleep 500ms, so all actors will be up

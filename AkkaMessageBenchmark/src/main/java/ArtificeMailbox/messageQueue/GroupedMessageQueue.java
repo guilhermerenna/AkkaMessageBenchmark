@@ -7,7 +7,6 @@ import akka.dispatch.Envelope;
 import akka.dispatch.MessageQueue;
 import ArtificeMailbox.MyUnboundedMessageQueueSemantics;
 
-import javax.sound.midi.Receiver;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 

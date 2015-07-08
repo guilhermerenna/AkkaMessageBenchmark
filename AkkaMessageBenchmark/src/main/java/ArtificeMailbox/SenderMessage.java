@@ -1,7 +1,5 @@
 package ArtificeMailbox;
 
-import akka.actor.ActorRef;
-
 /**
  * Created by Bruno Maciel on 12/06/15.
  */

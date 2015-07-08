@@ -11,11 +11,20 @@ import java.util.concurrent.TimeUnit;
  * Created by renna on 21/06/15.
  */
 public  abstract class ArtificeActor extends UntypedActor {
-    protected String nome;
     protected ActorRef dbActor;
+    protected String name;
+    private String path;
+    private String username;
+    private String password;
 
-    public ArtificeActor(String nome) {
-        this.nome = nome;
+    public ArtificeActor(String name, String path, String username, String password) {
+        this.name = name;
+
+        // Database username, password and path
+        System.out.println(this.name + ": creating dbactor with user "+this.username+" at db "+this.path);
+        this.path = path;
+        this.username = username;
+        this.password = password;
     }
 
     @Override
@@ -23,15 +32,13 @@ public  abstract class ArtificeActor extends UntypedActor {
         super.preStart();
 
         // Instancia DBActor
-        dbActor = getContext().actorOf(Props.create(DBActor.class, this.nome + "\\dbactor"));
+        dbActor = getContext().actorOf(Props.create(DBActor.class, this.name + "\\dbactor", this.path, this.username, this.password));
 
-        // Scheduler para enviar mensagens "anycast" recursivo
-        getContext().system().scheduler().scheduleOnce(
+        /*/getContext().system().scheduler().scheduleOnce(
                 Duration.create(500, TimeUnit.MILLISECONDS),
-                getSelf(), "anycast", getContext().dispatcher(), null);
+                getSelf(), "tick", getContext().dispatcher(), null);*/
 
         // Scheduler para enviar mensagens "anycast" a cada 50ms
-        /*
         getContext().system().scheduler().schedule(
                 Duration.Zero(),
                 Duration.create(50, TimeUnit.MILLISECONDS),
@@ -40,6 +47,5 @@ public  abstract class ArtificeActor extends UntypedActor {
                 getContext().system().dispatcher(),
                 null
         );
-        */
     }
 }

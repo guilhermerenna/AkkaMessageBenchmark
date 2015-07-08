@@ -1,6 +1,5 @@
 package AkkaMessageBenchmark.ArtificeActors;
 
-import AkkaMessageBenchmark.Frontend;
 import ArtificeMailbox.ReceiverMessage;
 import akka.actor.UntypedActor;
 
@@ -18,25 +17,26 @@ public class DBActor extends UntypedActor {
     private Connection con;
     private Statement stm;
     private String name;
-    private static final String username = "lsi";
-    private static final String password = "win*c4s4)";
+    private String path;
+    private String username;
+    private String password;
 
-    public DBActor(String name) {
+    public DBActor(String name, String path, String username, String password) {
         this.name = name;
-    }
 
-    /**
-     * Inicialização do DBActor sem nome.
-     */
-    public DBActor() {
-        System.err.println("Warning!! DBActor created without a name!");
+        // Database username, password and path
+        this.path = path;
+        this.username = username;
+        this.password = password;
+
+        // System.err.println(this.name+" found:\nPath " + this.path + "Username " + this.username + "\nPassword "+this.password);
     }
 
     @Override
     public void preStart() {
         try {
             Class.forName("org.postgresql.Driver");
-            con = DriverManager.getConnection("jdbc:postgresql://"+ Frontend.path,username,password);
+            con = DriverManager.getConnection("jdbc:postgresql://"+ this.path, this.username,this.password);
             stm = (Statement) con.createStatement();
         } catch(SQLException exception) {
             System.err.println("Erro ao estabelecer conexão com o BD!");

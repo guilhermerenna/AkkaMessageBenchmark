@@ -1,7 +1,9 @@
 package AkkaMessageBenchmark;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,8 +14,10 @@ import java.text.SimpleDateFormat;
  * Created by lsi on 16/06/15.
  */
 public class StatisticsAnalyser {
-    private static final String username = "lsi";
-    private static final String password = "win*c4s4)";
+
+    private String path;
+    private String username;
+    private String password;
     private static Connection con;
     private static Statement stm;
     private static int totalMessages = 0;
@@ -22,19 +26,21 @@ public class StatisticsAnalyser {
     public static int nCreatures;
     // Number of cacti per backend
     public static int nCacti;
-    // Scheduling delay time before sending the next message
-    // public static int scheduling;
 
-    public StatisticsAnalyser(int nCreatures, int nCacti) { //, int scheduling) {
+
+    public StatisticsAnalyser(String path, String username, String password, int nCreatures, int nCacti) { //, int scheduling) {
         this.nCreatures = nCreatures;
         this.nCacti = nCacti;
+        this.path = path;
+        this.username = username;
+        this.password = password;
         // this.scheduling = scheduling;
     }
 
-    public static int run() throws InterruptedException, SQLException, ClassNotFoundException, IOException {
+    public int run() throws InterruptedException, SQLException, ClassNotFoundException, IOException {
         System.out.println("Connecting to database...");
         Class.forName("org.postgresql.Driver");
-        con = DriverManager.getConnection("jdbc:postgresql://" + Frontend.path, username, password);
+        con = DriverManager.getConnection("jdbc:postgresql://" + this.path, this.username, this.password);
         stm = (Statement) con.createStatement();
 
         String query = "SELECT * from message ORDER BY sendingtime;";

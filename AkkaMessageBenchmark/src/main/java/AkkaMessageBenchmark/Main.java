@@ -1,22 +1,12 @@
 package AkkaMessageBenchmark;
 
-import org.postgresql.util.PSQLException;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 
 /**
  * Created by renna on 21/06/15.
  */
 public class Main {
-    // public static final int
 
     /*public static final int nTotal = 2;
     // Number of creatures per backend
@@ -31,88 +21,85 @@ public class Main {
         String result = "";
         String exception = "";
         //for(int j = 6; j >= 0; j--) {
-            //int scheduling = (int) Math.pow(2, j);
-            for (int i = 0; i < 6; i++) {
-                int nTotal = (int) Math.pow(2, i);
-                // Number of creatures per backend
-                int nCreatures = nTotal;
-                // Number of cacti per backend
-                int nCacti = nTotal;
+        //int scheduling = (int) Math.pow(2, j);
+        for (int i = 0; i < 6; i++) {
+            int nTotal = (int) Math.pow(2, i);
+            // Number of creatures per backend
+            int nCreatures = nTotal;
+            // Number of cacti per backend
+            int nCacti = nTotal;
 
-                DBCleaner cleaner = new DBCleaner();
-                Frontend frontend = new Frontend(nCreatures, nCacti); //, scheduling);
-                StatisticsAnalyser stats = new StatisticsAnalyser(nCreatures, nCacti); //, scheduling);
+            DataExtractor de = new DataExtractor("artifice.xml");
 
-                // Cleans the message table
-                try {
-                    cleaner.run();
-                } catch (InterruptedException e) {
-                    exception += "Interrupted Exception\n";
-                    flag = true;
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    exception += "SQL Exception.\n";
-                    flag = true;
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    exception += "ClassNotFound Exception\n";
-                    flag = true;
-                    e.printStackTrace();
-                }
+            DBCleaner cleaner = new DBCleaner(de.getPath(), de.getUsername(), de.getPassword());
+            Frontend frontend = new Frontend(de.getPath(), de.getUsername(), de.getPassword(), nCreatures, nCacti); //, scheduling);
 
-                // Runs the frontend
-                try {
-                    frontend.run();
-                } catch (InterruptedException e) {
-                    exception += "Interrupted Exception\n";
-                    flag = true;
-                    e.printStackTrace();
-                }
+            StatisticsAnalyser stats = new StatisticsAnalyser(de.getPath(), de.getUsername(), de.getPassword(), nCreatures, nCacti); //, scheduling);
 
-                // Pulls the data from the table, computes the start time, latency and processing time, and displays on the screen
-                // Saves the file
-                try {
-                    result = result + " 2^" + i + ": " + stats.run() + "\n";
-                } catch (IOException e) {
-                    System.err.println("Erro ao abrir o arquivo.");
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    exception += "Interrupted Exception\n";
-                    flag = true;
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    exception += "Interrupted Exception\n";
-                    flag = true;
-                } catch (ClassNotFoundException e) {
-                    exception += "Interrupted Exception\n";
-                    flag = true;
-                    e.printStackTrace();
-                }
-
-                if (flag = true) {
-                    exception += "----- 2^" + i + "\n ";
-                    flag = false;
-                }
+            // Cleans the message table
+            try {
+                cleaner.run();
+            } catch (Exception e) {
+                exception += "Exception! \n";
+                flag = true;
+                e.printStackTrace();
+                System.err.println("\nErro ao rodar simulação! \nO usuario e senha do banco estao corretos?\nConfira o arquivo \"artifice.xml\".\n");
+                throw new IOException("Impossivel rodar simulacao.");
             }
-            System.out.println("\n\n\n");
-            // overall += "\n== \t2^"+j+" scheduling time.\n== ";
-            // System.out.println("\t2^"+j+" scheduling time.");
 
-            // overall += "\t\tResultado:\n"+result+"\n";
-            System.out.println("\tResultado:\n"+result);
+            // Runs the frontend
+            try {
+                frontend.run();
+            } catch (InterruptedException e) {
+                exception += "Interrupted Exception\n";
+                flag = true;
+                e.printStackTrace();
+            }
 
-            // overall += "\tExceptions:\n";
-            System.out.println("\tExceptions:");
+            // Pulls the data from the table, computes the start time, latency and processing time, and displays on the screen
+            // Saves the file
+            try {
+                result = result + " 2^" + i + ": " + stats.run() + "\n";
+            } catch (IOException e) {
+                System.err.println("Erro ao abrir o arquivo.");
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                exception += "Interrupted Exception\n";
+                flag = true;
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                exception += "Interrupted Exception\n";
+                flag = true;
+            } catch (ClassNotFoundException e) {
+                exception += "Interrupted Exception\n";
+                flag = true;
+                e.printStackTrace();
+            }
 
-            if(exception.equals("")) {
-                // overall += exception + "\n";
-                System.out.println(exception);
-            } else {
-                // overall += "No exceptions were caught.\n";
-                System.out.print("No exceptions were caught.");
+            if (flag = true) {
+                exception += "----- 2^" + i + "\n ";
+                flag = false;
             }
         }
+        System.out.println("\n\n\n");
+        // overall += "\n== \t2^"+j+" scheduling time.\n== ";
+        // System.out.println("\t2^"+j+" scheduling time.");
+
+        // overall += "\t\tResultado:\n"+result+"\n";
+        System.out.println("\tResultado:\n"+result);
+
+        // overall += "\tExceptions:\n";
+        System.out.println("\tExceptions:");
+
+        if(exception.equals("")) {
+            // overall += exception + "\n";
+            System.out.println(exception);
+        } else {
+            // overall += "No exceptions were caught.\n";
+            System.out.print("No exceptions were caught.");
+        }
+    }
         /*System.out.println("\n\n\n\n\t\t-- OVERALL RESULTS --" + overall);
 
         // Defines the name for the output, using the current timestamp

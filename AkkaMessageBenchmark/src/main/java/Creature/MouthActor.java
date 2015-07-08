@@ -1,7 +1,7 @@
 package Creature;
 
-import Stimuli.*;
 import akka.actor.UntypedActor;
+import Stimuli.*;
 
 public class MouthActor extends UntypedActor {
 

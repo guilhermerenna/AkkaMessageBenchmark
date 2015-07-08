@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/akka.PoolBreakdown.iml" filepath="$PROJECT_DIR$/akka.PoolBreakdown.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ArtificeCluster.iml" filepath="$PROJECT_DIR$/ArtificeCluster.iml" />
     </modules>
   </component>
 </project>
