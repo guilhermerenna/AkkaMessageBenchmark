@@ -7,11 +7,11 @@ import akka.actor.ActorRef;
  */
 public class ReceiverMessage {
 
-    private ActorRef sender;
-    private ActorRef receiver;
-    private String stimulusValues;
-    private long sendingTime;
-    private long receivingTime;
+    private final ActorRef sender;
+    private final ActorRef receiver;
+    private final String stimulusValues;
+    private final long sendingTime;
+    private final long receivingTime;
 
     public ReceiverMessage(ActorRef sender, ActorRef receiver, String stimulusValues, long sendingTime, long receivingTime) {
         this.sender = sender;
@@ -21,47 +21,24 @@ public class ReceiverMessage {
         this.receivingTime = receivingTime;
     }
 
-    public ReceiverMessage() {
-    }
-
     public ActorRef getSender() {
         return sender;
-    }
-
-    public void setSender(ActorRef sender) {
-        this.sender = sender;
     }
 
     public ActorRef getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(ActorRef receiver) {
-        this.receiver = receiver;
-    }
-
     public String getStimulusValues() {
         return stimulusValues;
-    }
-
-    public void setStimulusValues(String stimulusValues) {
-        this.stimulusValues = stimulusValues;
     }
 
     public long getSendingTime() {
         return sendingTime;
     }
 
-    public void setSendingTime(long sendingTime) {
-        this.sendingTime = sendingTime;
-    }
-
     public long getReceivingTime() {
         return receivingTime;
-    }
-
-    public void setReceivingTime(long receivingTime) {
-        this.receivingTime = receivingTime;
     }
 
     @Override

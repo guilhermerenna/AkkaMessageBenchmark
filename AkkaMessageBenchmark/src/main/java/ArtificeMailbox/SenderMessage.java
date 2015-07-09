@@ -5,8 +5,8 @@ package ArtificeMailbox;
  */
 public class SenderMessage {
 
-    private String stimulusValues;
-    private long sendingTime;
+    private final String stimulusValues;
+    private final long sendingTime;
 
     public SenderMessage(String stimulusValues, long sendingTime) {
         this.stimulusValues = stimulusValues;

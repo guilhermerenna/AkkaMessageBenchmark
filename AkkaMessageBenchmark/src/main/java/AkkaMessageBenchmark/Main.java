@@ -43,7 +43,7 @@ public class Main {
                 exception += "Exception! \n";
                 flag = true;
                 e.printStackTrace();
-                System.err.println("\nErro ao rodar simulação! \nO usuario e senha do banco estao corretos?\nConfira o arquivo \"artifice.xml\".\n");
+                System.err.println("\nErro ao estabelecer conexão! \nOs parametros do banco (usuario, senha, caminho para o banco, tabela, etc.) estão corretos?\nConfira o arquivo \"artifice.xml\".\n");
                 throw new IOException("Impossivel rodar simulacao.");
             }
 

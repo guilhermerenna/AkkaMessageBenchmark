@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <artifice>
     <database id="1">
-        <username>lsi</username>
-        <password>win*c4s4)</password>
+        <username>felipe</username>
+        <password>123456</password>
         <path>localhost:5432/akkaartifice</path>
     </database>
 </artifice>
