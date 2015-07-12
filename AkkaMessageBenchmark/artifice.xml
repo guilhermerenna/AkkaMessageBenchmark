@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 <artifice>
     <database id="1">
-        <username>felipe</username>
-        <password>123456</password>
+        <username>lsi</username>
+        <password>win*c4s4)</password>
         <path>localhost:5432/akkaartifice</path>
+	<creatures>2</creatures>
+	<cacti>2</cacti>
     </database>
 </artifice>

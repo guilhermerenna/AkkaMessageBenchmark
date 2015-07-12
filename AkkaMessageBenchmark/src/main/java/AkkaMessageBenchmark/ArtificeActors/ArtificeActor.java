@@ -21,10 +21,11 @@ public  abstract class ArtificeActor extends UntypedActor {
         this.name = name;
 
         // Database username, password and path
-        System.out.println(this.name + ": creating dbactor with user "+this.username+" at db "+this.path);
         this.path = path;
         this.username = username;
         this.password = password;
+
+        // System.out.println(this.name + ": creating dbactor with user "+this.username+" at db "+this.path);
     }
 
     @Override
@@ -41,7 +42,7 @@ public  abstract class ArtificeActor extends UntypedActor {
         // Scheduler para enviar mensagens "anycast" a cada 50ms
         getContext().system().scheduler().schedule(
                 Duration.Zero(),
-                Duration.create(50, TimeUnit.MILLISECONDS),
+                Duration.create(500, TimeUnit.MILLISECONDS),
                 getSelf(),
                 "anycast",
                 getContext().system().dispatcher(),

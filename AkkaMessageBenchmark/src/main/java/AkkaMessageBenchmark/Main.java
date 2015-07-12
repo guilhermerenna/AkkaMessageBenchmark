@@ -32,7 +32,7 @@ public class Main {
             DataExtractor de = new DataExtractor("artifice.xml");
 
             DBCleaner cleaner = new DBCleaner(de.getPath(), de.getUsername(), de.getPassword());
-            Frontend frontend = new Frontend(de.getPath(), de.getUsername(), de.getPassword(), nCreatures, nCacti); //, scheduling);
+            FrontendBenchmark frontend = new FrontendBenchmark(de.getPath(), de.getUsername(), de.getPassword(), nCreatures, nCacti); //, scheduling);
 
             StatisticsAnalyser stats = new StatisticsAnalyser(de.getPath(), de.getUsername(), de.getPassword(), nCreatures, nCacti); //, scheduling);
 

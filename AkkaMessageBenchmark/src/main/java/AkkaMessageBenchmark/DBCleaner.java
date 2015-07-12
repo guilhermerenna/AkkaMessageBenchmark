@@ -12,7 +12,7 @@ public class DBCleaner {
     private static Connection con;
     private static Statement stm;
 
-    DBCleaner(String path, String username, String password) {
+    public DBCleaner(String path, String username, String password) {
         this.path = path;
         this.username = username;
         this.password = password;
