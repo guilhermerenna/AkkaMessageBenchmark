@@ -1,9 +1,9 @@
 package AkkaMessageBenchmark.ArtificeActors;
 
-import Stimuli.DestructiveStimulusMessage;
-import Stimuli.LuminousStimulusMessage;
-import Stimuli.StimulusMessage;
-import Stimuli.TouchStimulusMessage;
+import Artifice.Stimuli.DestructiveStimulusMessage;
+import Artifice.Stimuli.LuminousStimulusMessage;
+import Artifice.Stimuli.StimulusMessage;
+import Artifice.Stimuli.TouchStimulusMessage;
 import akka.actor.UntypedActor;
 
 public class FruitActor extends UntypedActor {

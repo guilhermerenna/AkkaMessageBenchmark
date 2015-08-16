@@ -2,8 +2,8 @@ package AkkaMessageBenchmark;
 
 import AkkaMessageBenchmark.ArtificeActors.CactusActor;
 import AkkaMessageBenchmark.ArtificeActors.CreatureActor;
-import ArtificeMailbox.SenderMessage;
-import Stimuli.StimulusMessage;
+import Artifice.Mailbox.SenderMessage;
+import Artifice.Stimuli.StimulusMessage;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;

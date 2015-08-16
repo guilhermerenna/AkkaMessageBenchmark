@@ -1,7 +1,7 @@
 package AkkaMessageBenchmark.ArtificeActors;
 
-import ArtificeMailbox.ReceiverMessage;
-import ArtificeMailbox.SenderMessage;
+import Artifice.Mailbox.ReceiverMessage;
+import Artifice.Mailbox.SenderMessage;
 
 import java.util.List;
 

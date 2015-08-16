@@ -3,8 +3,7 @@ package artificeCluster;
 
 import AkkaMessageBenchmark.ArtificeActors.CactusActor;
 import AkkaMessageBenchmark.ArtificeActors.CreatureActor;
-import ArtificeMailbox.SenderMessage;
-import akka.actor.ActorRef;
+import Artifice.Mailbox.SenderMessage;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.routing.*;
@@ -107,23 +106,6 @@ public class ArtificeBackend extends UntypedActor {
             } else {
                 System.err.println(this.name + ": Recebida mensagem: " + message);
             }
-
-            //Codigo do fatorial
-//            final Integer n = (Integer) message;
-//            Future<BigInteger> f = future(new Callable<BigInteger>() {
-//                public BigInteger call() {
-//                    return factorial(n);
-//                }
-//            }, getContext().dispatcher());
-//
-//            Future<FactorialResult> result = f.map(
-//                    new Mapper<BigInteger, FactorialResult>() {
-//                        public FactorialResult apply(BigInteger factorial) {
-//                            return new FactorialResult(n, factorial);
-//                        }
-//                    }, getContext().dispatcher());
-//
-//            pipe(result, getContext().dispatcher()).to(getSender());
         } else if(message instanceof SenderMessage) {
             if(randomRouter != null) {
                 randomRouter.route(message, getSender());

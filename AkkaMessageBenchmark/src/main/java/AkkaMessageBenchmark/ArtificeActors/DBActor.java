@@ -1,6 +1,6 @@
 package AkkaMessageBenchmark.ArtificeActors;
 
-import ArtificeMailbox.ReceiverMessage;
+import Artifice.Mailbox.ReceiverMessage;
 import akka.actor.UntypedActor;
 
 import java.sql.SQLException;

@@ -1,10 +1,15 @@
 package AkkaMessageBenchmark.ArtificeActors;
 
+import Artifice.Creature.EyeActor;
+import Artifice.Creature.MouthActor;
+import Artifice.Creature.NoseActor;
+import Artifice.Mailbox.ReceiverMessage;
+import Artifice.Mailbox.SenderMessage;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.routing.RoundRobinRouter;
-import Creature.*;
-import ArtificeMailbox.*;
+import Artifice.Creature.*;
+import Artifice.Mailbox.*;
 
 public class CreatureActor extends ArtificeActor {
     private final ActorRef mouth = getContext().actorOf(Props.create(MouthActor.class).withRouter(new RoundRobinRouter(5)), "mouth");
