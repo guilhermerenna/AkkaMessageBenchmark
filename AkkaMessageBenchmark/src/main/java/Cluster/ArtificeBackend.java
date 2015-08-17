@@ -4,6 +4,7 @@ package Cluster;
 import Artifice.Actors.CactusActor;
 import Artifice.Actors.CreatureActor;
 import Artifice.Mailbox.SenderMessage;
+import Artifice.Mailbox.StampedSenderMessage;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
@@ -139,21 +140,13 @@ public class ArtificeBackend extends UntypedActor {
             }
 
         } else if(message instanceof SenderMessage) {
-            System.err.println("\n\n\n"+this.name+ ": Sender message recebida.");
             String senderString = getSender().toString().split("#")[0];
-            if(senderString.endsWith("artificeBackend")) {
-                System.err.println(this.name + ": Encaminhando para roteador interno... So que nao!");
-                // internalRouter.route(message, getSender());
-            } else {
-                if(backendRouter != null) {
-                    System.err.println(this.name + ": recebido de " + senderString + ". Encaminhando para roteador de backends.");
-                    log.info(this.name + ": recebido de " + senderString + ". Encaminhando para roteador de backends.");
-                    backendRouter.route(message, getSender());
-                } else {
-                    System.err.println(this.name+ ": recebido de "+senderString+". Mas roteador de backends ainda é nulo.\n Descartando mensagem...");
-                    log.info(this.name + ": recebido de " + senderString + ". Mas roteador de backends ainda é nulo.\n Descartando mensagem...");
-                }
-            }
+            log.info(this.name + ": SenderMessage de " + senderString + ". Encaminhando para roteador de backends...");
+            StampedSenderMessage ssm = new StampedSenderMessage(((SenderMessage) message).getStimulusValues(), ((SenderMessage) message).getSendingTime(), System.currentTimeMillis());
+            backendRouter.route(ssm, getSender());
+        } else if(message instanceof StampedSenderMessage) {
+            log.info("\n\n\n" + this.name + ": StampedSenderMessage recebida.");
+                internalRouter.route(message, getSender());
         } else if(message instanceof MemberUp) {
             System.err.println(this.name + ": recebido um member up.");
             MemberUp upEvent = (MemberUp) message;

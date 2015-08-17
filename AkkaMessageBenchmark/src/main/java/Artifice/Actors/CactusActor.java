@@ -2,6 +2,7 @@ package Artifice.Actors;
 
 import Artifice.Mailbox.ReceiverMessage;
 import Artifice.Mailbox.SenderMessage;
+import Artifice.Mailbox.StampedSenderMessage;
 import scala.concurrent.duration.Duration;
 
 import java.util.List;
@@ -28,13 +29,13 @@ public class CactusActor extends ArtificeActor {
         if(arg0 instanceof List) {
             System.out.println("List received!! What do I do with it?!? ");
             // TODO: Implement changeState()
-        } else if(arg0 instanceof SenderMessage) {
+        } else if (arg0 instanceof StampedSenderMessage) {
             ReceiverMessage msg = new ReceiverMessage(
                     getSender(),
                     getSelf(),
-                    ((SenderMessage) arg0).getStimulusValues(),
-                    ((SenderMessage) arg0).getSendingTime(),
-                    System.currentTimeMillis()
+                    ((StampedSenderMessage) arg0).getStimulusValues(),
+                    ((StampedSenderMessage) arg0).getSendingTime(),
+                    ((StampedSenderMessage) arg0).getReceivingTime()
             );
             System.out.println(this.name+": ReceiverMessage built!");
             dbActor.tell(msg,getSelf());

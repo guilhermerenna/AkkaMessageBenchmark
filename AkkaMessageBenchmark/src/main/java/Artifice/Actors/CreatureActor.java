@@ -1,6 +1,8 @@
 package Artifice.Actors;
 
-import Artifice.Mailbox.*;
+import Artifice.Mailbox.ReceiverMessage;
+import Artifice.Mailbox.SenderMessage;
+import Artifice.Mailbox.StampedSenderMessage;
 import Artifice.Creature.EyeActor;
 import Artifice.Creature.MouthActor;
 import Artifice.Creature.NoseActor;
@@ -25,24 +27,17 @@ public class CreatureActor extends ArtificeActor {
     public void onReceive(Object arg0) throws Exception {
 
         // Mensagem a ser recebida
-        if (arg0 instanceof SenderMessage) {
+        if (arg0 instanceof StampedSenderMessage) {
             ReceiverMessage msg = new ReceiverMessage(
                     getSender(),
                     getSelf(),
-                    ((SenderMessage) arg0).getStimulusValues(),
-                    ((SenderMessage) arg0).getSendingTime(),
-                    System.currentTimeMillis()
+                    ((StampedSenderMessage) arg0).getStimulusValues(),
+                    ((StampedSenderMessage) arg0).getSendingTime(),
+                    ((StampedSenderMessage) arg0).getReceivingTime()
             );
             System.out.println(this.name + ": ReceiverMessage built!");
             dbActor.tell(msg, getSelf());
-        }
-
-//        // APENAS PARA TESTES!! SenderMessage deve ser tratada pela mailbox e convertida para ReceiverMessage
-//        else if(arg0 instanceof SenderMessage)  {
-//            System.out.println(this.name+": SenderMessage received: "+((SenderMessage) arg0).toString());
-//        }
-
-        else if (arg0 instanceof String) {
+        } else if (arg0 instanceof String) {
             if (arg0.equals("startSimulation")) {
 
                 // Scheduler para enviar mensagens "anycast" a cada 50ms
