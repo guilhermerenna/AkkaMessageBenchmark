@@ -38,14 +38,5 @@ public  abstract class ArtificeActor extends UntypedActor {
         /*/getContext().system().scheduler().scheduleOnce(
                 Duration.create(500, TimeUnit.MILLISECONDS),
                 getSelf(), "tick", getContext().dispatcher(), null);*/
-
-        // Scheduler para enviar mensagens "anycast" a cada 50ms
-        getContext().system().scheduler().scheduleOnce(
-                Duration.create(500, TimeUnit.MILLISECONDS),
-                getSelf(),
-                "anycast",
-                getContext().system().dispatcher(),
-                null
-        );
     }
 }

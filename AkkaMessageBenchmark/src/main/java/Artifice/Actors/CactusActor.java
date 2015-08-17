@@ -39,15 +39,10 @@ public class CactusActor extends ArtificeActor {
             System.out.println(this.name+": ReceiverMessage built!");
             dbActor.tell(msg,getSelf());
         } else if(arg0 instanceof String) {
-            System.out.println(this.name + ": String message received: "+(String) arg0);
+            if (arg0.equals("startSimulation")) {
 
-            if(((String) arg0).equals("anycast")) {
-                /*getContext().system().scheduler().scheduleOnce(
-                        Duration.create(1000, TimeUnit.MILLISECONDS),
-                        getSelf(), "tick", getContext().dispatcher(), null);*/
-
-                context().parent().tell(new SenderMessage("Spike from "+this.name+"!!", System.currentTimeMillis()),getSelf());
-                System.out.println(this.name + ": Sending spike!");
+                // Scheduler para enviar mensagens "anycast" a cada 50ms
+                System.err.println(this.name + "starting simulation!");
                 getContext().system().scheduler().scheduleOnce(
                         Duration.create(500, TimeUnit.MILLISECONDS),
                         getSelf(),
@@ -55,6 +50,24 @@ public class CactusActor extends ArtificeActor {
                         getContext().system().dispatcher(),
                         null
                 );
+            } else {
+                System.out.println(this.name + ": String message received: " + (String) arg0);
+
+                if (((String) arg0).equals("anycast")) {
+                    /*getContext().system().scheduler().scheduleOnce(
+                            Duration.create(1000, TimeUnit.MILLISECONDS),
+                            getSelf(), "tick", getContext().dispatcher(), null);*/
+
+                    context().parent().tell(new SenderMessage("Spike from " + this.name + "!!", System.currentTimeMillis()), getSelf());
+                    System.out.println(this.name + ": Sending spike!");
+                    getContext().system().scheduler().scheduleOnce(
+                            Duration.create(500, TimeUnit.MILLISECONDS),
+                            getSelf(),
+                            "anycast",
+                            getContext().system().dispatcher(),
+                            null
+                    );
+                }
             }
         } else {
             throw new Exception("Message type not supported.");

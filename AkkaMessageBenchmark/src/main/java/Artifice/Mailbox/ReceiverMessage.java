@@ -2,10 +2,12 @@ package Artifice.Mailbox;
 
 import akka.actor.ActorRef;
 
+import java.io.Serializable;
+
 /**
  * Created by Bruno Maciel on 12/06/15.
  */
-public class ReceiverMessage {
+public class ReceiverMessage implements Serializable {
 
     private final ActorRef sender;
     private final ActorRef receiver;

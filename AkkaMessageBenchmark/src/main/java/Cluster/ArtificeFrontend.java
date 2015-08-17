@@ -51,13 +51,19 @@ public class ArtificeFrontend extends UntypedActor {
                     ref.tell(backends, self());
                     // SENDING CREATURES AND CACTI CREATION REQUESTS
                     for (int n = 1; n <= nCreatures; n++) {
-                        log.info(this.name+ ": Enviando requisicao de nova criatura para backend.");
-                        ref.tell("new creature", ActorRef.noSender());
+                        log.info(this.name+ ": Enviando requisicao "+ n + "/" + nCreatures +" de nova criatura para backend.");
+                        ref.tell("new creature", getSelf());
                     }
-                    for (int n = 1; n <= nCacti; n++) ref.tell("new cactus", ActorRef.noSender());
+                    for (int n = 1; n <= nCacti; n++) {
+                        log.info(this.name+ ": Enviando requisicao "+ n + "/" + nCacti +" de novo cacto para backend.");
+                        ref.tell("new cactus", getSelf());}
                 }
+            } else if(message.equals("started")) {
+                // TODO
+                sender().tell("startSimulation", self());
+                
                 getContext().system().scheduler().scheduleOnce(
-                        Duration.create(10000, TimeUnit.MILLISECONDS),
+                        Duration.create(3000, TimeUnit.MILLISECONDS),
                         getSelf(), "shutdown", getContext().dispatcher(), null);
                 System.err.println("SHUTDOWN AGENDADO");
                 log.info(this.name + "Agendando shutdown para daqui a 20s...");
@@ -75,14 +81,14 @@ public class ArtificeFrontend extends UntypedActor {
                 for(ActorRef ref : backends) {
                     ref.tell(message, self());
                 }
-                //self().tell(PoisonPill.getInstance(), ActorRef.noSender());
+                //self().tell(PoisonPill.getInstance(), getSelf());
                 context().system().shutdown();
                 runStatsAnalyser();
             }
             ///// ---------------------------------- até aqui, VERIFICADO
             if(message.equals("creature created")) {
                 log.info(this.name + ": new creature on " + getSender().path());
-            } else if(message.equals("started")) {
+            } else if (message.equals("started")) {
                 log.info(this.name + ": Ready for clustering: " + getSender().path());
             }
         } else if (message instanceof ReceiveTimeout) {

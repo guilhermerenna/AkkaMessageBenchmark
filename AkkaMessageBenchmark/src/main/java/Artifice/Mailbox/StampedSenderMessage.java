@@ -1,9 +1,11 @@
 package Artifice.Mailbox;
 
+import java.io.Serializable;
+
 /**
  * Created by Bruno Maciel on 12/06/15.
  */
-public class StampedSenderMessage {
+public class StampedSenderMessage implements Serializable {
 
     private final String stimulusValues;
     private final long sendingTime;

@@ -27,17 +27,13 @@ import java.util.List;
 //#backend
 public class ArtificeBackend extends UntypedActor {
     private String name;
-    private Router backendRouter = null;
     private int nCreatures;
     private int nCacti;
     private int countCreatures;
     private int countCacti;
-    private ArrayList<Routee> random;
-    // private ArrayList<Routee> creatures;
-    // private ArrayList<Routee> cacti;
-    private Router creatureRouter;
-    private Router cactusRouter;
+    private ArrayList<Routee> internalRoutees;
     private Router internalRouter = null;
+    private Router backendRouter = null;
     private String path;
     private String username;
     private String password;
@@ -68,7 +64,7 @@ public class ArtificeBackend extends UntypedActor {
         this.password = password;
         this.countCreatures = 0;
         this.countCacti = 0;
-        this.random = new ArrayList<Routee>();
+        this.internalRoutees = new ArrayList<Routee>();
         // this.creatures = new ArrayList<Routee>();
         // this.cacti= new ArrayList<Routee>();
         cluster = Cluster.get(context().system());
@@ -83,65 +79,80 @@ public class ArtificeBackend extends UntypedActor {
     @Override
     public void onReceive(Object message) {
         if(message instanceof List) {
-            List<ActorRefRoutee> routeeList = new ArrayList<ActorRefRoutee>();
+            List<Routee> backendRouteeList = new ArrayList<Routee>();
             for(ActorRef r : (List<ActorRef>) message) {
-                routeeList.add(new ActorRefRoutee(r));
+                backendRouteeList.add(new ActorRefRoutee(r));
             }
-            backendRouter = new Router(new RandomRoutingLogic(), ((List<Routee>) message));
+            backendRouter = new Router(new RandomRoutingLogic(), ((List<Routee>) backendRouteeList));
+            log.info(this.name + ": backendRouter iniciado! Testando...");
+            backendRouter.route("teste", self());
         } else if (message instanceof String) {
             if(message.equals("new creature")) {
-                if((++countCreatures) < nCreatures) {
+                if(countCreatures < (nCreatures-1)) {
                     System.err.println("Creating creature " + ("creature" + countCreatures) + " at " + this.path);
-                    // creatures.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, (this.name + ".creature" + this.countCreatures), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("creature" + this.countCreatures))));
-                    random.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, (this.name+".creature"+this.countCreatures), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("creature" + this.countCreatures))));
+                    internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, (this.name + ".creature" + this.countCreatures), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("creature" + this.countCreatures))));
                     System.out.println(this.name + ": new creature. " + (nCreatures - countCreatures) + " remaining.");
+                    countCreatures++;
                     getSender().tell("creature created", getSelf());
-                } else if(++countCreatures == nCreatures) {
-                    // creatureRouter.addRoutee(Props.create(...))
-                    // creatures.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, (this.name+".creature"+this.countCreatures), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("creature" + this.countCreatures))));
-                    random.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, (this.name+".creature"+this.countCreatures), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("creature" + this.countCreatures))));
-                    System.out.println(this.name + ": new creature. " + countCreatures + " were created. Starting router...");
-                    if(countCacti == nCacti) internalRouter = new Router(new RandomRoutingLogic(), random);
-                    // creatureRouter = new Router(new RandomRoutingLogic(), creatures);
+                } else if(countCreatures == (nCreatures-1)) {
+                    internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, (this.name + ".creature" + this.countCreatures), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("creature" + this.countCreatures))));
+                    System.out.println(this.name + ": new creature. " + countCreatures + " were created.");
+                    countCreatures++;
                     getSender().tell("creature created", getSelf());
-                    getSender().tell("started", getSelf());
+                    if(countCacti == nCacti) {
+                        internalRouter = new Router(new RandomRoutingLogic(), internalRoutees);
+                        System.out.println(this.name + ": starting router...");
+                        getSender().tell("started", getSelf());
+                    }
                 } else {
                     System.err.println(this.name + ": new creature request received, but world is full. Rejected!");
                 }
             } else if(message.equals("new cactus")) {
-                if((++countCacti) < nCacti) {
-                    // System.out.println("Creating cactus "+("cactus"+i)+" at "+this.path);
-                    // cacti.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, (this.name+".cactus"+countCacti), path, username, password).withMailbox("artificeMailbox"), ("cactus" + countCacti))));
-                    random.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, (this.name+".cactus"+countCacti), path, username, password).withMailbox("artificeMailbox"), ("cactus" + countCacti))));
+                if(countCacti < (nCacti-1)) {
+                    internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, (this.name + ".cactus" + countCacti), path, username, password).withMailbox("artificeMailbox"), ("cactus" + countCacti))));
                     System.out.println(this.name + ": new cactus. " + (nCacti - countCacti) + " remaining.");
+                    countCacti++;
                     getSender().tell("cactus created", getSelf());
-                } else if(++countCacti == nCacti) {
-                    // cactusRouter.addRoutee(Props.create(...))
-                    // cacti.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, (this.name+".cactus"+countCacti), path, username, password).withMailbox("artificeMailbox"), ("cactus" + countCacti))));
-                    random.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, (this.name + ".cactus" + countCacti), path, username, password).withMailbox("artificeMailbox"), ("cactus" + countCacti))));
+                } else if(countCacti == (nCacti-1)) {
+                    internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, (this.name + ".cactus" + countCacti), path, username, password).withMailbox("artificeMailbox"), ("cactus" + countCacti))));
                     System.out.println(this.name + ": new cactus. " + countCacti + " were created. Starting router...");
-                    if(countCreatures == nCreatures) internalRouter = new Router(new RandomRoutingLogic(), random);
-                    // cactusRouter = new Router(new RandomRoutingLogic(), cacti);
+                    countCacti++;
                     getSender().tell("cactus created", getSelf());
-                    getSender().tell("started", getSelf());
+                    if(countCreatures == nCreatures) {
+                        internalRouter = new Router(new RandomRoutingLogic(), internalRoutees);
+                        System.out.println(this.name + ": starting router...");
+                        getSender().tell("started", getSelf());
+                    }
                 } else {
                     System.err.println(this.name + ": new cactus request received, but world is full. Rejected!");
                 }
             } else if(message.equals("shutdown")) {
                 context().system().shutdown();
+            } else if(message.equals("startSimulation")) {
+                System.err.println(this.name + ": starting simulation!");
+                log.info(this.name + ": starting simulation!");
+                for(Routee ref : internalRoutees) {
+                    ref.send("startSimulation",self());
+                }
             } else {
-                System.err.println(this.name + ": Recebida mensagem: " + message);
+                System.err.println(this.name + ": Recebida mensagem de "+getSender().toString()+": " + message);
             }
 
         } else if(message instanceof SenderMessage) {
             System.err.println("\n\n\n"+this.name+ ": Sender message recebida.");
             String senderString = getSender().toString().split("#")[0];
             if(senderString.endsWith("artificeBackend")) {
-                System.err.println(this.name+ ": Encaminhando para roteador interno.");
+                System.err.println(this.name + ": Encaminhando para roteador interno... So que nao!");
                 // internalRouter.route(message, getSender());
             } else {
-                System.err.println(this.name+ ": recebido de "+senderString+". Encaminhando para roteador de backends.");
-                // backendRouter.route(message, getSender());
+                if(backendRouter != null) {
+                    System.err.println(this.name + ": recebido de " + senderString + ". Encaminhando para roteador de backends.");
+                    log.info(this.name + ": recebido de " + senderString + ". Encaminhando para roteador de backends.");
+                    backendRouter.route(message, getSender());
+                } else {
+                    System.err.println(this.name+ ": recebido de "+senderString+". Mas roteador de backends ainda é nulo.\n Descartando mensagem...");
+                    log.info(this.name + ": recebido de " + senderString + ". Mas roteador de backends ainda é nulo.\n Descartando mensagem...");
+                }
             }
         } else if(message instanceof MemberUp) {
             System.err.println(this.name + ": recebido um member up.");
@@ -160,7 +171,7 @@ public class ArtificeBackend extends UntypedActor {
             }
             log.info(this.name + ": lista de membros percorrida. "+i+" membros notificados.");
         } else {
-            log.info(this.name + ": UNHANDLED MESSAGE RECEBIDA:"+message.toString());
+            log.info(this.name + ": UNHANDLED MESSAGE RECEBIDA de "+getSender().toString()+": "+message.toString());
             unhandled(message);
         }
     }
