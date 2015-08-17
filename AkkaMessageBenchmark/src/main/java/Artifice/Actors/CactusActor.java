@@ -1,6 +1,5 @@
 package Artifice.Actors;
 
-import AkkaMessageBenchmark.ArtificeActors.ArtificeActor;
 import Artifice.Mailbox.ReceiverMessage;
 import Artifice.Mailbox.SenderMessage;
 import scala.concurrent.duration.Duration;

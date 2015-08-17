@@ -1,6 +1,5 @@
 package Artifice.Actors;
 
-import AkkaMessageBenchmark.ArtificeActors.DBActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;

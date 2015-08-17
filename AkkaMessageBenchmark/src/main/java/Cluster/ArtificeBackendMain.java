@@ -1,9 +1,8 @@
 package Cluster;
 
+import Cluster.Tools.DataExtractor;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import artificeCluster.ArtificeBackend;
-import artificeCluster.DataExtractor;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 

@@ -1,8 +1,8 @@
 package Cluster;
 
 
-import AkkaMessageBenchmark.ArtificeActors.CactusActor;
-import AkkaMessageBenchmark.ArtificeActors.CreatureActor;
+import Artifice.Actors.CactusActor;
+import Artifice.Actors.CreatureActor;
 import Artifice.Mailbox.SenderMessage;
 import akka.actor.ActorRef;
 import akka.actor.Props;

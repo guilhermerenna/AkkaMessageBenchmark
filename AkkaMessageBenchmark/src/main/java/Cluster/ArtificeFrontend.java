@@ -1,12 +1,13 @@
 package Cluster;
 
+import Cluster.Tools.DataExtractor;
+import Cluster.Tools.StatisticsAnalyser;
 import akka.actor.ActorRef;
 import akka.actor.ReceiveTimeout;
 import akka.actor.UntypedActor;
 import akka.cluster.Cluster;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import artificeCluster.DataExtractor;
 import scala.concurrent.duration.Duration;
 
 import java.io.IOException;
@@ -21,25 +22,24 @@ public class ArtificeFrontend extends UntypedActor {
     private List<ActorRef> backends;
     final int nCreatures;
     final int nCacti;
-    final boolean repeat;
+    final int numBackends;
     final String name;
-    static DataExtractor de = new DataExtractor("artifice.xml");
+    static DataExtractor de;
 
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    //ActorRef backend = getContext().actorOf(FromConfig.getInstance().props(), "artificeBackendRouter");
-
-    public ArtificeFrontend(String name, int nCreatures, int nCacti, boolean repeat) {
+    public ArtificeFrontend(String name, int nCreatures, int nCacti, DataExtractor de) {
         backends = new ArrayList<ActorRef>();
         this.nCreatures = nCreatures;
         this.nCacti= nCacti;
-        this.repeat = repeat;
+        this.de = de;
         this.name = name;
+        this.numBackends = 2;
     }
 
     @Override
     public void preStart() {
-            System.err.println(this.name + ": Frontend iniciando na URL "+getSelf().toString());
+        System.err.println(this.name + ": Frontend iniciando na URL "+getSelf().toString());
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ArtificeFrontend extends UntypedActor {
                 log.info(this.name + ": membro registrado");
                 getContext().watch(getSender());
                 backends.add(sender());
-                if(backends.size() == 2) {
+                if(backends.size() >= numBackends) {
                     self().tell("start",self());
                 }
 
@@ -96,7 +96,7 @@ public class ArtificeFrontend extends UntypedActor {
     }
 
     private void runStatsAnalyser() {
-        artificeCluster.StatisticsAnalyser sa = new artificeCluster.StatisticsAnalyser(de.getPath(), de.getUsername(), de.getPassword(), de.getCreatureNumber(), de.getCactiNumber());
+        StatisticsAnalyser sa = new StatisticsAnalyser(de.getPath(), de.getUsername(), de.getPassword(), de.getCreatureNumber(), de.getCactiNumber());
         int total = -1;
         try {
             total = sa.run();

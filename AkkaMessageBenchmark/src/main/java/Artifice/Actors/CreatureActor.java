@@ -1,6 +1,5 @@
 package Artifice.Actors;
 
-import AkkaMessageBenchmark.ArtificeActors.ArtificeActor;
 import Artifice.Mailbox.*;
 import Artifice.Creature.EyeActor;
 import Artifice.Creature.MouthActor;
