@@ -1,5 +1,7 @@
 package Artifice.Mailbox;
 
+import akka.actor.ActorRef;
+
 import java.io.Serializable;
 
 /**
@@ -7,12 +9,18 @@ import java.io.Serializable;
  */
 public class SenderMessage implements Serializable {
 
+    private final ActorRef sender;
     private final String stimulusValues;
     private final long sendingTime;
 
-    public SenderMessage(String stimulusValues, long sendingTime) {
+    public SenderMessage(ActorRef sender, String stimulusValues, long sendingTime) {
+        this.sender = sender;
         this.stimulusValues = stimulusValues;
         this.sendingTime = sendingTime;
+    }
+
+    public ActorRef getSender() {
+        return sender;
     }
 
     public String getStimulusValues() {
@@ -25,7 +33,8 @@ public class SenderMessage implements Serializable {
 
     @Override
     public String toString() {
-        return "SenderMessage{stimulusValues='" + stimulusValues + '\'' +
+        return "SenderMessage{sender=" + sender.toString() +
+                ", stimulusValues='" + stimulusValues + '\'' +
                 ", sendingTime=" + sendingTime +
                 '}';
     }

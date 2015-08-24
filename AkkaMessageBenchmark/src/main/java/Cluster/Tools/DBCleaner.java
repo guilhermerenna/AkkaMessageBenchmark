@@ -22,7 +22,7 @@ public class DBCleaner {
     }
 
     public void run() throws InterruptedException, SQLException, ClassNotFoundException {
-        System.out.println("Connecting to database...");
+        System.out.println("Connecting to database: jdbc:postgresql://" + this.path);
         Class.forName("org.postgresql.Driver");
         con = DriverManager.getConnection("jdbc:postgresql://" + this.path, this.username, this.password);
         stm = (Statement) con.createStatement();

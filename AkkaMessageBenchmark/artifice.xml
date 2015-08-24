@@ -4,7 +4,9 @@
         <username>lsi</username>
         <password>win*c4s4)</password>
         <path>localhost:5432/akkaartifice</path>
-	<creatures>2</creatures>
-	<cacti>2</cacti>
+        <interfaceRede>eth0</interfaceRede>
+	<creatures>8</creatures>
+	<cacti>8</cacti>
     </database>
 </artifice>
+

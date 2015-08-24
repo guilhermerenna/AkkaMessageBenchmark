@@ -1,0 +1,20 @@
+AkkaMessageBenchmark
+
+SYNOPSIS
+java -jar AkkaMessageBenchmark -OPTION PORT
+
+DESCRIPTION
+AkkaMessageBenchmark is a step toward scalling the Artifice platform. It is a tester project where the developers try to learn the mysterys of akka and build a decent basis for the Artifice.
+
+OPTIONS
+-frontend PORT,
+starts a frontend followed by a port to be used.
+
+-backend PORT,
+starts a backend followed by a port to be used.
+
+-help,
+display this help.
+
+EXIT
+the front and the backend will exit without user interaction. First, the backends will be stopped, then the statistics will be taken and the frontend closed.

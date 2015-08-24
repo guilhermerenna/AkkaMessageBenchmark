@@ -18,6 +18,7 @@ public class DataExtractor {
     private static String password;
     private static int creatureNumber;
     private static int cactiNumber;
+    private static String interfaceRede;
 
     public DataExtractor(String argPath) {
         try {
@@ -63,6 +64,8 @@ public class DataExtractor {
                 password = eElement.getElementsByTagName("password").item(0).getTextContent();
                 creatureNumber = Integer.parseInt(eElement.getElementsByTagName("creatures").item(0).getTextContent());
                 cactiNumber = Integer.parseInt(eElement.getElementsByTagName("cacti").item(0).getTextContent());
+                interfaceRede = eElement.getElementsByTagName("interfaceRede").item(0).getTextContent();
+                System.out.println("Database: " + path);
                 System.out.println("Username: " + username);
                 System.out.println("Password: " + password.replaceAll(".", "*"));
                 System.out.println("# creatures: " + creatureNumber);
@@ -92,6 +95,10 @@ public class DataExtractor {
 
     public Integer getCactiNumber() {
         return cactiNumber;
+    }
+
+    public String getInterfaceRede() {
+        return interfaceRede;
     }
 
 }

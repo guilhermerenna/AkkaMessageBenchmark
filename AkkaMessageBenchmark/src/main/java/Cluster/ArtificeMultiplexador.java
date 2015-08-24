@@ -3,6 +3,7 @@ package Cluster;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * Created by lsi on 11/08/15.
@@ -39,8 +40,7 @@ public class ArtificeMultiplexador {
         CommandLine commandLine = parser.parse(options, args);
 
         if (commandLine.hasOption("help")) {
-            //todo
-            System.out.println("ESCREVER AJUDA AQUI...");
+            //TODO print help file
             System.exit(0);
         } else {
             if (commandLine.hasOption("frontend")) {

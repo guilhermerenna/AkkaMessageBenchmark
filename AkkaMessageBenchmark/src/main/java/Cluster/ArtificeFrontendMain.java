@@ -12,23 +12,62 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.sql.SQLException;
+import java.util.Enumeration;
 
 public class ArtificeFrontendMain {
+    private final String interfaceRede = "em1";
     private static ActorSystem system;
     static int nCreatures;
     static int nCacti;
     static DataExtractor de = new DataExtractor("artifice.xml");
 
-    public static void main(String[] args) throws IOException {
-
-        int port = 0;
-
-        if(args.length > 0) {
-            port = Integer.parseInt(args[0]);
-            System.err.println("Iniciando frontend na porta "+port);
+    public static void main(String[] args){
+        // Extrai o endereço IP da porta especificada no arquivo artifice.xml
+        Enumeration<InetAddress> eInterface = null;
+        try {
+            NetworkInterface networkinterface = NetworkInterface.getByName(de.getInterfaceRede());
+            if(networkinterface == null){
+                System.err.println("A interface de rede utilizada não foi reconhecida! Verifique os parametros arquivo artifice.xml.");
+                System.exit(1);
+            }
+            eInterface = networkinterface.getInetAddresses();
+        } catch (SocketException e) {
+            e.printStackTrace();
         }
-        else System.err.println("Iniciando frontend em porta aleatoria.");
+
+        InetAddress currentAddress = null;
+        String ip = null;
+
+        while(eInterface.hasMoreElements())
+        {
+            currentAddress = eInterface.nextElement();
+            if(currentAddress instanceof Inet4Address)
+            {
+                ip = currentAddress.toString();
+
+                // Obtendo endereço ip sem o caracter "/", que vem no inicio da expressao
+                ip = ip.split("/")[1];
+                System.out.println("interface de rede: " + de.getInterfaceRede() +"\nendereco ip: " + ip);
+                break;
+            }
+        }
+
+        String port = "2550";
+
+        try {
+            port = args[0];
+        }
+        catch(ArrayIndexOutOfBoundsException e) {
+            System.err.println("Erro!\nA porta onde sera executado o frontend deve ser passada como parametro!");
+            throw new ArrayIndexOutOfBoundsException("Parametro \"porta\" esta faltando!");
+        }
+
+        System.err.println("porta: "+port);
 
         System.err.println("Limpando banco de dados...");
 
@@ -42,30 +81,23 @@ public class ArtificeFrontendMain {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }
+        } 
 
 
         final Config config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port).
+                withFallback(ConfigFactory.parseString("akka.remote.netty.tcp.hostname=" + ip)).
                 withFallback(ConfigFactory.parseString("akka.cluster.roles = [frontend]").
                         withFallback(ConfigFactory.load("artificeCluster")));
 
         system = ActorSystem.create("ClusterSystem", config);
-        system.log().info(
-                "Artifice will start when the minimum backend members number is reached.");
+        system.log().info("Artifice will start when the minimum backend members number is reached.");
+
         //#registerOnUp
-        System.err.println("Frontend: registrando...");
-
-
-
-        Cluster.get(system).registerOnMemberUp(new Runnable() {
-            public void run() {
-                System.err.println("Frontend: running!");
-                ActorRef frontend = system.actorOf(Props.create(ArtificeFrontend.class, "ArtificeFrontend", de.getCreatureNumber(), de.getCactiNumber(), de),
-                        "artificeFrontend");
-                System.err.println("Frontend: router registrado!");
-
-            }
-        });
+        final ActorRef frontend = system.actorOf(Props.create(ArtificeFrontend.class, "ArtificeFrontend", de.getCreatureNumber(), de.getCactiNumber(), de), "artificeFrontend");
+        /*LOG DE MUDANÇAS: retirada a criacao do ator da callback abaixo, transferida para a linha acima
+         *suspeito que o frontend nao estava sendo criado;
+         *Adicionado a mensagem "start" na callback abaixo;
+         */
         //#registerOnUp
     }
 

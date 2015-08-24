@@ -1,0 +1,1 @@
+mvn package;rm -v plexer; cp -v target/ArtificeCluster-0.3.3-with-dependencies.jar ./plexer

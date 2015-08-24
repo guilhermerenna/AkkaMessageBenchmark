@@ -1,0 +1,51 @@
+Encontrados dados do elemento artifice
+Database: localhost:5432/akkaartifice
+Username: postgres
+Password: ******
+# creatures: 2
+# cacti: 2
+interface de rede: eth1
+endereco ip: 10.0.2.47
+porta: 2552
+porta:2552
+[INFO] [08/24/2015 09:32:01.032] [main] [Remoting] Starting remoting
+[INFO] [08/24/2015 09:32:01.199] [main] [Remoting] Remoting started; listening on addresses :[akka.tcp://ClusterSystem@10.0.2.47:2552]
+[INFO] [08/24/2015 09:32:01.213] [main] [Cluster(akka://ClusterSystem)] Cluster Node [akka.tcp://ClusterSystem@10.0.2.47:2552] - Starting up...
+[INFO] [08/24/2015 09:32:01.302] [main] [Cluster(akka://ClusterSystem)] Cluster Node [akka.tcp://ClusterSystem@10.0.2.47:2552] - Registered cluster JMX MBean [akka:type=Cluster]
+[INFO] [08/24/2015 09:32:01.302] [main] [Cluster(akka://ClusterSystem)] Cluster Node [akka.tcp://ClusterSystem@10.0.2.47:2552] - Started up successfully
+[INFO] [08/24/2015 09:32:01.307] [ClusterSystem-akka.actor.default-dispatcher-2] [Cluster(akka://ClusterSystem)] Cluster Node [akka.tcp://ClusterSystem@10.0.2.47:2552] - Metrics will be retreived from MBeans, and may be incorrect on some platforms. To increase metric accuracy add the 'sigar.jar' to the classpath and the appropriate platform-specific native libary to 'java.library.path'. Reason: java.lang.ClassNotFoundException: org.hyperic.sigar.Sigar
+[INFO] [08/24/2015 09:32:01.309] [ClusterSystem-akka.actor.default-dispatcher-2] [Cluster(akka://ClusterSystem)] Cluster Node [akka.tcp://ClusterSystem@10.0.2.47:2552] - Metrics collection has started successfully
+Criando ator em backend.
+lsi-fundo-meio.backend2552: ClusterState foi recebido.
+[INFO] [08/24/2015 09:32:01.623] [ClusterSystem-akka.actor.default-dispatcher-5] [Cluster(akka://ClusterSystem)] Cluster Node [akka.tcp://ClusterSystem@10.0.2.47:2552] - Welcome from [akka.tcp://ClusterSystem@10.0.2.49:2550]
+lsi-fundo-meio.backend2552: recebido um member up.
+lsi-fundo-meio.backend2552: recebido um member up.
+lsi-fundo-meio.backend2552: recebido um member up.
+lsi-fundo-meio.backend2552: Enviando requisicao de registro para frontend.
+[INFO] [08/24/2015 09:32:04.325] [ClusterSystem-akka.actor.default-dispatcher-3] [akka://ClusterSystem/user/artificeBackend] lsi-fundo-meio.backend2552: Enviando requisicao de registro para frontend.
+[INFO] [08/24/2015 09:32:04.352] [ClusterSystem-akka.actor.default-dispatcher-20] [akka://ClusterSystem/user/artificeBackend] lsi-fundo-meio.backend2552: backendRouter iniciado! Testando...
+lsi-fundo-meio.backend2552: Recebida mensagem de Actor[akka://ClusterSystem/user/artificeBackend#-1887429821]: teste
+lsi-fundo-meio.backend2552: Recebida mensagem de Actor[akka://ClusterSystem/user/artificeBackend#-1887429821]: teste
+[INFO] [08/24/2015 09:32:04.733] [ClusterSystem-akka.actor.default-dispatcher-20] [akka://ClusterSystem/user/artificeBackend] lsi-fundo-meio.backend2552: backendRouter iniciado! Testando...
+lsi-fundo-meio.backend2552: Recebida mensagem de Actor[akka.tcp://ClusterSystem@10.0.2.47:2551/user/artificeBackend#285857038]: teste
+Actor[akka://ClusterSystem/deadLetters] was not delivered. [2] dead letters encountered. This logging can be turned off or adjusted with configuration settings 'akka.log-dead-letters' and 'akka.log-dead-letters-during-shutdown'.
+[INFO] [08/24/2015 09:32:02.324] [ClusterSystem-akka.actor.default-dispatcher-3] [akka://ClusterSystem/deadLetters] Message [akka.cluster.GossipEnvelope] from Actor[akka://ClusterSystem/system/cluster/core/daemon#-1541742919] to Actor[akka://ClusterSystem/deadLetters] was not delivered. [3] dead letters encountered. This logging can be turned off or adjusted with configuration settings 'akka.log-dead-letters' and 'akka.log-dead-letters-during-shutdown'.
+[INFO] [08/24/2015 09:32:02.712] [ClusterSystem-akka.actor.default-dispatcher-16] [Cluster(akka://ClusterSystem)] Cluster Node [akka.tcp://ClusterSystem@10.0.2.47:2551] - Leader is moving node [akka.tcp://ClusterSystem@10.0.2.47:2551] to [Up]
+[INFO] [08/24/2015 09:32:02.713] [ClusterSystem-akka.actor.default-dispatcher-16] [Cluster(akka://ClusterSystem)] Cluster Node [akka.tcp://ClusterSystem@10.0.2.47:2551] - Leader is moving node [akka.tcp://ClusterSystem@10.0.2.47:2552] to [Up]
+[INFO] [08/24/2015 09:32:02.713] [ClusterSystem-akka.actor.default-dispatcher-16] [Cluster(akka://ClusterSystem)] Cluster Node [akka.tcp://ClusterSystem@10.0.2.47:2551] - Leader is moving node [akka.tcp://ClusterSystem@10.0.2.49:2550] to [Up]
+lsi-fundo-meio.backend2551: recebido um member up.
+lsi-fundo-meio.backend2551: recebido um member up.
+lsi-fundo-meio.backend2551: recebido um member up.
+lsi-fundo-meio.backend2551: Enviando requisicao de registro para frontend.
+[INFO] [08/24/2015 09:32:02.716] [ClusterSystem-akka.actor.default-dispatcher-16] [akka://ClusterSystem/user/artificeBackend] lsi-fundo-meio.backend2551: Enviando requisicao de registro para frontend.
+[INFO] [08/24/2015 09:32:03.189] [ClusterSystem-akka.actor.default-dispatcher-19] [akka://ClusterSystem/deadLetters] Message [akka.cluster.ClusterHeartbeatSender$Heartbeat] from Actor[akka://ClusterSystem/system/cluster/core/daemon/heartbeatSender#431106720] to Actor[akka://ClusterSystem/deadLetters] was not delivered. [4] dead letters encountered. This logging can be turned off or adjusted with configuration settings 'akka.log-dead-letters' and 'akka.log-dead-letters-during-shutdown'.
+[INFO] [08/24/2015 09:32:03.330] [ClusterSystem-akka.actor.default-dispatcher-16] [akka://ClusterSystem/deadLetters] Message [akka.cluster.GossipEnvelope] from Actor[akka://ClusterSystem/system/cluster/core/daemon#-1541742919] to Actor[akka://ClusterSystem/deadLetters] was not delivered. [5] dead letters encountered. This logging can be turned off or adjusted with configuration settings 'akka.log-dead-letters' and 'akka.log-dead-letters-during-shutdown'.
+[INFO] [08/24/2015 09:32:03.717] [ClusterSystem-akka.actor.default-dispatcher-19] [akka://ClusterSystem/deadLetters] Message [akka.cluster.GossipEnvelope] from Actor[akka://ClusterSystem/system/cluster/core/daemon#-1541742919] to Actor[akka://ClusterSystem/deadLetters] was not delivered. [6] dead letters encountered. This logging can be turned off or adjusted with configuration settings 'akka.log-dead-letters' and 'akka.log-dead-letters-during-shutdown'.
+lsi-fundo-meio.backend2551: Recebida mensagem de Actor[akka://ClusterSystem/user/artificeBackend#285857038]: teste
+[INFO] [08/24/2015 09:32:04.352] [ClusterSystem-akka.actor.default-dispatcher-18] [akka://ClusterSystem/user/artificeBackend] lsi-fundo-meio.backend2551: backendRouter iniciado! Testando...
+[INFO] [08/24/2015 09:32:04.743] [ClusterSystem-akka.actor.default-dispatcher-2] [akka://ClusterSystem/user/artificeBackend] lsi-fundo-meio.backend2551: backendRouter iniciado! Testando...
+[WARN] [08/24/2015 09:32:13.898] [ClusterSystem-akka.remote.default-remote-dispatcher-6] [akka.tcp://ClusterSystem@10.0.2.47:2551/system/endpointManager/reliableEndpointWriter-akka.tcp%3A%2F%2FClusterSystem%4010.0.2.47%3A2552-1] Association with remote system [akka.tcp://ClusterSystem@10.0.2.47:2552] has failed, address is now gated for [5000] ms. Reason is: [Disassociated].
+[INFO] [08/24/2015 09:32:13.898] [ClusterSystem-akka.actor.default-dispatcher-15] [akka://ClusterSystem/deadLetters] Message [akka.cluster.ClusterHeartbeatSender$Heartbeat] from Actor[akka://ClusterSystem/system/cluster/core/daemon/heartbeatSender#431106720] to Actor[akka://ClusterSystem/deadLetters] was not delivered. [7] dead letters encountered. This logging can be turned off or adjusted with configuration settings 'akka.log-dead-letters' and 'akka.log-dead-letters-during-shutdown'.
+[INFO] [08/24/2015 09:32:13.898] [ClusterSystem-akka.actor.default-dispatcher-16] [akka://ClusterSystem/system/transports/akkaprotocolmanager.tcp0/akkaProtocol-tcp%3A%2F%2FClusterSystem%4010.0.2.47%3A56220-4] Message [akka.remote.transport.ActorTransportAdapter$DisassociateUnderlying] from Actor[akka://ClusterSystem/deadLetters] to Actor[akka://ClusterSystem/system/transports/akkaprotocolmanager.tcp0/akkaProtocol-tcp%3A%2F%2FClusterSystem%4010.0.2.47%3A56220-4#-1231134078] was not delivered. [8] dead letters encountered. This logging can be turned off or adjusted with configuration settings 'akka.log-dead-letters' and 'akka.log-dead-letters-during-shutdown'.
+[INFO] [08/24/2015 09:32:13.899] [ClusterSystem-akka.actor.default-dispatcher-16] [akka://ClusterSystem/system/transports/akkaprotocolmanager.tcp0/akkaProtocol-tcp%3A%2F%2FClusterSystem%4010.0.2.47%3A2552-5] Message [akka.remote.transport.ActorTransportAdapter$DisassociateUnderlying] from Actor[akka://ClusterSystem/deadLetters] to Actor[akka://ClusterSystem/system/transports/akkaprotocolmanager.tcp0/akkaProtocol-tcp%3A%2F%2FClusterSystem%4010.0.2.47%3A2552-5#-291840919] was not delivered. [9] dead letters encountered. This logging can be turned off or adjusted with configuration settings 'akka.log-dead-letters' and 'akka.log-dead-letters-during-shutdown'.
+[INFO] [08/24/2015 09:32:14.197] [ClusterSystem-akka.actor.default-dispatcher-15] [akka://ClusterSystem/deadLetters] Message [akka.cluster.ClusterHeartbeatSender$Heartbeat] from Actor[akka://ClusterSystem/system/cluster/core/daemon/heartbeatSender#431106720] to Actor[akka://ClusterSystem/deadLetters] was not delivered. [10] dead letters encountered, no more dead letters will be logged. This logging can be turned off or adjusted with configuration settings 'akka.log-dead-letters' and 'akka.log-dead-letters-during-shutdown'.

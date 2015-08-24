@@ -31,7 +31,7 @@ public class CactusActor extends ArtificeActor {
             // TODO: Implement changeState()
         } else if (arg0 instanceof StampedSenderMessage) {
             ReceiverMessage msg = new ReceiverMessage(
-                    getSender(),
+                    ((StampedSenderMessage) arg0).getSender(),
                     getSelf(),
                     ((StampedSenderMessage) arg0).getStimulusValues(),
                     ((StampedSenderMessage) arg0).getSendingTime(),
@@ -45,7 +45,7 @@ public class CactusActor extends ArtificeActor {
                 // Scheduler para enviar mensagens "anycast" a cada 50ms
                 System.err.println(this.name + "starting simulation!");
                 getContext().system().scheduler().scheduleOnce(
-                        Duration.create(500, TimeUnit.MILLISECONDS),
+                        Duration.create(10, TimeUnit.MILLISECONDS),
                         getSelf(),
                         "anycast",
                         getContext().system().dispatcher(),
@@ -59,10 +59,10 @@ public class CactusActor extends ArtificeActor {
                             Duration.create(1000, TimeUnit.MILLISECONDS),
                             getSelf(), "tick", getContext().dispatcher(), null);*/
 
-                    context().parent().tell(new SenderMessage("Spike from " + this.name + "!!", System.currentTimeMillis()), getSelf());
-                    System.out.println(this.name + ": Sending spike!");
+                    context().parent().tell(new SenderMessage(getSelf(), "Spike from " + this.name + "!!", System.currentTimeMillis()), getSelf());
+                    System.out.println(this.name + ": sending spike stimulus from " + getSelf().toString());
                     getContext().system().scheduler().scheduleOnce(
-                            Duration.create(500, TimeUnit.MILLISECONDS),
+                            Duration.create(10, TimeUnit.MILLISECONDS),
                             getSelf(),
                             "anycast",
                             getContext().system().dispatcher(),

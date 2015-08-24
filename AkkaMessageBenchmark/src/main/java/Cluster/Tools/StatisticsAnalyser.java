@@ -35,7 +35,7 @@ public class StatisticsAnalyser {
         // this.scheduling = scheduling;
     }
 
-    public int run() throws InterruptedException, SQLException, ClassNotFoundException, IOException {
+    public int run() throws ClassNotFoundException, SQLException, IOException {
         System.out.println("Statistics Analyser: Connecting to database...");
         Class.forName("org.postgresql.Driver");
         con = DriverManager.getConnection("jdbc:postgresql://" + this.path, this.username, this.password);
