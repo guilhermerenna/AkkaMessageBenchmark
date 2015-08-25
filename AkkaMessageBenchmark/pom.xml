@@ -4,7 +4,7 @@
 
   <groupId>ArtificeCluster</groupId>
   <artifactId>ArtificeCluster</artifactId>
-  <version>0.3.3</version>
+  <version>0.3.4.1</version>
   <packaging>jar</packaging>
 
   <name>ArtificeCluster</name>
@@ -45,7 +45,7 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>9.3-1103-jdbc41</version>
+      <version>9.3-1102-jdbc4</version>
     </dependency>
     <dependency>
       <groupId>commons-cli</groupId>

@@ -18,7 +18,10 @@ public class DataExtractor {
     private static String password;
     private static int creatureNumber;
     private static int cactiNumber;
+    private static int backendNumber;
+    private static int simulationDuration;
     private static String interfaceRede;
+    private static String hosts;
 
     public DataExtractor(String argPath) {
         try {
@@ -47,7 +50,7 @@ public class DataExtractor {
 
             System.out.println("Encontrados dados do elemento " + doc.getDocumentElement().getNodeName());
 
-            NodeList nList = doc.getElementsByTagName("database");
+            NodeList nList = doc.getElementsByTagName("parameters");
 
             //for (int temp = 0; temp < nList.getLength(); temp++) {
 
@@ -64,12 +67,18 @@ public class DataExtractor {
                 password = eElement.getElementsByTagName("password").item(0).getTextContent();
                 creatureNumber = Integer.parseInt(eElement.getElementsByTagName("creatures").item(0).getTextContent());
                 cactiNumber = Integer.parseInt(eElement.getElementsByTagName("cacti").item(0).getTextContent());
+                backendNumber = Integer.parseInt(eElement.getElementsByTagName("backendNumber").item(0).getTextContent());
+                simulationDuration = Integer.parseInt(eElement.getElementsByTagName("simulationDuration").item(0).getTextContent());
                 interfaceRede = eElement.getElementsByTagName("interfaceRede").item(0).getTextContent();
+                hosts = eElement.getElementsByTagName("hosts").item(0).getTextContent();
                 System.out.println("Database: " + path);
                 System.out.println("Username: " + username);
                 System.out.println("Password: " + password.replaceAll(".", "*"));
                 System.out.println("# creatures: " + creatureNumber);
                 System.out.println("# cacti: " + cactiNumber);
+                System.out.println("# backends: " + backendNumber);
+                System.out.println("Duration: " + (simulationDuration/1000)+ "s");
+                System.out.println("Hosts: \n" + hosts);
             }
             //}
         } catch (Exception e) {
@@ -100,5 +109,13 @@ public class DataExtractor {
     public String getInterfaceRede() {
         return interfaceRede;
     }
+
+    public String getHosts() {
+        return hosts;
+    }
+
+    public int getBackendNumber() { return backendNumber; }
+
+    public int getSimulationDuration() { return simulationDuration; }
 
 }

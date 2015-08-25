@@ -27,6 +27,7 @@ public class ArtificeFrontend extends UntypedActor {
     final int numBackends;
     final String name;
     static DataExtractor de;
+    int backendIsReady;
 
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
@@ -36,7 +37,8 @@ public class ArtificeFrontend extends UntypedActor {
         this.nCacti= nCacti;
         this.de = de;
         this.name = name;
-        this.numBackends = 2;
+        this.numBackends = de.getBackendNumber();
+        this.backendIsReady = 0;
     }
 
     @Override
@@ -51,18 +53,17 @@ public class ArtificeFrontend extends UntypedActor {
                 log.info(this.name + ": A enviar requisicao para " + backends.size() + " backends");
                 for(ActorRef ref : backends) {
                     ref.tell(backends, self());
-                    log.info(this.name+ ": Enviando requisicao ordem de criacao de "+nCreatures+"criaturas e "+nCacti+" cactos para backend.");
+                    log.info(this.name+ ": Enviando requisicao ordem de criacao de "+nCreatures+" criaturas e "+nCacti+" cactos para backend.");
                     ref.tell(new CreationOrder(nCacti, nCreatures), getSelf());
 
                 }
             } else if(message.equals("started")) {
-                // TODO sincronizar os backends
-
-                sender().tell("startSimulation", self());
-                getContext().system().scheduler().scheduleOnce(Duration.create(3000, TimeUnit.MILLISECONDS),getSelf(), "shutdown", getContext().dispatcher(), null);
-                System.err.println("SHUTDOWN AGENDADO");
-                log.info(this.name + "Agendando shutdown para daqui a 3s...");
-
+                if(++backendIsReady == this.numBackends) {
+                    sender().tell("startSimulation", self());
+                    getContext().system().scheduler().scheduleOnce(Duration.create(de.getSimulationDuration(), TimeUnit.MILLISECONDS),getSelf(), "shutdown", getContext().dispatcher(), null);
+                    System.err.println("SHUTDOWN AGENDADO");
+                    log.info(this.name + "Agendando shutdown para daqui a "+(de.getSimulationDuration()/1000)+"s...");
+                }
             } else if(message.equals("register")) {
                 log.info(this.name + ": membro registrado: "+getSender().toString());
                 getContext().watch(getSender());

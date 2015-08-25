@@ -60,6 +60,9 @@ public class ArtificeBackendMain {
 
         final Config config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port).
                 withFallback(ConfigFactory.parseString("akka.remote.netty.tcp.hostname=" + ip)).
+                withFallback(ConfigFactory.parseString("akka.cluster.seed-nodes=" + de.getHosts())).
+                withFallback(ConfigFactory.parseString("akka.cluster.min-nr-of-members=" + (de.getBackendNumber()+1))).
+                withFallback(ConfigFactory.parseString("akka.cluster.role.backend.min-nr-of-members=" + de.getBackendNumber())).
                 withFallback(ConfigFactory.parseString("akka.cluster.roles = [backend]")).
                 withFallback(ConfigFactory.load("artificeCluster"));
 

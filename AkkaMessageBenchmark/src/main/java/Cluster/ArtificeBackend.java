@@ -84,11 +84,11 @@ public class ArtificeBackend extends UntypedActor {
             CreationOrder order = (CreationOrder)message;
             for(int i=0;i<order.nCacti;i++){
                 internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, ("cactus" +i), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("cactus" + i))));
-                System.err.println("\n\n\n\nCACTUSSS CRIADOOOOOOO: "+ "cactus" + i);
+                // log.info(this.name + "Novo cacto: " + "cactus" + i);
             }
             for(int j=0;j<order.nCreature;j++) {
-                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, ("creature" +j), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("creature" + j))));
-                System.err.println("\n\n\n\nCRIATURAAAA CRIADAAA: " + "creature" + j);
+                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, ("creature" + j), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("creature" + j))));
+                // log.info(this.name + "Nova criatura: " + "creature" + j);
             }
             internalRouter = new Router(new RandomRoutingLogic(), internalRoutees);
             System.out.println(this.name+": creation order completed");
@@ -115,7 +115,7 @@ public class ArtificeBackend extends UntypedActor {
             backendRouter.route(new RoutedSenderMessage((SenderMessage) message), self());
 
         } else if(message instanceof RoutedSenderMessage) {
-            log.info("\n\n\n" + this.name + ": RoutedSenderMessage recebida.");
+            log.info("\n\n" + this.name + ": RoutedSenderMessage recebida.");
             SenderMessage sm = ((RoutedSenderMessage) message).getSenderMessage();
             StampedSenderMessage ssm = new StampedSenderMessage(sm.getSender(), sm.getStimulusValues(), sm.getSendingTime(), System.currentTimeMillis());
             internalRouter.route(ssm, getSender());

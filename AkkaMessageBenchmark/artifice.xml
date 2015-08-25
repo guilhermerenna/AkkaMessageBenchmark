@@ -1,12 +1,19 @@
 <?xml version="1.0"?>
 <artifice>
-    <database id="1">
-        <username>lsi</username>
-        <password>win*c4s4)</password>
-        <path>localhost:5432/akkaartifice</path>
-        <interfaceRede>eth0</interfaceRede>
-	<creatures>8</creatures>
-	<cacti>8</cacti>
-    </database>
+    <parameters id="1">
+            <username>lsi</username>
+            <password>win*c4s4)</password>
+            <path>localhost:5432/akkaartifice</path>
+            <interfaceRede>eth0</interfaceRede>
+        <creatures>8</creatures>
+        <cacti>8</cacti>
+        <backendNumber>2</backendNumber>
+        <simulationDuration>10000</simulationDuration>
+        <hosts>
+            ["akka.tcp://ClusterSystem@10.0.2.49:2550",
+            "akka.tcp://ClusterSystem@10.0.2.49:2551",
+            "akka.tcp://ClusterSystem@10.0.2.47:2551"]
+        </hosts>
+    </parameters>
 </artifice>
 
