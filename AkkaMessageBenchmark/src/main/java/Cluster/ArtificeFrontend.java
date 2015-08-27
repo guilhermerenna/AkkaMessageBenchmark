@@ -55,7 +55,6 @@ public class ArtificeFrontend extends UntypedActor {
                     ref.tell(backends, self());
                     log.info(this.name+ ": Enviando requisicao ordem de criacao de "+nCreatures+" criaturas e "+nCacti+" cactos para backend.");
                     ref.tell(new CreationOrder(nCacti, nCreatures), getSelf());
-
                 }
             } else if(message.equals("started")) {
                 if(++backendIsReady == this.numBackends) {

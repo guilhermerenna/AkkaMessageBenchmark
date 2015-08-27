@@ -35,15 +35,15 @@ public class DBActor extends UntypedActor {
     @Override
     public void preStart() {
         try {
-            System.err.println(this.name + ": DBActor iniciado.");
+            System.err.println(this.name + ": DBActor iniciando...");
             Class.forName("org.postgresql.Driver");
             con = DriverManager.getConnection("jdbc:postgresql://"+ this.path, this.username,this.password);
             stm = (Statement) con.createStatement();
+            System.err.println(this.name + ": DBActor iniciado com sucesso!");
         } catch(SQLException exception) {
-            System.err.println("Erro ao estabelecer conexão com o BD!");
-            exception.printStackTrace();
+            System.err.println(this.name + ": Erro ao estabelecer conexão com o BD: " + exception.getMessage() + "\n");
         } catch (ClassNotFoundException exception) {
-            System.err.println("Erro ao estabelecer conexão com o BD!");
+            System.err.println(this.name + ": Erro ao estabelecer conexão com o exit BD!");
             exception.printStackTrace();
         }
     }
@@ -51,10 +51,10 @@ public class DBActor extends UntypedActor {
     @Override
     public void onReceive(Object o) throws Exception {
         if (o instanceof ReceiverMessage) {
-            System.out.println("Recebi estimulo. Gravando no banco:\n"+o.toString());
+            System.out.println(this.name + ": Recebi estimulo. Gravando no banco:\n"+o.toString());
             insertDB(generateQuery((ReceiverMessage) o));
         } else {
-            System.out.println("DBActor says: Message received is not a ReceiverMessage!");
+            System.out.println(this.name + ": Message received is not a ReceiverMessage!");
         }
     }
 
@@ -74,7 +74,7 @@ public class DBActor extends UntypedActor {
             stm = (Statement) con.createStatement(); //para ele poder ser executado várias vezes sem que feche o resultset
             stm.execute(query);
         } catch(SQLException exception) {
-            System.err.println("Erro ao inserir no BD!");
+            System.err.println(this.name + ": Erro ao inserir no BD!");
             exception.printStackTrace();
         }
     }
@@ -89,7 +89,7 @@ public class DBActor extends UntypedActor {
                 stm.close();
             }
         } catch(SQLException exception) {
-            System.err.println("Erro ao fechar conexão com o BD!");
+            System.err.println(this.name + ": Erro ao fechar conexão com o BD!");
             exception.printStackTrace();
         }
     }
