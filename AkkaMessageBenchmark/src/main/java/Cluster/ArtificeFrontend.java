@@ -58,7 +58,9 @@ public class ArtificeFrontend extends UntypedActor {
                 }
             } else if(message.equals("started")) {
                 if(++backendIsReady == this.numBackends) {
-                    sender().tell("startSimulation", self());
+                    for(ActorRef r : backends) {
+                        r.tell("startSimulation", self());
+                    }
                     getContext().system().scheduler().scheduleOnce(Duration.create(de.getSimulationDuration(), TimeUnit.MILLISECONDS),getSelf(), "shutdown", getContext().dispatcher(), null);
                     System.err.println("SHUTDOWN AGENDADO");
                     log.info(this.name + "Agendando shutdown para daqui a "+(de.getSimulationDuration()/1000)+"s...");
