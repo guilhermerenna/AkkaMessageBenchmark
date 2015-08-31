@@ -42,6 +42,7 @@ public class DBActor extends UntypedActor {
             System.err.println(this.name + ": DBActor iniciado com sucesso!");
         } catch(SQLException exception) {
             System.err.println(this.name + ": Erro ao estabelecer conexão com o BD: " + exception.getMessage() + "\n");
+            exception.printStackTrace();
         } catch (ClassNotFoundException exception) {
             System.err.println(this.name + ": Erro ao estabelecer conexão com o exit BD!");
             exception.printStackTrace();

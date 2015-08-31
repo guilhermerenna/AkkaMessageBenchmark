@@ -1,5 +1,6 @@
 package Cluster;
 
+import Cluster.Tools.DBCleaner;
 import Cluster.Tools.DataExtractor;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
@@ -10,6 +11,7 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.sql.SQLException;
 import java.util.Enumeration;
 
 public class ArtificeBackendMain {
@@ -57,6 +59,20 @@ public class ArtificeBackendMain {
             System.err.println("Erro!\nA porta onde sera executado o frontend deve ser passada como parametro!");
             throw new ArrayIndexOutOfBoundsException("Parametro \"porta\" esta faltando!");
         }
+
+        System.err.println("Limpando banco de dados...");
+        DBCleaner dbcleaner = new DBCleaner(de.getPath(), de.getUsername(), de.getPassword());
+        try {
+            dbcleaner.run();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
 
         final Config config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port).
                 withFallback(ConfigFactory.parseString("akka.remote.netty.tcp.hostname=" + ip)).

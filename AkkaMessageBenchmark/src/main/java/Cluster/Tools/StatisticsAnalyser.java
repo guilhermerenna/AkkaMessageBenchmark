@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
  * Created by lsi on 16/06/15.
  */
 public class StatisticsAnalyser {
-
+    private static String backendName;
     private String path;
     private String username;
     private String password;
@@ -26,7 +26,8 @@ public class StatisticsAnalyser {
     public static int nCacti;
 
 
-    public StatisticsAnalyser(String path, String username, String password, int nCreatures, int nCacti) { //, int scheduling) {
+    public StatisticsAnalyser(String backendName, String path, String username, String password, int nCreatures, int nCacti) { //, int scheduling) {
+        this.backendName = backendName;
         this.nCreatures = nCreatures;
         this.nCacti = nCacti;
         this.path = path;
@@ -47,7 +48,7 @@ public class StatisticsAnalyser {
         ResultSet rs = stm.executeQuery(query);
 
         // Defines the name for the output, using the current timestamp
-        String outputPath = new SimpleDateFormat("'output-age"+nCreatures+"cac"+nCacti+"-'yyyyMMddhhmm'.csv'").format(new java.util.Date());
+        String outputPath = new SimpleDateFormat("'output-"+ this.backendName +"-age"+nCreatures+"cac"+nCacti+"-'yyyyMMddhhmm'.csv'").format(new java.util.Date());
 
         // Writes to a string the home directory from System (i.e. finds out which user folder it should use)
         outputPath = System.getProperty("user.home")+"/output/" + outputPath;
@@ -74,8 +75,8 @@ public class StatisticsAnalyser {
 
         //Retrieve by column name
         int messageid  = rs.getInt("messageid");
-        String sender = rs.getString("sender").split("/")[5];
-        String receiver = rs.getString("receiver").split("/")[5];
+        String sender = rs.getString("sender"); //.split("/")[5];
+        String receiver = rs.getString("receiver"); //.split("/")[5];
         long sendingtime = rs.getLong("sendingtime");
         long start = sendingtime;
         long receivingtime = rs.getLong("receivingtime");
@@ -84,7 +85,7 @@ public class StatisticsAnalyser {
 
         // Processes first element, in order to get the first timestamp.
         // Display values on the screen
-        System.out.printf("Statistics Analyser: "+
+        /*System.out.printf("Statistics Analyser: "+
                 // format string:
                 outputDisplay,
 
@@ -96,7 +97,7 @@ public class StatisticsAnalyser {
                 (receivingtime - sendingtime),
                 (dbtime - receivingtime),
                 stimulus.toString()
-        );
+        );*/
 
         totalMessages++;
 
@@ -120,27 +121,27 @@ public class StatisticsAnalyser {
             //Retrieve by column name
             messageid = rs.getInt("messageid");
 
-            sender = rs.getString("sender").split("/")[5];
-            receiver = rs.getString("receiver").split("/")[5];
+            sender = rs.getString("sender"); //.split("/")[5];
+            receiver = rs.getString("receiver"); //.split("/")[5];
             sendingtime = rs.getLong("sendingtime");
             receivingtime = rs.getLong("receivingtime");
             dbtime = rs.getLong("dbtime");
             stimulus = rs.getString("stimulusvalue");
 
             // Display values on the screen
-            System.out.printf(
-                    // format string:
-                    outputDisplay,
-
-                    // Id, Sent, Latency, Processing, Stimulus:
-                    messageid,
-                    (sendingtime - start),
-                    sender,
-                    receiver,
-                    (receivingtime - sendingtime),
-                    (dbtime - receivingtime),
-                    stimulus.toString()
-            );
+//            System.out.printf(
+//                    // format string:
+//                    outputDisplay,
+//
+//                    // Id, Sent, Latency, Processing, Stimulus:
+//                    messageid,
+//                    (sendingtime - start),
+//                    sender,
+//                    receiver,
+//                    (receivingtime - sendingtime),
+//                    (dbtime - receivingtime),
+//                    stimulus.toString()
+//            );
 
             // Saves data to file...
             writer.printf(

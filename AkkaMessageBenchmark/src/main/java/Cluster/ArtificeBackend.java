@@ -6,6 +6,7 @@ import Artifice.Actors.CreatureActor;
 import Artifice.Mailbox.RoutedSenderMessage;
 import Artifice.Mailbox.SenderMessage;
 import Artifice.Mailbox.StampedSenderMessage;
+import Cluster.Tools.StatisticsAnalyser;
 import Cluster.message.CreationOrder;
 import akka.actor.ActorRef;
 import akka.actor.Props;
@@ -21,8 +22,10 @@ import akka.routing.RandomRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +39,8 @@ public class ArtificeBackend extends UntypedActor {
     private String username;
     private String password;
     protected Cluster cluster;
+    private int nCreatures;
+    private int nCacti;
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     public ArtificeBackend(String name, int nCreatures, int nCacti, String path, String username, String password) {
@@ -58,6 +63,8 @@ public class ArtificeBackend extends UntypedActor {
         this.username = username;
         this.password = password;
         this.internalRoutees = new ArrayList<Routee>();
+        this.nCacti = 0;
+        this.nCreatures = 0;
         // this.creatures = new ArrayList<Routee>();
         // this.cacti= new ArrayList<Routee>();
         cluster = Cluster.get(context().system());
@@ -82,13 +89,15 @@ public class ArtificeBackend extends UntypedActor {
 
         } else if (message instanceof CreationOrder) {
             CreationOrder order = (CreationOrder)message;
+
+            //TODO: migrar nCacti para getNCacti (encapsular atributos eh boa pratica de programacao ;) )
+            nCacti = order.nCacti;
             for(int i=0;i<order.nCacti;i++){
                 internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, ("cactus" +i), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("cactus" + i))));
-                // log.info(this.name + "Novo cacto: " + "cactus" + i);
             }
+            nCreatures = order.nCreature;
             for(int j=0;j<order.nCreature;j++) {
                 internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, ("creature" + j), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("creature" + j))));
-                // log.info(this.name + "Nova criatura: " + "creature" + j);
             }
             internalRouter = new Router(new RandomRoutingLogic(), internalRoutees);
             System.out.println(this.name+": creation order completed");
@@ -97,7 +106,10 @@ public class ArtificeBackend extends UntypedActor {
         } else if (message instanceof String) {
 
             if(message.equals("shutdown")) {
-                context().system().shutdown();
+                log.info(this.name + ": ORDEM DE DESLIGAMENTO RECEBIDA");
+                context().stop(self()); //não é necessario parar explicitamente os filhos
+                //statistcs analyser passado para postStop
+
 
             } else if(message.equals("startSimulation")) {
                 System.err.println(this.name + ": starting simulation!");
@@ -106,7 +118,7 @@ public class ArtificeBackend extends UntypedActor {
                     ref.send("startSimulation",self());
                 }
             } else {
-                System.err.println(this.name + ": Recebida mensagem de "+getSender().toString()+": " + message);
+                //internalRouter.Route(message, );
             }
 
         } else if(message instanceof SenderMessage) {
@@ -142,6 +154,33 @@ public class ArtificeBackend extends UntypedActor {
             log.info(this.name + ": Enviando requisicao de registro para frontend.");
         }
     }
+
+    public void postStop(){
+
+        log.info(this.name + ": Finalizando a simulacao: iniciando STATISTICS ANALYSER");
+
+
+        StatisticsAnalyser sa = new StatisticsAnalyser(this.name, this.path, this.username, this.password, this.nCreatures, this.nCacti);
+        int total = -1;
+        try {
+            total = sa.run();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (total != -1) System.out.println("TOTAL DE MENSAGENS: " + total);
+        else {
+            System.err.println("Erro ao rodar Statistics Analyser.");
+        }
+
+        log.info(this.name + ": DESLIGANDO BACKEND");
+        getContext().system().shutdown();
+    }
+
 }
 //#backend
+
 

@@ -67,22 +67,6 @@ public class ArtificeFrontendMain {
             throw new ArrayIndexOutOfBoundsException("Parametro \"porta\" esta faltando!");
         }
 
-        System.err.println("porta: "+port);
-
-        System.err.println("Limpando banco de dados...");
-
-        DBCleaner dbcleaner = new DBCleaner(de.getPath(), de.getUsername(), de.getPassword());
-
-        try {
-            dbcleaner.run();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } 
-
 
         final Config config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port).
                 withFallback(ConfigFactory.parseString("akka.remote.netty.tcp.hostname=" + ip)).

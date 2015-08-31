@@ -13,6 +13,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class CactusActor extends ArtificeActor {
 
+    private int messagesSent;
+    private int messagesReceived;
+
     public CactusActor(String name, String path, String username, String password) {
         // Actor name and Database username, password and path
         super(name, path, username, password);
@@ -21,27 +24,27 @@ public class CactusActor extends ArtificeActor {
 
     /**
      * Evento disparado quando uma mensagem é recebida.
-     * @param arg0 Mensagem do tipo OBJETO.
+     * @param message Mensagem do tipo OBJETO.
      * @throws Exception
      */
     @Override
-    public void onReceive(Object arg0) throws Exception {
-        if(arg0 instanceof List) {
+    public void onReceive(Object message) throws Exception {
+        if(message instanceof List) {
             System.out.println("List received!! What do I do with it?!? ");
             // TODO: Implement changeState()
-        } else if (arg0 instanceof StampedSenderMessage) {
+        } else if (message instanceof StampedSenderMessage) {
+            ++messagesReceived;
             ReceiverMessage msg = new ReceiverMessage(
-                    ((StampedSenderMessage) arg0).getSender(),
+                    ((StampedSenderMessage) message).getSender(),
                     getSelf(),
-                    ((StampedSenderMessage) arg0).getStimulusValues(),
-                    ((StampedSenderMessage) arg0).getSendingTime(),
-                    ((StampedSenderMessage) arg0).getReceivingTime()
+                    ((StampedSenderMessage) message).getStimulusValues(),
+                    ((StampedSenderMessage) message).getSendingTime(),
+                    ((StampedSenderMessage) message).getReceivingTime()
             );
             System.out.println(this.name+": ReceiverMessage built!");
             dbActor.tell(msg,getSelf());
-        } else if(arg0 instanceof String) {
-            if (arg0.equals("startSimulation")) {
-
+        } else if(message instanceof String) {
+            if (message.equals("startSimulation")) {
                 // Scheduler para enviar mensagens "anycast" a cada 50ms
                 System.err.println(this.name + "starting simulation!");
                 getContext().system().scheduler().scheduleOnce(
@@ -52,13 +55,10 @@ public class CactusActor extends ArtificeActor {
                         null
                 );
             } else {
-                System.out.println(this.name + ": String message received: " + (String) arg0);
+                System.out.println(this.name + ": String message received: " + (String) message);
 
-                if (((String) arg0).equals("anycast")) {
-                    /*getContext().system().scheduler().scheduleOnce(
-                            Duration.create(1000, TimeUnit.MILLISECONDS),
-                            getSelf(), "tick", getContext().dispatcher(), null);*/
-
+                if (((String) message).equals("anycast")) {
+                    messagesSent++;
                     context().parent().tell(new SenderMessage(getSelf(), "Spike from " + this.name + "!!", System.currentTimeMillis()), getSelf());
                     System.out.println(this.name + ": sending spike stimulus from " + getSelf().toString());
                     getContext().system().scheduler().scheduleOnce(
@@ -69,10 +69,16 @@ public class CactusActor extends ArtificeActor {
                             null
                     );
                 }
+
             }
         } else {
             throw new Exception("Message type not supported.");
         }
+    }
+
+    public void postStop(){
+        System.out.println(this.name+": sent: "+ messagesSent + " received: " + messagesReceived + "delta: " + (messagesReceived-messagesSent));
+
     }
 
 }

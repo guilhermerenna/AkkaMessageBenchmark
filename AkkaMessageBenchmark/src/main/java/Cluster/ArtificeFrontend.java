@@ -12,8 +12,6 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import scala.concurrent.duration.Duration;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -27,7 +25,8 @@ public class ArtificeFrontend extends UntypedActor {
     final int numBackends;
     final String name;
     static DataExtractor de;
-    int backendIsReady;
+    int backendsReady;
+    boolean simulating = false;
 
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
@@ -38,7 +37,7 @@ public class ArtificeFrontend extends UntypedActor {
         this.de = de;
         this.name = name;
         this.numBackends = de.getBackendNumber();
-        this.backendIsReady = 0;
+        this.backendsReady = 0;
     }
 
     @Override
@@ -50,14 +49,16 @@ public class ArtificeFrontend extends UntypedActor {
     public void onReceive(Object message) {
         if(message instanceof String) {
             if(message.equals("start")) {
+                simulating = true;
                 log.info(this.name + ": A enviar requisicao para " + backends.size() + " backends");
                 for(ActorRef ref : backends) {
                     ref.tell(backends, self());
                     log.info(this.name+ ": Enviando requisicao ordem de criacao de "+nCreatures+" criaturas e "+nCacti+" cactos para backend.");
                     ref.tell(new CreationOrder(nCacti, nCreatures), getSelf());
                 }
+
             } else if(message.equals("started")) {
-                if(++backendIsReady == this.numBackends) {
+                if(++backendsReady == this.numBackends) {
                     for(ActorRef r : backends) {
                         r.tell("startSimulation", self());
                     }
@@ -74,38 +75,13 @@ public class ArtificeFrontend extends UntypedActor {
                 }
 
             } else if(message.equals("shutdown")) {
-                System.err.println("INICIANDO SHUTDOWN.");
-                log.info(this.name + ": Recebida requisicao de shutdown. Desligando o sistema...");
+                simulating = false;
+                log.info(this.name + ": INICIANDO SHUTDOWN: enviando ordem aos backends");
                 for(ActorRef ref : backends) {
                     ref.tell(message, self());
                 }
-                /* Thread one = new Thread() {
-                    public void run() {
-
-                    }
-                };
-
-                one.start();*/
-
-                StatisticsAnalyser sa = new StatisticsAnalyser(de.getPath(), de.getUsername(), de.getPassword(), de.getCreatureNumber(), de.getCactiNumber());
-                int total = -1;
-                try {
-                    total = sa.run();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (total != -1) System.out.println("TOTAL DE MENSAGENS: " + total);
-                else {
-                    System.err.println("Erro ao rodar Statistics Analyser.");
-                }
-
-                System.exit(0);
-
-                context().system().shutdown();
+                log.info(this.name + ": ordens enviadas, desligando frontend");
+                getContext().system().shutdown();
 
             }
             ///// ---------------------------------- até aqui, VERIFICADO
@@ -118,7 +94,15 @@ public class ArtificeFrontend extends UntypedActor {
 
         } else if (message instanceof Terminated){
             Terminated t = (Terminated)message;
-            backends.remove(t.actor());             //elimina o backend da lista de referencias
+            //TODO conferir aqui
+            if(simulating == true) {
+                backends.remove(t.actor());             //elimina o backend da lista de referencias
+            } else {
+                backends.remove(0);                     //elimina um a um os backends até que todos tenham finalizado, e desliga o cluster
+                if(backends.isEmpty()){
+                    context().system().shutdown();
+                }
+            }
 
         } else {
             System.err.println(this.name + ": mensagem recebida: unhandled.");

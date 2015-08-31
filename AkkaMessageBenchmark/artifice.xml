@@ -4,7 +4,7 @@
             <username>lsi</username>
             <password>win*c4s4)</password>
             <path>localhost:5432/akkaartifice</path>
-            <interfaceRede>eth0</interfaceRede>
+            <interfaceRede>eth1</interfaceRede>
         <creatures>20</creatures>
         <cacti>20</cacti>
         <backendNumber>3</backendNumber>
