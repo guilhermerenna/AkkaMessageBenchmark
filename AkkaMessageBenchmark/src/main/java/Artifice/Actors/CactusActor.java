@@ -13,9 +13,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class CactusActor extends ArtificeActor {
 
-    private int messagesSent;
-    private int messagesReceived;
-
     public CactusActor(String name, String path, String username, String password) {
         // Actor name and Database username, password and path
         super(name, path, username, password);
@@ -39,7 +36,8 @@ public class CactusActor extends ArtificeActor {
                     getSelf(),
                     ((StampedSenderMessage) message).getStimulusValues(),
                     ((StampedSenderMessage) message).getSendingTime(),
-                    ((StampedSenderMessage) message).getReceivingTime()
+                    ((StampedSenderMessage) message).getReceivingTime(),
+                    System.currentTimeMillis()
             );
             System.out.println(this.name+": ReceiverMessage built!");
             dbActor.tell(msg,getSelf());
@@ -74,11 +72,6 @@ public class CactusActor extends ArtificeActor {
         } else {
             throw new Exception("Message type not supported.");
         }
-    }
-
-    public void postStop(){
-        System.out.println(this.name+": sent: "+ messagesSent + " received: " + messagesReceived + "delta: " + (messagesReceived-messagesSent));
-
     }
 
 }

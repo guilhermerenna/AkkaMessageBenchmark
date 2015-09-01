@@ -14,13 +14,15 @@ public class ReceiverMessage implements Serializable {
     private final String stimulusValues;
     private final long sendingTime;
     private final long receivingTime;
+    private final long processingTime;
 
-    public ReceiverMessage(ActorRef sender, ActorRef receiver, String stimulusValues, long sendingTime, long receivingTime) {
+    public ReceiverMessage(ActorRef sender, ActorRef receiver, String stimulusValues, long sendingTime, long receivingTime, long processingTime) {
         this.sender = sender;
         this.receiver = receiver;
         this.stimulusValues = stimulusValues;
         this.sendingTime = sendingTime;
         this.receivingTime = receivingTime;
+        this.processingTime = processingTime;
     }
 
     public ActorRef getSender() {
@@ -43,6 +45,10 @@ public class ReceiverMessage implements Serializable {
         return receivingTime;
     }
 
+    public long getProcessingTime() {
+        return processingTime;
+    }
+
     @Override
     public String toString() {
         return "ReceiverMessage{" +
@@ -51,6 +57,7 @@ public class ReceiverMessage implements Serializable {
                 ", stimulusValues='" + stimulusValues + '\'' +
                 ", sendingTime=" + sendingTime +
                 ", receivingTime=" + receivingTime +
+                ", processingTime=" + processingTime +
                 '}';
     }
 }

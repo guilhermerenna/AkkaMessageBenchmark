@@ -18,8 +18,7 @@ public class CreatureActor extends ArtificeActor {
     private final ActorRef mouth = getContext().actorOf(Props.create(MouthActor.class).withRouter(new RoundRobinRouter(5)), "mouth");
     private final ActorRef nose = getContext().actorOf(Props.create(NoseActor.class).withRouter(new RoundRobinRouter(5)), "nose");
     private final ActorRef eye = getContext().actorOf(Props.create(EyeActor.class).withRouter(new RoundRobinRouter(5)), "eye");
-    private int messagesSent=0;
-    private int messagesReceived=0;
+
 
     public CreatureActor(String name, String path, String username, String password) {
         // Actor name and Database username, password and path
@@ -38,7 +37,8 @@ public class CreatureActor extends ArtificeActor {
                     getSelf(),
                     ssm.getStimulusValues(),
                     ssm.getSendingTime(),
-                    ssm.getReceivingTime()
+                    ssm.getReceivingTime(),
+                    System.currentTimeMillis()
             );
             System.out.println(this.name + ": ReceiverMessage built!");
             dbActor.tell(msg, getSelf());
@@ -75,11 +75,6 @@ public class CreatureActor extends ArtificeActor {
         } else {
             throw new Exception("Message type not supported.");
         }
-    }
-
-    public void postStop(){
-        System.out.println(this.name+": sent: "+ messagesSent + " received: " + messagesReceived + "delta: " + (messagesReceived-messagesSent));
-
     }
 
 }

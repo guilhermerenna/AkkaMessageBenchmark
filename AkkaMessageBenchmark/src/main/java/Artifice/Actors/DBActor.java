@@ -66,7 +66,7 @@ public class DBActor extends UntypedActor {
                 + String.valueOf(msg.getSendingTime()) +", "
                 + String.valueOf(msg.getReceivingTime()) +", "
                 + "'"+msg.getStimulusValues() +"', "
-                + String.valueOf(System.currentTimeMillis())
+                + String.valueOf(msg.getProcessingTime())
                + ")";
     }
 
