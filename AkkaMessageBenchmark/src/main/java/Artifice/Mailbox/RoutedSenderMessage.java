@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by Bruno Maciel on 12/06/15.
  */
-public class RoutedSenderMessage implements Serializable {
+public final class RoutedSenderMessage implements Serializable {
 
     private final SenderMessage sm;
 

@@ -2,7 +2,7 @@ package Cluster.message;
 
 import java.io.Serializable;
 
-public class CreationOrder implements Serializable{
+public final class CreationOrder implements Serializable{
     public final int nCacti;
     public final int nCreature;
 

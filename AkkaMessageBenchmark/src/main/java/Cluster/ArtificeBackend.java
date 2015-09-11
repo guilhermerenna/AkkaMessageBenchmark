@@ -3,6 +3,7 @@ package Cluster;
 
 import Artifice.Actors.CactusActor;
 import Artifice.Actors.CreatureActor;
+import Artifice.Actors.DBActor;
 import Artifice.Mailbox.RoutedSenderMessage;
 import Artifice.Mailbox.SenderMessage;
 import Artifice.Mailbox.StampedSenderMessage;
@@ -41,6 +42,7 @@ public class ArtificeBackend extends UntypedActor {
     protected Cluster cluster;
     private int nCreatures;
     private int nCacti;
+    private ActorRef dbActor;
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     public ArtificeBackend(String name, int nCreatures, int nCacti, String path, String username, String password) {
@@ -72,6 +74,7 @@ public class ArtificeBackend extends UntypedActor {
 
     public void preStart() throws Exception {
         super.preStart();
+        dbActor = getContext().actorOf(Props.create(DBActor.class, this.name + "\\dbactor", this.path, this.username, this.password));
 
         cluster.subscribe(self(), MemberUp.class);
     }
@@ -93,15 +96,15 @@ public class ArtificeBackend extends UntypedActor {
             //TODO: migrar nCacti para getNCacti (encapsular atributos eh boa pratica de programacao ;) )
             nCacti = order.nCacti;
             for(int i=0;i<order.nCacti;i++){
-                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, ("cactus" +i), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("cactus" + i))));
+                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, ("cactus" +i), dbActor).withMailbox("artificeMailbox"), ("cactus" + i))));
             }
             nCreatures = order.nCreature;
             for(int j=0;j<order.nCreature;j++) {
-                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, ("creature" + j), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("creature" + j))));
+                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, ("creature" + j), dbActor).withMailbox("artificeMailbox"), ("creature" + j))));
             }
             internalRouter = new Router(new RandomRoutingLogic(), internalRoutees);
             System.out.println(this.name+": creation order completed");
-            getSender().tell("started", getSelf());
+            getSender().tell("ready", getSelf());
 
         } else if (message instanceof String) {
 

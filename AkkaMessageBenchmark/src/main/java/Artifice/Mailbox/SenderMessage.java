@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by Bruno Maciel on 12/06/15.
  */
-public class SenderMessage implements Serializable {
+public final class SenderMessage implements Serializable {
 
     private final ActorRef sender;
     private final String stimulusValues;

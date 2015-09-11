@@ -19,15 +19,13 @@ public  abstract class ArtificeActor extends UntypedActor {
     protected int messagesSent;
     protected int messagesReceived;
 
-    public ArtificeActor(String name, String path, String username, String password) {
+    public ArtificeActor(String name, ActorRef dbActor) {
         this.name = name;
 
         // Database username, password and path
-        this.path = path;
-        this.username = username;
-        this.password = password;
         this.messagesSent = 0;
         this.messagesReceived = 0;
+        this.dbActor = dbActor;
 
         // System.out.println(this.name + ": creating dbactor with user "+this.username+" at db "+this.path);
     }
@@ -36,9 +34,7 @@ public  abstract class ArtificeActor extends UntypedActor {
     public void preStart() throws Exception {
         super.preStart();
 
-        // Instancia DBActor
 
-        dbActor = getContext().actorOf(Props.create(DBActor.class, this.name + "\\dbactor", this.path, this.username, this.password));
 
         /*/getContext().system().scheduler().scheduleOnce(
                 Duration.create(500, TimeUnit.MILLISECONDS),

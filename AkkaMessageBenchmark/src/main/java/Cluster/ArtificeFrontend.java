@@ -57,7 +57,7 @@ public class ArtificeFrontend extends UntypedActor {
                     ref.tell(new CreationOrder(nCacti, nCreatures), getSelf());
                 }
 
-            } else if(message.equals("started")) {
+            } else if(message.equals("ready")) {
                 if(++backendsReady == this.numBackends) {
                     for(ActorRef r : backends) {
                         r.tell("startSimulation", self());

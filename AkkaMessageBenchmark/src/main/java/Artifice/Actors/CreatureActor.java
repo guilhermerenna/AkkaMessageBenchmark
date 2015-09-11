@@ -20,9 +20,8 @@ public class CreatureActor extends ArtificeActor {
     private final ActorRef eye = getContext().actorOf(Props.create(EyeActor.class).withRouter(new RoundRobinRouter(5)), "eye");
 
 
-    public CreatureActor(String name, String path, String username, String password) {
-        // Actor name and Database username, password and path
-        super(name, path, username, password);
+    public CreatureActor(String name, ActorRef dbActor) {
+        super(name, dbActor);
     }
 
     @Override
@@ -63,7 +62,7 @@ public class CreatureActor extends ArtificeActor {
                     System.out.println(this.name + ": sending touch stimulus from " + getSelf().toString());
 
                     getContext().system().scheduler().scheduleOnce(
-                            Duration.create(10, TimeUnit.MILLISECONDS),
+                            Duration.create(30, TimeUnit.MILLISECONDS),
                             getSelf(),
                             "anycast",
                             getContext().system().dispatcher(),

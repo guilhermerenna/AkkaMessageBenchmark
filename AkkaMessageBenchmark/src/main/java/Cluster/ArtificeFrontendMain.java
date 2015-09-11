@@ -20,7 +20,6 @@ import java.sql.SQLException;
 import java.util.Enumeration;
 
 public class ArtificeFrontendMain {
-    private final String interfaceRede = "em1";
     private static ActorSystem system;
     static int nCreatures;
     static int nCacti;
