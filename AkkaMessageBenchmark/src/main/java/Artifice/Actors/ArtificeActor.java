@@ -36,13 +36,8 @@ public  abstract class ArtificeActor extends UntypedActor {
     public void preStart() throws Exception {
         super.preStart();
 
-        // Instancia DBActor
-
         dbActor = getContext().actorOf(Props.create(DBActor.class, this.name + "\\dbactor", this.path, this.username, this.password));
 
-        /*/getContext().system().scheduler().scheduleOnce(
-                Duration.create(500, TimeUnit.MILLISECONDS),
-                getSelf(), "tick", getContext().dispatcher(), null);*/
     }
 
     public void postStop() {

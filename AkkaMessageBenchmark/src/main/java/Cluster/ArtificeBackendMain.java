@@ -77,7 +77,7 @@ public class ArtificeBackendMain {
         final Config config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port).
                 withFallback(ConfigFactory.parseString("akka.remote.netty.tcp.hostname=" + ip)).
                 withFallback(ConfigFactory.parseString("akka.cluster.seed-nodes=" + de.getHosts())).
-                withFallback(ConfigFactory.parseString("akka.cluster.min-nr-of-members=" + (de.getBackendNumber()+1))).
+          /*TODO: testar eliminar estas linhas*/      withFallback(ConfigFactory.parseString("akka.cluster.min-nr-of-members=" + (de.getBackendNumber()+1))).
                 withFallback(ConfigFactory.parseString("akka.cluster.role.backend.min-nr-of-members=" + de.getBackendNumber())).
                 withFallback(ConfigFactory.parseString("akka.cluster.roles = [backend]")).
                 withFallback(ConfigFactory.load("artificeCluster"));
@@ -87,6 +87,7 @@ public class ArtificeBackendMain {
 
         System.err.println("Criando ator em backend.");
         system.actorOf(Props.create(ArtificeBackend.class, ("backend" + port), de.getCreatureNumber(), de.getCactiNumber(), de.getPath(), de.getUsername(), de.getPassword()), "artificeBackend");
+
 
         // METRICS LISTENER: Desativado para remover as mensagens de LOG desnecessarias
         // System.err.println("Criando ator metricsListener em backend.");

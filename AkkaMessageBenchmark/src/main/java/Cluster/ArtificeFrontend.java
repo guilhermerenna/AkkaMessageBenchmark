@@ -1,7 +1,6 @@
 package Cluster;
 
 import Cluster.Tools.DataExtractor;
-import Cluster.Tools.StatisticsAnalyser;
 import Cluster.message.CreationOrder;
 import akka.actor.ActorRef;
 import akka.actor.ReceiveTimeout;

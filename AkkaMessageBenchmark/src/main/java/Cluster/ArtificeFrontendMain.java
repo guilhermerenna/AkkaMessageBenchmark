@@ -1,29 +1,21 @@
 package Cluster;
 
-import Cluster.Tools.DBCleaner;
 import Cluster.Tools.DataExtractor;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import akka.cluster.Cluster;
-import akka.cluster.Member;
-import akka.cluster.MemberStatus;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
-import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.sql.SQLException;
 import java.util.Enumeration;
 
 public class ArtificeFrontendMain {
     private final String interfaceRede = "em1";
     private static ActorSystem system;
-    static int nCreatures;
-    static int nCacti;
     static DataExtractor de = new DataExtractor("artifice.xml");
 
     public static void main(String[] args){
@@ -79,13 +71,8 @@ public class ArtificeFrontendMain {
         system = ActorSystem.create("ClusterSystem", config);
         system.log().info("Artifice will start when the minimum backend members number is reached.");
 
-        //#registerOnUp
         final ActorRef frontend = system.actorOf(Props.create(ArtificeFrontend.class, "ArtificeFrontend", de.getCreatureNumber(), de.getCactiNumber(), de), "artificeFrontend");
-        /*LOG DE MUDANÇAS: retirada a criacao do ator da callback abaixo, transferida para a linha acima
-         *suspeito que o frontend nao estava sendo criado;
-         *Adicionado a mensagem "start" na callback abaixo;
-         */
-        //#registerOnUp
+
     }
 
 }

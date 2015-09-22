@@ -4,14 +4,15 @@
             <username>lsi</username>
             <password>win*c4s4)</password>
             <path>localhost:5432/akkaartifice</path>
-            <interfaceRede>eth0</interfaceRede>
+            <interfaceRede>eth1</interfaceRede>
         <creatures>20</creatures>
         <cacti>20</cacti>
-        <backendNumber>3</backendNumber>
+        <backendNumber>4</backendNumber>
         <simulationDuration>100000</simulationDuration>
         <hosts>
             ["akka.tcp://ClusterSystem@10.0.2.49:2550",
             "akka.tcp://ClusterSystem@10.0.2.49:2551",
+            "akka.tcp://ClusterSystem@10.0.2.49:2552",
             "akka.tcp://ClusterSystem@10.0.2.47:2551",
             "akka.tcp://ClusterSystem@10.0.2.47:2552"]
         </hosts>

@@ -41,6 +41,8 @@ public class ArtificeBackend extends UntypedActor {
     protected Cluster cluster;
     private int nCreatures;
     private int nCacti;
+    private int sender_message_cont=0;
+    private int routed_message_cont=0;
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     public ArtificeBackend(String name, int nCreatures, int nCacti, String path, String username, String password) {
@@ -122,11 +124,13 @@ public class ArtificeBackend extends UntypedActor {
             }
 
         } else if(message instanceof SenderMessage) {
+            ++sender_message_cont;
             String senderString = getSender().toString().split("#")[0];
             log.info(this.name + ": SenderMessage de " + senderString + ". Encaminhando para roteador de backends...");
             backendRouter.route(new RoutedSenderMessage((SenderMessage) message), self());
 
         } else if(message instanceof RoutedSenderMessage) {
+            ++routed_message_cont;
             log.info("\n\n" + this.name + ": RoutedSenderMessage recebida.");
             SenderMessage sm = ((RoutedSenderMessage) message).getSenderMessage();
             StampedSenderMessage ssm = new StampedSenderMessage(sm.getSender(), sm.getStimulusValues(), sm.getSendingTime(), System.currentTimeMillis());
@@ -175,6 +179,8 @@ public class ArtificeBackend extends UntypedActor {
         else {
             System.err.println("Erro ao rodar Statistics Analyser.");
         }
+
+        System.out.println("message_cont: internal:\t" + sender_message_cont +"\texternal:\t" + routed_message_cont);
 
         log.info(this.name + ": DESLIGANDO BACKEND");
         getContext().system().shutdown();
