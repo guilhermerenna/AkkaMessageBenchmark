@@ -20,6 +20,7 @@ public class DataExtractor {
     private static int cactiNumber;
     private static int backendNumber;
     private static int simulationDuration;
+    private static int period;
     private static String interfaceRede;
     private static String hosts;
 
@@ -68,7 +69,8 @@ public class DataExtractor {
                 creatureNumber = Integer.parseInt(eElement.getElementsByTagName("creatures").item(0).getTextContent());
                 cactiNumber = Integer.parseInt(eElement.getElementsByTagName("cacti").item(0).getTextContent());
                 backendNumber = Integer.parseInt(eElement.getElementsByTagName("backendNumber").item(0).getTextContent());
-                simulationDuration = Integer.parseInt(eElement.getElementsByTagName("simulationDuration").item(0).getTextContent());
+                simulationDuration = 1000 * (Integer.parseInt(eElement.getElementsByTagName("simulationDuration").item(0).getTextContent()));
+                period = Integer.parseInt(eElement.getElementsByTagName("period").item(0).getTextContent());
                 interfaceRede = eElement.getElementsByTagName("interfaceRede").item(0).getTextContent();
                 hosts = eElement.getElementsByTagName("hosts").item(0).getTextContent();
                 System.out.println("Database: " + path);
@@ -78,6 +80,7 @@ public class DataExtractor {
                 System.out.println("# cacti: " + cactiNumber);
                 System.out.println("# backends: " + backendNumber);
                 System.out.println("Duration: " + (simulationDuration/1000)+ "s");
+                System.out.println("Period: " + period + "ms");
                 System.out.println("Hosts: \n" + hosts);
             }
             //}
@@ -117,5 +120,7 @@ public class DataExtractor {
     public int getBackendNumber() { return backendNumber; }
 
     public int getSimulationDuration() { return simulationDuration; }
+
+    public int getPeriod() { return period; }
 
 }

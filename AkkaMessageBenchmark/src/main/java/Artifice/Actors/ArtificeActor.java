@@ -18,8 +18,9 @@ public  abstract class ArtificeActor extends UntypedActor {
     private String password;
     protected int messagesSent;
     protected int messagesReceived;
+    protected int periodo;
 
-    public ArtificeActor(String name, String path, String username, String password) {
+    public ArtificeActor(String name, String path, String username, String password, int periodo) {
         this.name = name;
 
         // Database username, password and path
@@ -28,6 +29,7 @@ public  abstract class ArtificeActor extends UntypedActor {
         this.password = password;
         this.messagesSent = 0;
         this.messagesReceived = 0;
+        this.periodo = periodo;
 
         // System.out.println(this.name + ": creating dbactor with user "+this.username+" at db "+this.path);
     }
@@ -41,6 +43,6 @@ public  abstract class ArtificeActor extends UntypedActor {
     }
 
     public void postStop() {
-        System.out.println(this.name + " -- Sent:\t" + messagesSent + "\tReceived:\t" + messagesReceived + "\tDelta:\t" + (messagesReceived - messagesSent));
+        System.out.println(this.name + " -- Period:\t"+this.periodo+"\tSent:\t" + messagesSent + "\tReceived:\t" + messagesReceived + "\tDelta:\t" + (messagesReceived - messagesSent));
     }
 }

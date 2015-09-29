@@ -22,6 +22,7 @@ public class ArtificeFrontend extends UntypedActor {
     final int nCreatures;
     final int nCacti;
     final int numBackends;
+    final int periodo;
     final String name;
     static DataExtractor de;
     int backendsReady;
@@ -36,6 +37,7 @@ public class ArtificeFrontend extends UntypedActor {
         this.de = de;
         this.name = name;
         this.numBackends = de.getBackendNumber();
+        this.periodo = de.getPeriod();
         this.backendsReady = 0;
     }
 
@@ -53,7 +55,7 @@ public class ArtificeFrontend extends UntypedActor {
                 for(ActorRef ref : backends) {
                     ref.tell(backends, self());
                     log.info(this.name+ ": Enviando requisicao ordem de criacao de "+nCreatures+" criaturas e "+nCacti+" cactos para backend.");
-                    ref.tell(new CreationOrder(nCacti, nCreatures), getSelf());
+                    ref.tell(new CreationOrder(nCacti, nCreatures, numBackends), getSelf());
                 }
 
             } else if(message.equals("started")) {

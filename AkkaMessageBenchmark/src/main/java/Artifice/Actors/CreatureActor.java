@@ -15,14 +15,14 @@ import scala.concurrent.duration.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class CreatureActor extends ArtificeActor {
-    private final ActorRef mouth = getContext().actorOf(Props.create(MouthActor.class).withRouter(new RoundRobinRouter(5)), "mouth");
-    private final ActorRef nose = getContext().actorOf(Props.create(NoseActor.class).withRouter(new RoundRobinRouter(5)), "nose");
-    private final ActorRef eye = getContext().actorOf(Props.create(EyeActor.class).withRouter(new RoundRobinRouter(5)), "eye");
+    private final ActorRef mouth = getContext().actorOf(Props.create(MouthActor.class), "mouth");
+    private final ActorRef nose = getContext().actorOf(Props.create(NoseActor.class), "nose");
+    private final ActorRef eye = getContext().actorOf(Props.create(EyeActor.class), "eye");
 
 
-    public CreatureActor(String name, String path, String username, String password) {
+    public CreatureActor(String name, String path, String username, String password, int periodo) {
         // Actor name and Database username, password and path
-        super(name, path, username, password);
+        super(name, path, username, password, periodo);
     }
 
     @Override
@@ -45,10 +45,11 @@ public class CreatureActor extends ArtificeActor {
         } else if (message instanceof String) {
             if (message.equals("startSimulation")) {
 
-                // Scheduler para enviar mensagens "anycast" a cada 50ms
+                // Scheduler para enviar mensagens "anycast" a cada periodo
+                // OBS.: o periodo é determinado dentro do artifice.xml
                 System.err.println(this.name + "starting simulation!");
                 getContext().system().scheduler().scheduleOnce(
-                        Duration.create(10, TimeUnit.MILLISECONDS),
+                        Duration.create(this.periodo, TimeUnit.MILLISECONDS),
                         getSelf(),
                         "anycast",
                         getContext().system().dispatcher(),
@@ -63,7 +64,7 @@ public class CreatureActor extends ArtificeActor {
                     System.out.println(this.name + ": sending touch stimulus from " + getSelf().toString());
 
                     getContext().system().scheduler().scheduleOnce(
-                            Duration.create(10, TimeUnit.MILLISECONDS),
+                            Duration.create(this.periodo, TimeUnit.MILLISECONDS),
                             getSelf(),
                             "anycast",
                             getContext().system().dispatcher(),

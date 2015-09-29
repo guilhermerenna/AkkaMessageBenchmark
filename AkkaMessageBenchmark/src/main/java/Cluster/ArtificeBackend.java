@@ -41,11 +41,13 @@ public class ArtificeBackend extends UntypedActor {
     protected Cluster cluster;
     private int nCreatures;
     private int nCacti;
+    private int periodo;
     private int sender_message_cont=0;
     private int routed_message_cont=0;
+    private int backendNumber;
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    public ArtificeBackend(String name, int nCreatures, int nCacti, String path, String username, String password) {
+    public ArtificeBackend(String name, int nCreatures, int nCacti, String path, String username, String password, int periodo) {
         String hostname = "";
 
         try
@@ -59,7 +61,7 @@ public class ArtificeBackend extends UntypedActor {
             System.out.println("Hostname can not be resolved");
         }
 
-        if(!hostname.equals("")) this.name = hostname + "." + name;
+        if(!hostname.equals("")) this.name = hostname;
         else this.name = name;
         this.path = path;
         this.username = username;
@@ -67,6 +69,9 @@ public class ArtificeBackend extends UntypedActor {
         this.internalRoutees = new ArrayList<Routee>();
         this.nCacti = 0;
         this.nCreatures = 0;
+        this.backendNumber = 0;
+        this.periodo = periodo;
+
         // this.creatures = new ArrayList<Routee>();
         // this.cacti= new ArrayList<Routee>();
         cluster = Cluster.get(context().system());
@@ -92,14 +97,16 @@ public class ArtificeBackend extends UntypedActor {
         } else if (message instanceof CreationOrder) {
             CreationOrder order = (CreationOrder)message;
 
+            this.backendNumber = order.nBackends;
+
             //TODO: migrar nCacti para getNCacti (encapsular atributos eh boa pratica de programacao ;) )
             nCacti = order.nCacti;
             for(int i=0;i<order.nCacti;i++){
-                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, ("cactus" +i), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("cactus" + i))));
+                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, ("cactus" +i), this.path, this.username, this.password, this.periodo).withMailbox("artificeMailbox"), ("cactus" + i))));
             }
             nCreatures = order.nCreature;
             for(int j=0;j<order.nCreature;j++) {
-                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, ("creature" + j), this.path, this.username, this.password).withMailbox("artificeMailbox"), ("creature" + j))));
+                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, ("creature" + j), this.path, this.username, this.password, this.periodo).withMailbox("artificeMailbox"), ("creature" + j))));
             }
             internalRouter = new Router(new RandomRoutingLogic(), internalRoutees);
             System.out.println(this.name+": creation order completed");
@@ -164,7 +171,7 @@ public class ArtificeBackend extends UntypedActor {
         log.info(this.name + ": Finalizando a simulacao: iniciando STATISTICS ANALYSER");
 
 
-        StatisticsAnalyser sa = new StatisticsAnalyser(this.name, this.path, this.username, this.password, this.nCreatures, this.nCacti);
+        StatisticsAnalyser sa = new StatisticsAnalyser(this.name, this.path, this.username, this.password, this.nCreatures, this.nCacti, this.backendNumber, this.periodo);
         int total = -1;
         try {
             total = sa.run();

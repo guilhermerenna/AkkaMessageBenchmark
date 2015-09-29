@@ -13,9 +13,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class CactusActor extends ArtificeActor {
 
-    public CactusActor(String name, String path, String username, String password) {
+    public CactusActor(String name, String path, String username, String password, int periodo) {
         // Actor name and Database username, password and path
-        super(name, path, username, password);
+        super(name, path, username, password,periodo);
         System.out.println(this.name + " constructor successfully called!");
     }
 
@@ -46,7 +46,7 @@ public class CactusActor extends ArtificeActor {
                 // Scheduler para enviar mensagens "anycast" a cada 50ms
                 System.err.println(this.name + "starting simulation!");
                 getContext().system().scheduler().scheduleOnce(
-                        Duration.create(10, TimeUnit.MILLISECONDS),
+                        Duration.create(this.periodo, TimeUnit.MILLISECONDS),
                         getSelf(),
                         "anycast",
                         getContext().system().dispatcher(),
@@ -60,7 +60,7 @@ public class CactusActor extends ArtificeActor {
                     context().parent().tell(new SenderMessage(getSelf(), "Spike from " + this.name + "!!", System.currentTimeMillis()), getSelf());
                     System.out.println(this.name + ": sending spike stimulus from " + getSelf().toString());
                     getContext().system().scheduler().scheduleOnce(
-                            Duration.create(10, TimeUnit.MILLISECONDS),
+                            Duration.create(this.periodo, TimeUnit.MILLISECONDS),
                             getSelf(),
                             "anycast",
                             getContext().system().dispatcher(),

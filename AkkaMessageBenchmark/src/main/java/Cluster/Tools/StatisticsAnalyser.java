@@ -12,27 +12,31 @@ import java.text.SimpleDateFormat;
  * Created by lsi on 16/06/15.
  */
 public class StatisticsAnalyser {
-    private static String backendName;
+    private String backendName;
     private String path;
     private String username;
     private String password;
-    private static Connection con;
-    private static Statement stm;
-    private static int totalMessages = 0;
+    private Connection con;
+    private Statement stm;
+    private int totalMessages = 0;
 
     // Number of creatures per backend
-    public static int nCreatures;
+    public int nCreatures;
     // Number of cacti per backend
-    public static int nCacti;
+    public int nCacti;
 
+    public int backendNumber;
+    public int period;
 
-    public StatisticsAnalyser(String backendName, String path, String username, String password, int nCreatures, int nCacti) { //, int scheduling) {
+    public StatisticsAnalyser(String backendName, String path, String username, String password, int nCreatures, int nCacti, int backendNumber, int period) { //, int scheduling) {
         this.backendName = backendName;
         this.nCreatures = nCreatures;
         this.nCacti = nCacti;
         this.path = path;
         this.username = username;
         this.password = password;
+        this.backendNumber = backendNumber;
+        this.period = period;
         // this.scheduling = scheduling;
     }
 
@@ -48,7 +52,7 @@ public class StatisticsAnalyser {
         ResultSet rs = stm.executeQuery(query);
 
         // Defines the name for the output, using the current timestamp
-        String outputPath = new SimpleDateFormat("'output-"+ this.backendName +"-age"+nCreatures+"cac"+nCacti+"-'yyyyMMddhhmm'.csv'").format(new java.util.Date());
+        String outputPath = new SimpleDateFormat("'"+this.backendName +"-act"+(nCreatures+nCacti)+"-nodes"+this.backendNumber+"-period"+this.period+"-'yyyyMMddhhmm'.csv'").format(new java.util.Date());
 
         // Writes to a string the home directory from System (i.e. finds out which user folder it should use)
         outputPath = System.getProperty("user.home")+"/output/" + outputPath;
