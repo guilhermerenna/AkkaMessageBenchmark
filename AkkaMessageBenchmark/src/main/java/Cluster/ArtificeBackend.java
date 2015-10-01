@@ -38,16 +38,17 @@ public class ArtificeBackend extends UntypedActor {
     private String path;
     private String username;
     private String password;
+    private CreationOrder co;
     protected Cluster cluster;
-    private int nCreatures;
+/*    private int nCreatures;
     private int nCacti;
-    private int periodo;
+    private int periodo;*/
     private int sender_message_cont=0;
     private int routed_message_cont=0;
     private int backendNumber;
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    public ArtificeBackend(String name, int nCreatures, int nCacti, String path, String username, String password, int periodo) {
+    public ArtificeBackend(String name, String path, String username, String password) {
         String hostname = "";
 
         try
@@ -67,10 +68,7 @@ public class ArtificeBackend extends UntypedActor {
         this.username = username;
         this.password = password;
         this.internalRoutees = new ArrayList<Routee>();
-        this.nCacti = 0;
-        this.nCreatures = 0;
         this.backendNumber = 0;
-        this.periodo = periodo;
 
         // this.creatures = new ArrayList<Routee>();
         // this.cacti= new ArrayList<Routee>();
@@ -95,18 +93,17 @@ public class ArtificeBackend extends UntypedActor {
             backendRouter.route("teste", self());
 
         } else if (message instanceof CreationOrder) {
-            CreationOrder order = (CreationOrder)message;
+            System.err.println("CREATION ORDER RECEBIDA");
+            this.co = (CreationOrder)message;
 
-            this.backendNumber = order.nBackends;
+            this.backendNumber = co.nBackends;
 
             //TODO: migrar nCacti para getNCacti (encapsular atributos eh boa pratica de programacao ;) )
-            nCacti = order.nCacti;
-            for(int i=0;i<order.nCacti;i++){
-                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, ("cactus" +i), this.path, this.username, this.password, this.periodo).withMailbox("artificeMailbox"), ("cactus" + i))));
+            for(int i=0;i<co.nCacti;i++){
+                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, ("cactus" +i), this.path, this.username, this.password, this.co.periodo).withMailbox("artificeMailbox"), ("cactus" + i))));
             }
-            nCreatures = order.nCreature;
-            for(int j=0;j<order.nCreature;j++) {
-                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, ("creature" + j), this.path, this.username, this.password, this.periodo).withMailbox("artificeMailbox"), ("creature" + j))));
+            for(int j=0;j<co.nCreature;j++) {
+                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, ("creature" + j), this.path, this.username, this.password, this.co.periodo).withMailbox("artificeMailbox"), ("creature" + j))));
             }
             internalRouter = new Router(new RandomRoutingLogic(), internalRoutees);
             System.out.println(this.name+": creation order completed");
@@ -116,6 +113,7 @@ public class ArtificeBackend extends UntypedActor {
 
             if(message.equals("shutdown")) {
                 log.info(this.name + ": ORDEM DE DESLIGAMENTO RECEBIDA");
+                sender().tell("exiting", self());
                 context().stop(self()); //não é necessario parar explicitamente os filhos
                 //statistcs analyser passado para postStop
 
@@ -171,7 +169,7 @@ public class ArtificeBackend extends UntypedActor {
         log.info(this.name + ": Finalizando a simulacao: iniciando STATISTICS ANALYSER");
 
 
-        StatisticsAnalyser sa = new StatisticsAnalyser(this.name, this.path, this.username, this.password, this.nCreatures, this.nCacti, this.backendNumber, this.periodo);
+        StatisticsAnalyser sa = new StatisticsAnalyser(this.name, this.path, this.username, this.password, this.co.nCreature, this.co.nCacti, this.backendNumber, this.co.periodo);
         int total = -1;
         try {
             total = sa.run();

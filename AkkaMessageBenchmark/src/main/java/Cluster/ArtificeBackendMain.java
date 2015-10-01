@@ -86,7 +86,7 @@ public class ArtificeBackendMain {
         ActorSystem system = ActorSystem.create("ClusterSystem", config);
 
         System.err.println("Criando ator em backend.");
-        system.actorOf(Props.create(ArtificeBackend.class, ("backend" + port), de.getCreatureNumber(), de.getCactiNumber(), de.getPath(), de.getUsername(), de.getPassword(), de.getPeriod()), "artificeBackend");
+        system.actorOf(Props.create(ArtificeBackend.class, ("backend" + port), de.getPath(), de.getUsername(), de.getPassword()), "artificeBackend");
 
 
         // METRICS LISTENER: Desativado para remover as mensagens de LOG desnecessarias

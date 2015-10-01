@@ -9,7 +9,7 @@
         <cacti>2</cacti>
         <backendNumber>2</backendNumber>
         <simulationDuration>5</simulationDuration>
-        <period>250</period>
+        <period>5</period>
         <hosts>
             ["akka.tcp://ClusterSystem@10.0.2.49:2550",
             "akka.tcp://ClusterSystem@10.0.2.49:2551",

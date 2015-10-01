@@ -71,7 +71,7 @@ public class ArtificeFrontendMain {
         system = ActorSystem.create("ClusterSystem", config);
         system.log().info("Artifice will start when the minimum backend members number is reached.");
 
-        final ActorRef frontend = system.actorOf(Props.create(ArtificeFrontend.class, "ArtificeFrontend", de.getCreatureNumber(), de.getCactiNumber(), de), "artificeFrontend");
+        final ActorRef frontend = system.actorOf(Props.create(ArtificeFrontend.class, "ArtificeFrontend", de), "artificeFrontend");
 
     }
 

@@ -26,19 +26,20 @@ public class ArtificeFrontend extends UntypedActor {
     final String name;
     static DataExtractor de;
     int backendsReady;
-    boolean simulating = false;
+    boolean simulating;
 
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    public ArtificeFrontend(String name, int nCreatures, int nCacti, DataExtractor de) {
+    public ArtificeFrontend(String name, DataExtractor de) {
         backends = new ArrayList<ActorRef>();
-        this.nCreatures = nCreatures;
-        this.nCacti= nCacti;
+        this.nCreatures = de.getCreatureNumber();
+        this.nCacti= de.getCactiNumber();
         this.de = de;
         this.name = name;
         this.numBackends = de.getBackendNumber();
         this.periodo = de.getPeriod();
         this.backendsReady = 0;
+        this.simulating = true;
     }
 
     @Override
@@ -50,12 +51,11 @@ public class ArtificeFrontend extends UntypedActor {
     public void onReceive(Object message) {
         if(message instanceof String) {
             if(message.equals("start")) {
-                simulating = true;
                 log.info(this.name + ": A enviar requisicao para " + backends.size() + " backends");
                 for(ActorRef ref : backends) {
                     ref.tell(backends, self());
                     log.info(this.name+ ": Enviando requisicao ordem de criacao de "+nCreatures+" criaturas e "+nCacti+" cactos para backend.");
-                    ref.tell(new CreationOrder(nCacti, nCreatures, numBackends), getSelf());
+                    ref.tell(new CreationOrder(nCacti, nCreatures, numBackends, periodo), getSelf());
                 }
 
             } else if(message.equals("started")) {
@@ -65,25 +65,45 @@ public class ArtificeFrontend extends UntypedActor {
                     }
                     getContext().system().scheduler().scheduleOnce(Duration.create(de.getSimulationDuration(), TimeUnit.MILLISECONDS),getSelf(), "shutdown", getContext().dispatcher(), null);
                     System.err.println("SHUTDOWN AGENDADO");
-                    log.info(this.name + "Agendando shutdown para daqui a "+(de.getSimulationDuration()/1000)+"s...");
+                    log.info(this.name + ": Agendando shutdown para daqui a "+(de.getSimulationDuration()/1000)+"s...");
                 }
             } else if(message.equals("register")) {
-                log.info(this.name + ": membro registrado: "+getSender().toString());
-                getContext().watch(getSender());
-                backends.add(sender());
-                if(backends.size() >= numBackends) {
-                    self().tell("start",self());
+                if(simulating) {
+                    log.info(this.name + ": membro registrado: " + getSender().toString());
+                    getContext().watch(getSender());
+                    backends.add(sender());
+                    if (backends.size() >= numBackends) {
+                        self().tell("start", self());
+                    }
                 }
-
             } else if(message.equals("shutdown")) {
                 simulating = false;
-                log.info(this.name + ": INICIANDO SHUTDOWN: enviando ordem aos backends");
-                for(ActorRef ref : backends) {
-                    ref.tell(message, self());
-                }
-                log.info(this.name + ": ordens enviadas, desligando frontend");
-                getContext().system().shutdown();
+                log.info(this.name + ": TENTANDO SHUTDOWN: enviando ordem aos backends");
+                if(backends.size() > 0) {
+                    for(ActorRef ref : backends) {
+                        log.info(this.name + ": enviando shutdown para "+ref.toString());
+                        ref.tell(message, self());
+                    }
 
+                    log.info(this.name + ": Ordens enviadas. Aguardando resposta de " + backends.size()+" backends.");
+
+                    getContext().system().scheduler().scheduleOnce(
+                            Duration.create(500, TimeUnit.MILLISECONDS),
+                            getSelf(),
+                            "shutdown",
+                            getContext().system().dispatcher(),
+                            null
+                    );
+                }
+            } else if(message.equals("exiting")) {
+                backends.remove(sender());
+                log.info(this.name + ": backend "+ sender().toString()+" saiu.");
+
+                if(backends.size() == 0) {
+                    log.info(this.name + ": todos os backends finalizaram! Fechando frontend.");
+
+                    getContext().system().shutdown();
+                }
             }
             ///// ---------------------------------- até aqui, VERIFICADO
             if(message.equals("creature created")) {
@@ -93,7 +113,12 @@ public class ArtificeFrontend extends UntypedActor {
             System.err.println(this.name + ": mensagem recebida: Timeout.");
             log.info("Timeout");
 
-        } else if (message instanceof Terminated){
+        }
+        else if(message instanceof  Terminated) {
+            log.info(this.name + ": recebi terminated de " + ((Terminated) message).actor().toString());
+        }
+
+/*        else if (message instanceof Terminated){
             Terminated t = (Terminated)message;
             //TODO conferir aqui
             if(simulating == true) {
@@ -105,7 +130,8 @@ public class ArtificeFrontend extends UntypedActor {
                 }
             }
 
-        } else {
+        } */
+        else {
             System.err.println(this.name + ": mensagem recebida: unhandled.");
             unhandled(message);
         }
