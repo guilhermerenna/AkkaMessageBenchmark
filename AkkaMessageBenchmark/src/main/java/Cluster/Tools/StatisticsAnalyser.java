@@ -52,7 +52,7 @@ public class StatisticsAnalyser {
         ResultSet rs = stm.executeQuery(query);
 
         // Defines the name for the output, using the current timestamp
-        String outputPath = new SimpleDateFormat("'"+this.backendName +"-act"+(nCreatures+nCacti)+"-nodes"+this.backendNumber+"-period"+this.period+"-'yyyyMMddhhmm'.csv'").format(new java.util.Date());
+        String outputPath = new SimpleDateFormat("'"+this.backendName +"-act"+(nCreatures+nCacti)+"-nodes"+this.backendNumber+"-period"+this.period+"-'yyyyMMddhhmmss'.csv'").format(new java.util.Date());
 
         // Writes to a string the home directory from System (i.e. finds out which user folder it should use)
         outputPath = System.getProperty("user.home")+"/output/" + outputPath;
