@@ -28,10 +28,15 @@ public class ArtificeMultiplexador {
                 .withDescription("Starts a new node with the Artifice Frontend Service on the specified port.")
                 .create("backend");
 
+        Option singleNode = OptionBuilder
+                .withDescription("Starts a simulation on a Single Node, without a cluster.")
+                .create("singleNode");
+
         options = new Options();
         options.addOption(help);
         options.addOption(backend);
         options.addOption(frontend);
+        options.addOption(singleNode);
 
     }
 
@@ -49,8 +54,10 @@ public class ArtificeMultiplexador {
             } else if (commandLine.hasOption("backend")) {
                 String port = commandLine.getOptionValue("backend");
                 ArtificeBackendMain.main(new String[]{port});
+            } else if (commandLine.hasOption("singleNode")) {
+                AkkaArtifice.main(new String[]{});
             } else {
-                System.err.println("ERROR! An option is required (frontend | backend | help).");
+                System.err.println("ERROR! An option is required (frontend | backend | singleNode | help).");
             }
         }
     }

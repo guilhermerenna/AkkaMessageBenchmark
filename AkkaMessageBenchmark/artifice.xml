@@ -5,11 +5,11 @@
             <password>win*c4s4)</password>
             <path>localhost:5432/akkaartifice</path>
             <interfaceRede>eth0</interfaceRede>
-        <creatures>2</creatures>
-        <cacti>2</cacti>
+        <creatures>16</creatures>
+        <cacti>16</cacti>
         <backendNumber>2</backendNumber>
-        <simulationDuration>5</simulationDuration>
-        <period>5</period>
+        <simulationDuration>10</simulationDuration>
+        <period>10</period>
         <hosts>
             ["akka.tcp://ClusterSystem@10.0.2.49:2550",
             "akka.tcp://ClusterSystem@10.0.2.49:2551",

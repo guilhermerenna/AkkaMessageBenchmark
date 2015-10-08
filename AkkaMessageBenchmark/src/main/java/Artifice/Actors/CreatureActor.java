@@ -47,7 +47,7 @@ public class CreatureActor extends ArtificeActor {
 
                 // Scheduler para enviar mensagens "anycast" a cada periodo
                 // OBS.: o periodo é determinado dentro do artifice.xml
-                System.err.println(this.name + "starting simulation!");
+                System.err.println(this.name + ": starting simulation!");
                 getContext().system().scheduler().scheduleOnce(
                         Duration.create(this.periodo, TimeUnit.MILLISECONDS),
                         getSelf(),

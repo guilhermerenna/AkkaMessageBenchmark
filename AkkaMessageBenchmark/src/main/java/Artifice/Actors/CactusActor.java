@@ -3,6 +3,7 @@ package Artifice.Actors;
 import Artifice.Mailbox.ReceiverMessage;
 import Artifice.Mailbox.SenderMessage;
 import Artifice.Mailbox.StampedSenderMessage;
+import akka.persistence.SnapshotOffer;
 import scala.concurrent.duration.Duration;
 
 import java.util.List;
@@ -73,5 +74,4 @@ public class CactusActor extends ArtificeActor {
             throw new Exception("Message type not supported.");
         }
     }
-
 }

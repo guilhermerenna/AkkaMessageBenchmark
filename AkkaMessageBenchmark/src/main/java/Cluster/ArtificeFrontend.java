@@ -10,14 +10,13 @@ import akka.cluster.Cluster;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import scala.concurrent.duration.Duration;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 //#frontend
 public class ArtificeFrontend extends UntypedActor {
-    Cluster cluster = Cluster.get(context().system());
+    Cluster cluster;
     private List<ActorRef> backends;
     final int nCreatures;
     final int nCacti;
@@ -27,15 +26,34 @@ public class ArtificeFrontend extends UntypedActor {
     static DataExtractor de;
     int backendsReady;
     boolean simulating;
+    boolean isUsingCluster;
 
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
+    // Construtor utilizado em simulações com o AKKA CLUSTER
     public ArtificeFrontend(String name, DataExtractor de) {
+        this.cluster =  Cluster.get(context().system());
+        this.isUsingCluster = true;
         backends = new ArrayList<ActorRef>();
         this.nCreatures = de.getCreatureNumber();
         this.nCacti= de.getCactiNumber();
         this.de = de;
         this.name = name;
+        this.numBackends = de.getBackendNumber();
+        this.periodo = de.getPeriod();
+        this.backendsReady = 0;
+        this.simulating = true;
+    }
+
+    // Construtor utilizado em simulações sem o AKKA CLUSTER
+    public ArtificeFrontend(DataExtractor de) {
+        // cluster =  Cluster.get(context().system());
+        this.isUsingCluster = false;
+        backends = new ArrayList<ActorRef>();
+        this.nCreatures = de.getCreatureNumber();
+        this.nCacti= de.getCactiNumber();
+        this.de = de;
+        this.name = "frontend";
         this.numBackends = de.getBackendNumber();
         this.periodo = de.getPeriod();
         this.backendsReady = 0;

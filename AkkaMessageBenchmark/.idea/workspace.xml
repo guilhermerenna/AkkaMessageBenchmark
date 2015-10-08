@@ -22,67 +22,45 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ArtificeBackendMain.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeBackendMain.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="88" column="48" selection-start-line="88" selection-start-column="48" selection-end-line="88" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ArtificeBackend.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeBackend.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="176" column="32" selection-start-line="176" selection-start-column="32" selection-end-line="176" selection-end-column="32" />
+              <caret line="124" column="43" selection-start-line="124" selection-start-column="43" selection-end-line="124" selection-end-column="43" />
               <folding>
-                <element signature="imports" expanded="false" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CactusActor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Artifice/Actors/CactusActor.java">
+      <file leaf-file-name="ArtificeBackendMain.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeBackendMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="36" column="73" selection-start-line="36" selection-start-column="73" selection-end-line="36" selection-end-column="73" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CreationOrder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/message/CreationOrder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="35" selection-start-line="12" selection-start-column="35" selection-end-line="12" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.7483871">
+              <caret line="95" column="26" selection-start-line="95" selection-start-column="26" selection-end-line="95" selection-end-column="26" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ArtificeFrontendMain.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeFrontendMain.java">
+      <file leaf-file-name="AkkaArtifice.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/AkkaArtifice.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="73" column="106" selection-start-line="73" selection-start-column="106" selection-end-line="73" selection-end-column="106" />
+              <caret line="70" column="96" selection-start-line="70" selection-start-column="96" selection-end-line="70" selection-end-column="96" />
               <folding>
-                <element signature="imports" expanded="false" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StatisticsAnalyser.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/Tools/StatisticsAnalyser.java">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="54" column="124" selection-start-line="54" selection-start-column="124" selection-end-line="54" selection-end-column="124" />
+              <caret line="38" column="17" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -92,20 +70,49 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeFrontend.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="35" column="40" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
+              <caret line="50" column="36" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
               <folding>
-                <element signature="e#1317#1318#0" expanded="false" />
-                <element signature="e#1416#1417#0" expanded="false" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+      <file leaf-file-name="artifice.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/artifice.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.11612903">
-              <caret line="6" column="18" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="14" column="54" selection-start-line="14" selection-start-column="54" selection-end-line="14" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="artifice.conf" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/artifice.conf">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application.conf" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application.conf">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="artificeCluster.conf" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/artificeCluster.conf">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -123,19 +130,22 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/Artifice/Actors/CactusActor.java" />
         <option value="$PROJECT_DIR$/src/main/java/Cluster/Tools/DataExtractor.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Artifice/Actors/CreatureActor.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Artifice/Actors/ArtificeActor.java" />
         <option value="$PROJECT_DIR$/src/main/java/Cluster/Tools/XMLExporter.java" />
         <option value="$PROJECT_DIR$/artifice.xml" />
         <option value="$PROJECT_DIR$/src/main/java/Cluster/ArtificeBackendMain.java" />
         <option value="$PROJECT_DIR$/src/main/java/Cluster/message/CreationOrder.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Cluster/ArtificeFrontend.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Cluster/ArtificeFrontendMain.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Cluster/ArtificeBackend.java" />
         <option value="$PROJECT_DIR$/src/main/java/Cluster/Tools/StatisticsAnalyser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Artifice/Actors/CreatureActor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Cluster/ArtificeFrontendMain.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Artifice/Actors/ArtificeActor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Artifice/Actors/CactusActor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Cluster/ArtificeMultiplexador.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/Cluster/ArtificeFrontend.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/artifice.conf" />
+        <option value="$PROJECT_DIR$/src/main/java/Cluster/AkkaArtifice.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Cluster/ArtificeBackend.java" />
       </list>
     </option>
   </component>
@@ -155,7 +165,7 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-3135" />
+    <option name="x" value="1665" />
     <option name="y" value="24" />
     <option name="width" value="1535" />
     <option name="height" value="876" />
@@ -183,8 +193,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -395,7 +405,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -404,11 +414,13 @@
     <property name="restartRequiresConfirmation" value="true" />
     <property name="dynamic.classpath" value="false" />
     <property name="FullScreen" value="false" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="OverrideImplement.overriding.sorted" value="false" />
   </component>
-  <component name="RunManager" selected="Application.ArtificeBackendMain">
+  <component name="RunManager" selected="Application.ArtificeMultiplexador">
     <configuration default="false" name="ArtificeFrontendMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Cluster.ArtificeFrontendMain" />
-      <option name="VM_PARAMETERS" value="" />
+      <option name="VM_PARAMETERS" value="-Xmx256M -Xms256M" />
       <option name="PROGRAM_PARAMETERS" value="2550" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -422,7 +434,7 @@
     </configuration>
     <configuration default="false" name="ArtificeBackendMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Cluster.ArtificeBackendMain" />
-      <option name="VM_PARAMETERS" value="" />
+      <option name="VM_PARAMETERS" value="-Xmx256M -Xms256M" />
       <option name="PROGRAM_PARAMETERS" value="2552" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -441,6 +453,20 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="ArtificeCluster" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="ArtificeMultiplexador" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Cluster.ArtificeMultiplexador" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="-singleNode" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
@@ -529,16 +555,18 @@
       <envs />
       <method />
     </configuration>
-    <list size="3">
+    <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Application.ArtificeFrontendMain" />
       <item index="1" class="java.lang.String" itemvalue="Application.ArtificeBackendMain" />
       <item index="2" class="java.lang.String" itemvalue="Application.XMLExporter" />
+      <item index="3" class="java.lang.String" itemvalue="Application.ArtificeMultiplexador" />
     </list>
     <recent_temporary>
-      <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Application.ArtificeFrontendMain" />
-        <item index="1" class="java.lang.String" itemvalue="Application.ArtificeBackendMain" />
-        <item index="2" class="java.lang.String" itemvalue="Application.XMLExporter" />
+      <list size="4">
+        <item index="0" class="java.lang.String" itemvalue="Application.ArtificeMultiplexador" />
+        <item index="1" class="java.lang.String" itemvalue="Application.ArtificeFrontendMain" />
+        <item index="2" class="java.lang.String" itemvalue="Application.ArtificeBackendMain" />
+        <item index="3" class="java.lang.String" itemvalue="Application.XMLExporter" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="JUnit" default="true" selected="false">
@@ -573,7 +601,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-3135" y="24" width="1535" height="876" extended-state="6" />
+    <frame x="1665" y="24" width="1535" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -593,7 +621,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.3221393" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="-1536" y="34" width="1535" height="876" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.3221393" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="65" y="24" width="1535" height="876" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -611,7 +639,16 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeBackend.java</url>
+          <line>3</line>
+          <properties />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
@@ -619,65 +656,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="18" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/Tools/StatisticsAnalyser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="54" column="53" selection-start-line="54" selection-start-column="53" selection-end-line="54" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeFrontend.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="84" column="49" selection-start-line="84" selection-start-column="49" selection-end-line="84" selection-end-column="49" />
-          <folding>
-            <element signature="e#1317#1318#0" expanded="false" />
-            <element signature="e#1416#1417#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/Tools/DataExtractor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="82" column="0" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeFrontendMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Artifice/Actors/CreatureActor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="48" column="71" selection-start-line="48" selection-start-column="71" selection-end-line="48" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="17" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Artifice/Actors/ArtificeActor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -690,8 +668,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="60" column="50" selection-start-line="60" selection-start-column="50" selection-end-line="60" selection-end-column="50" />
           <folding>
-            <element signature="e#1317#1318#0" expanded="false" />
-            <element signature="e#1416#1417#0" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -716,7 +693,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -733,9 +710,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="32" column="9" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -766,8 +740,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="60" column="50" selection-start-line="60" selection-start-column="50" selection-end-line="60" selection-end-column="50" />
           <folding>
-            <element signature="e#1317#1318#0" expanded="false" />
-            <element signature="e#1416#1417#0" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -792,7 +765,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -809,9 +782,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -820,8 +790,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="60" column="50" selection-start-line="60" selection-start-column="50" selection-end-line="60" selection-end-column="50" />
           <folding>
-            <element signature="e#1317#1318#0" expanded="false" />
-            <element signature="e#1416#1417#0" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -846,7 +815,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="101" column="41" selection-start-line="101" selection-start-column="41" selection-end-line="101" selection-end-column="41" />
           <folding>
-            <element signature="imports" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -863,9 +832,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -874,8 +840,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="60" column="50" selection-start-line="60" selection-start-column="50" selection-end-line="60" selection-end-column="50" />
           <folding>
-            <element signature="e#1317#1318#0" expanded="false" />
-            <element signature="e#1416#1417#0" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -921,7 +886,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="101" column="41" selection-start-line="101" selection-start-column="41" selection-end-line="101" selection-end-column="41" />
           <folding>
-            <element signature="imports" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -941,88 +906,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/artifice.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeMultiplexador.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Artifice/Actors/ArtificeActor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="57" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Artifice/Actors/CreatureActor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="70" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ArtificeCluster.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeBackendMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="88" column="48" selection-start-line="88" selection-start-column="48" selection-end-line="88" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeFrontendMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="73" column="106" selection-start-line="73" selection-start-column="106" selection-end-line="73" selection-end-column="106" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Artifice/Actors/CactusActor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="73" selection-start-line="36" selection-start-column="73" selection-end-line="36" selection-end-column="73" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeBackend.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="176" column="32" selection-start-line="176" selection-start-column="32" selection-end-line="176" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeFrontend.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="40" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
-          <folding>
-            <element signature="e#1317#1318#0" expanded="false" />
-            <element signature="e#1416#1417#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1034,6 +921,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Artifice/Mailbox/ArtificeMailbox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Artifice/Mailbox/messageQueue/GroupedMessageQueue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/Tools/StatisticsAnalyser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1042,10 +943,122 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Artifice/Actors/CactusActor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.9677419">
+          <caret line="75" column="5" selection-start-line="75" selection-start-column="5" selection-end-line="75" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11612903">
-          <caret line="6" column="18" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="17" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeFrontendMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2580645">
+          <caret line="76" column="131" selection-start-line="76" selection-start-column="131" selection-end-line="76" selection-end-column="131" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jarTest.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Artifice/Actors/CreatureActor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.85294116">
+          <caret line="56" column="18" selection-start-line="50" selection-start-column="16" selection-end-line="56" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Artifice/Actors/ArtificeActor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.23529412">
+          <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeMultiplexador.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.029411765">
+          <caret line="34" column="32" selection-start-line="34" selection-start-column="32" selection-end-line="34" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeFrontend.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="50" column="36" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/artifice.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="54" selection-start-line="14" selection-start-column="54" selection-end-line="14" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/artifice.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/artificeCluster.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/AkkaArtifice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="70" column="96" selection-start-line="70" selection-start-column="96" selection-end-line="70" selection-end-column="96" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeBackend.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="124" column="43" selection-start-line="124" selection-start-column="43" selection-end-line="124" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Cluster/ArtificeBackendMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7483871">
+          <caret line="95" column="26" selection-start-line="95" selection-start-column="26" selection-end-line="95" selection-end-column="26" />
           <folding />
         </state>
       </provider>

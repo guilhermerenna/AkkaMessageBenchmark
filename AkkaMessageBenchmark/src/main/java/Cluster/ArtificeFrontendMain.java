@@ -19,6 +19,9 @@ public class ArtificeFrontendMain {
     static DataExtractor de = new DataExtractor("artifice.xml");
 
     public static void main(String[] args){
+
+        if(args.length > 0) System.out.println("Args: " + args.toString());
+        else System.out.println("Args: None");
         // Extrai o endereço IP da porta especificada no arquivo artifice.xml
         Enumeration<InetAddress> eInterface = null;
         try {

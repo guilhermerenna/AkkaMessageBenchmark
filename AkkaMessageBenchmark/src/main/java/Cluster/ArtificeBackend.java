@@ -8,9 +8,7 @@ import Artifice.Mailbox.SenderMessage;
 import Artifice.Mailbox.StampedSenderMessage;
 import Cluster.Tools.StatisticsAnalyser;
 import Cluster.message.CreationOrder;
-import akka.actor.ActorRef;
-import akka.actor.Props;
-import akka.actor.UntypedActor;
+import akka.actor.*;
 import akka.cluster.Cluster;
 import akka.cluster.ClusterEvent.CurrentClusterState;
 import akka.cluster.ClusterEvent.MemberUp;
@@ -21,6 +19,7 @@ import akka.routing.ActorRefRoutee;
 import akka.routing.RandomRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
+import scala.concurrent.duration.Duration;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -28,6 +27,7 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 //#backend
 public class ArtificeBackend extends UntypedActor {
@@ -47,7 +47,9 @@ public class ArtificeBackend extends UntypedActor {
     private int routed_message_cont=0;
     private int backendNumber;
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private boolean isUsingCluster;
 
+    // Construtor utilizado em simulações com o AKKA CLUSTER
     public ArtificeBackend(String name, String path, String username, String password) {
         String hostname = "";
 
@@ -72,13 +74,51 @@ public class ArtificeBackend extends UntypedActor {
 
         // this.creatures = new ArrayList<Routee>();
         // this.cacti= new ArrayList<Routee>();
+        isUsingCluster = true;
         cluster = Cluster.get(context().system());
+    }
+
+    // Construtor utilizado em simulações sem o AKKA CLUSTER
+    public ArtificeBackend(int number, String path, String username, String password) {
+        String hostname = "";
+
+        try
+        {
+            InetAddress addr;
+            addr = InetAddress.getLocalHost();
+            hostname = addr.getHostName();
+        }
+        catch (UnknownHostException ex)
+        {
+            System.out.println("Hostname can not be resolved");
+        }
+
+        if(!hostname.equals("")) this.name = hostname;
+        else this.name = "backend" + number;
+        this.path = path;
+        this.username = username;
+        this.password = password;
+        this.internalRoutees = new ArrayList<Routee>();
+        this.backendNumber = 0;
+
+        isUsingCluster = false;
+
+        // this.creatures = new ArrayList<Routee>();
+        // this.cacti= new ArrayList<Routee>();
+        // cluster = Cluster.get(context().system());
     }
 
     public void preStart() throws Exception {
         super.preStart();
 
-        cluster.subscribe(self(), MemberUp.class);
+        if(isUsingCluster) cluster.subscribe(self(), MemberUp.class);
+        else {
+            Thread.sleep(500);
+            getContext().actorSelection("akka://ClusterSystem/user/artificeFrontend").tell(
+                    "register", getSelf());
+            System.err.println(this.name + ": Enviando requisicao de registro para frontend.");
+            log.info(this.name + ": Enviando requisicao de registro para frontend.");
+        }
     }
 
     @Override
@@ -100,10 +140,14 @@ public class ArtificeBackend extends UntypedActor {
 
             //TODO: migrar nCacti para getNCacti (encapsular atributos eh boa pratica de programacao ;) )
             for(int i=0;i<co.nCacti;i++){
-                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CactusActor.class, ("cactus" +i), this.path, this.username, this.password, this.co.periodo).withMailbox("artificeMailbox"), ("cactus" + i))));
+                ActorRef cacto = getContext().actorOf(Props.create(CactusActor.class, ("cactus" + i), this.path, this.username, this.password, this.co.periodo).withMailbox("artificeMailbox"), ("cactus" + i));
+                context().watch(cacto);
+                internalRoutees.add(new ActorRefRoutee(cacto));
             }
             for(int j=0;j<co.nCreature;j++) {
-                internalRoutees.add(new ActorRefRoutee(getContext().actorOf(Props.create(CreatureActor.class, ("creature" + j), this.path, this.username, this.password, this.co.periodo).withMailbox("artificeMailbox"), ("creature" + j))));
+                ActorRef criatura = getContext().actorOf(Props.create(CreatureActor.class, ("creature" + j), this.path, this.username, this.password, this.co.periodo).withMailbox("artificeMailbox"), ("creature" + j));
+                context().watch(criatura);
+                internalRoutees.add(new ActorRefRoutee(criatura));
             }
             internalRouter = new Router(new RandomRoutingLogic(), internalRoutees);
             System.out.println(this.name+": creation order completed");
@@ -125,7 +169,7 @@ public class ArtificeBackend extends UntypedActor {
                     ref.send("startSimulation",self());
                 }
             } else {
-                //internalRouter.Route(message, );
+                System.out.println(this.name + ": String não reconhecida recebida! " + message);
             }
 
         } else if(message instanceof SenderMessage) {
@@ -146,7 +190,10 @@ public class ArtificeBackend extends UntypedActor {
             MemberUp upEvent = (MemberUp) message;
             register(upEvent.member());
 
-        } else if(message instanceof CurrentClusterState) {
+        } else if(message instanceof Terminated) {
+            System.err.println(this.name + ": ATOR MORREU!");
+        }
+        else if(message instanceof CurrentClusterState) {
             System.err.println(this.name + ": ClusterState foi recebido.");
 
         } else {
