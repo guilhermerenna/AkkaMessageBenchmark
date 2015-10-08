@@ -1,6 +1,7 @@
 package Cluster;
 
 import Cluster.Tools.DataExtractor;
+import Cluster.Tools.StatisticsAnalyser;
 import Cluster.message.CreationOrder;
 import akka.actor.ActorRef;
 import akka.actor.ReceiveTimeout;
@@ -118,8 +119,11 @@ public class ArtificeFrontend extends UntypedActor {
                 log.info(this.name + ": backend "+ sender().toString()+" saiu.");
 
                 if(backends.size() == 0) {
-                    log.info(this.name + ": todos os backends finalizaram! Fechando frontend.");
-
+                    if(isUsingCluster) log.info(this.name + ": todos os backends finalizaram! Fechando frontend.");
+                    else {
+                        System.out.println("Coletando estatisticas! ======================================");
+                        StatisticsAnalyser sa = new StatisticsAnalyser(this.name, de.getPath(), de.getUsername(), de.getPassword(), de.getCreatureNumber(), de.getCactiNumber(), de.getBackendNumber(), de.getPeriod());
+                    }
                     getContext().system().shutdown();
                 }
             }

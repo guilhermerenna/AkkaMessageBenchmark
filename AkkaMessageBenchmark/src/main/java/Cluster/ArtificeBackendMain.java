@@ -44,7 +44,7 @@ public class ArtificeBackendMain {
 
                 // Obtendo endereço ip sem o caracter "/", que vem no inicio da expressao
                 ip = ip.split("/")[1];
-                System.out.println("interface de rede: " + de.getInterfaceRede() + "\nendereco ip: " + ip);
+                System.out.println("Interface de rede: " + de.getInterfaceRede() + "\nEndereco ip: " + ip);
                 break;
             }
         }

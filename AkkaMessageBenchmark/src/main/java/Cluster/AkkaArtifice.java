@@ -79,8 +79,11 @@ public class AkkaArtifice {
         ActorSystem system = ActorSystem.create("ClusterSystem", config);
 
         System.err.println("Criando ator em backend.");
-        final ActorRef backend1 = system.actorOf(Props.create(ArtificeBackend.class, 1, de.getPath(), de.getUsername(), de.getPassword()), "artificeBackend1");
-        final ActorRef backend2 = system.actorOf(Props.create(ArtificeBackend.class, 2, de.getPath(), de.getUsername(), de.getPassword()), "artificeBackend2");
+
+        ActorRef[] backends = new ActorRef[de.getBackendNumber()];
+        for(int i = 0; i<de.getBackendNumber(); i++) {
+            backends[i] = system.actorOf(Props.create(ArtificeBackend.class, i, de.getPath(), de.getUsername(), de.getPassword()), ("artificeBackend"+i));
+        }
 
         final ActorRef frontend = system.actorOf(Props.create(ArtificeFrontend.class, de), "artificeFrontend");
 

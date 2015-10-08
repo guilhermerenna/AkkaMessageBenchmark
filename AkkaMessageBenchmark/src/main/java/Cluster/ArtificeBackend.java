@@ -92,9 +92,7 @@ public class ArtificeBackend extends UntypedActor {
         {
             System.out.println("Hostname can not be resolved");
         }
-
-        if(!hostname.equals("")) this.name = hostname;
-        else this.name = "backend" + number;
+        this.name = "backend" + number;
         this.path = path;
         this.username = username;
         this.password = password;
@@ -211,31 +209,37 @@ public class ArtificeBackend extends UntypedActor {
         }
     }
 
-    public void postStop(){
+    public void postStop() {
 
-        log.info(this.name + ": Finalizando a simulacao: iniciando STATISTICS ANALYSER");
+        if (isUsingCluster) {
+            log.info(this.name + ": Finalizando a simulacao: iniciando STATISTICS ANALYSER");
 
 
-        StatisticsAnalyser sa = new StatisticsAnalyser(this.name, this.path, this.username, this.password, this.co.nCreature, this.co.nCacti, this.backendNumber, this.co.periodo);
-        int total = -1;
-        try {
-            total = sa.run();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            StatisticsAnalyser sa = new StatisticsAnalyser(this.name, this.path, this.username, this.password, this.co.nCreature, this.co.nCacti, this.backendNumber, this.co.periodo);
+            int total = -1;
+            try {
+                total = sa.run();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (total != -1) System.out.println("TOTAL DE MENSAGENS: " + total);
+            else {
+                System.err.println("Erro ao rodar Statistics Analyser.");
+            }
+
+            System.out.println("message_cont: internal:\t" + sender_message_cont + "\texternal:\t" + routed_message_cont);
+
+            log.info(this.name + ": DESLIGANDO BACKEND");
+            getContext().system().shutdown();
         }
-        if (total != -1) System.out.println("TOTAL DE MENSAGENS: " + total);
         else {
-            System.err.println("Erro ao rodar Statistics Analyser.");
+            log.info(this.name + ": simulação finalizada.");
+            System.err.println(this.name + ": simulação finalizada.");
         }
-
-        System.out.println("message_cont: internal:\t" + sender_message_cont +"\texternal:\t" + routed_message_cont);
-
-        log.info(this.name + ": DESLIGANDO BACKEND");
-        getContext().system().shutdown();
     }
 
 }
