@@ -15,6 +15,7 @@ import akka.cluster.ClusterEvent.MemberUp;
 import akka.cluster.Member;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import akka.japi.Function;
 import akka.routing.ActorRefRoutee;
 import akka.routing.RandomRoutingLogic;
 import akka.routing.Routee;
@@ -27,6 +28,8 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import static akka.actor.SupervisorStrategy.resume;
+import static akka.actor.SupervisorStrategy.stop;
 import java.util.concurrent.TimeUnit;
 
 //#backend
@@ -48,6 +51,7 @@ public class ArtificeBackend extends UntypedActor {
     private int backendNumber;
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
     private boolean isUsingCluster;
+    private static int failcount = 0;
 
     // Construtor utilizado em simulações com o AKKA CLUSTER
     public ArtificeBackend(String name, String path, String username, String password) {
@@ -119,6 +123,25 @@ public class ArtificeBackend extends UntypedActor {
         }
     }
 
+    //SupervisorStrategy
+    private static SupervisorStrategy strategy =
+            new OneForOneStrategy(2, Duration.create(5, "seconds"), new Function<Throwable, SupervisorStrategy.Directive>() {
+                public SupervisorStrategy.Directive apply(Throwable t){
+                    if(t instanceof OutOfMemoryError){
+                        System.err.println("ATOR FALHOU: OUT OF MEMORY");
+                        return stop();
+                    }else{
+                        System.err.println( "ATOR FALHOU " + (++ArtificeBackend.failcount));
+                        return resume();
+                    }
+                }
+            }, true);
+    @Override
+    public SupervisorStrategy supervisorStrategy() {
+        return strategy;
+    }
+
+
     @Override
     public void onReceive(Object message) {
         if(message instanceof List) {
@@ -128,7 +151,7 @@ public class ArtificeBackend extends UntypedActor {
             }
             backendRouter = new Router(new RandomRoutingLogic(), ((List<Routee>) backendRouteeList));
             log.info(this.name + ": backendRouter iniciado! Testando...");
-            backendRouter.route("teste", self());
+            backendRouter.route("BackendRouter iniciado!", self());
 
         } else if (message instanceof CreationOrder) {
             System.err.println("CREATION ORDER RECEBIDA");
