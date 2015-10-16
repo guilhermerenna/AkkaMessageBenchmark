@@ -13,14 +13,15 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.Properties;
 
 public class ArtificeBackendMain {
     private static DataExtractor de = new DataExtractor("artifice.xml");
 
     public static void main(String[] args) {
 
-        // Extrai o endereço IP da porta especificada no arquivo artifice.xml
-        Enumeration<InetAddress> eInterface = null;
+            // Extrai o endereço IP da porta especificada no arquivo artifice.xml
+            Enumeration < InetAddress> eInterface = null;
         try {
             NetworkInterface networkinterface = NetworkInterface.getByName(de.getInterfaceRede());
             if(networkinterface == null){
@@ -86,7 +87,7 @@ public class ArtificeBackendMain {
         ActorSystem system = ActorSystem.create("ClusterSystem", config);
 
         System.err.println("Criando ator em backend.");
-        system.actorOf(Props.create(ArtificeBackend.class, ("backend" + port), de.getPath(), de.getUsername(), de.getPassword()), "artificeBackend");
+        system.actorOf(Props.create(ArtificeBackend.class, ("backend" + port), de.getPath(), de.getUsername(), de.getPassword()).withDispatcher("pinnedDispatcher"), "artificeBackend");
 
 
         // METRICS LISTENER: Desativado para remover as mensagens de LOG desnecessarias

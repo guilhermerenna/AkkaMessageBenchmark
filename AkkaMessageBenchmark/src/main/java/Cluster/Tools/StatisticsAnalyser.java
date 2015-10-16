@@ -168,8 +168,6 @@ public class StatisticsAnalyser {
         System.out.println("\nStatistics Analyser: \nData saved to file " + outputPath);
         // System.out.println("Time: " + (new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())).toString());
 
-        System.out.println(totalMessages + " messages sent.");
-
         if (rs!=null && !rs.isClosed()) {
             rs.close();
         }
