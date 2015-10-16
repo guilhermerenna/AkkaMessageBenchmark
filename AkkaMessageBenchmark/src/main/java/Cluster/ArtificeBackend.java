@@ -3,7 +3,6 @@ package Cluster;
 
 import Artifice.Actors.CactusActor;
 import Artifice.Actors.CreatureActor;
-import Artifice.Mailbox.RoutedSenderMessage;
 import Artifice.Mailbox.SenderMessage;
 import Artifice.Mailbox.StampedSenderMessage;
 import Cluster.Tools.StatisticsAnalyser;
@@ -46,7 +45,7 @@ public class ArtificeBackend extends UntypedActor {
 /*    private int nCreatures;
     private int nCacti;
     private int periodo;*/
-    private int sender_message_cont=0;
+    protected int sender_message_cont=0;
     private int routed_message_cont=0;
     private int backendNumber;
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
@@ -104,6 +103,7 @@ public class ArtificeBackend extends UntypedActor {
         this.backendNumber = 0;
 
         isUsingCluster = false;
+        this.backendRouter = null;
 
         // this.creatures = new ArrayList<Routee>();
         // this.cacti= new ArrayList<Routee>();
@@ -144,29 +144,33 @@ public class ArtificeBackend extends UntypedActor {
 
     @Override
     public void onReceive(Object message) {
-        if(message instanceof List) {
+        if (message instanceof CreationOrder) {
+            System.err.println("CREATION ORDER RECEBIDA");
+
+            this.co = (CreationOrder)message;
+
+            // BEGIN: BACKEND ROUTER
+
             List<Routee> backendRouteeList = new ArrayList<Routee>();
-            for(ActorRef r : (List<ActorRef>) message) {
+            for(ActorRef r : (List<ActorRef>) co.backends) {
                 backendRouteeList.add(new ActorRefRoutee(r));
             }
             backendRouter = new Router(new RandomRoutingLogic(), ((List<Routee>) backendRouteeList));
             log.info(this.name + ": backendRouter iniciado! Testando...");
             backendRouter.route("BackendRouter iniciado!", self());
 
-        } else if (message instanceof CreationOrder) {
-            System.err.println("CREATION ORDER RECEBIDA");
-            this.co = (CreationOrder)message;
+            // END: BACKEND ROUTER
 
             this.backendNumber = co.nBackends;
 
             //TODO: migrar nCacti para getNCacti (encapsular atributos eh boa pratica de programacao ;) )
             for(int i=0;i<co.nCacti;i++){
-                ActorRef cacto = getContext().actorOf(Props.create(CactusActor.class, ("cactus" + i), this.path, this.username, this.password, this.co.periodo).withMailbox("artificeMailbox"), ("cactus" + i));
+                ActorRef cacto = getContext().actorOf(Props.create(CactusActor.class, ("cactus" + i), this.path, this.username, this.password, this.co.periodo, this.backendRouter).withMailbox("artificeMailbox"), ("cactus" + i));
                 context().watch(cacto);
                 internalRoutees.add(new ActorRefRoutee(cacto));
             }
             for(int j=0;j<co.nCreature;j++) {
-                ActorRef criatura = getContext().actorOf(Props.create(CreatureActor.class, ("creature" + j), this.path, this.username, this.password, this.co.periodo).withMailbox("artificeMailbox"), ("creature" + j));
+                ActorRef criatura = getContext().actorOf(Props.create(CreatureActor.class, ("creature" + j), this.path, this.username, this.password, this.co.periodo, this.backendRouter).withMailbox("artificeMailbox"), ("creature" + j));
                 context().watch(criatura);
                 internalRoutees.add(new ActorRefRoutee(criatura));
             }
@@ -194,15 +198,8 @@ public class ArtificeBackend extends UntypedActor {
             }
 
         } else if(message instanceof SenderMessage) {
-            ++sender_message_cont;
-            String senderString = getSender().toString().split("#")[0];
-            log.info(this.name + ": SenderMessage de " + senderString + ". Encaminhando para roteador de backends...");
-            backendRouter.route(new RoutedSenderMessage((SenderMessage) message), self());
-
-        } else if(message instanceof RoutedSenderMessage) {
             ++routed_message_cont;
-            log.info("\n\n" + this.name + ": RoutedSenderMessage recebida.");
-            SenderMessage sm = ((RoutedSenderMessage) message).getSenderMessage();
+            SenderMessage sm = ((SenderMessage) message);
             StampedSenderMessage ssm = new StampedSenderMessage(sm.getSender(), sm.getStimulusValues(), sm.getSendingTime(), System.currentTimeMillis());
             internalRouter.route(ssm, getSender());
 

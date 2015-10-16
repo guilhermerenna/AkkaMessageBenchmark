@@ -5,9 +5,9 @@
             <password>win*c4s4)</password>
             <path>localhost:5432/akkaartifice</path>
             <interfaceRede>eth0</interfaceRede>
-        <creatures>16</creatures>
-        <cacti>16</cacti>
-        <backendNumber>2</backendNumber>
+        <creatures>32</creatures>
+        <cacti>32</cacti>
+        <backendNumber>1</backendNumber>
         <simulationDuration>10</simulationDuration>
         <period>10</period>
         <hosts>

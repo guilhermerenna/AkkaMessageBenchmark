@@ -3,7 +3,7 @@ package Artifice.Actors;
 import Artifice.Mailbox.ReceiverMessage;
 import Artifice.Mailbox.SenderMessage;
 import Artifice.Mailbox.StampedSenderMessage;
-import akka.persistence.SnapshotOffer;
+import akka.routing.Router;
 import scala.concurrent.duration.Duration;
 
 import java.util.List;
@@ -14,9 +14,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class CactusActor extends ArtificeActor {
 
-    public CactusActor(String name, String path, String username, String password, int periodo) {
+    public CactusActor(String name, String path, String username, String password, int periodo, Router backendRouter) {
         // Actor name and Database username, password and path
-        super(name, path, username, password,periodo);
+        super(name, path, username, password, periodo, backendRouter);
         System.out.println(this.name + " constructor successfully called!");
     }
 
@@ -58,7 +58,7 @@ public class CactusActor extends ArtificeActor {
 
                 if (((String) message).equals("anycast")) {
                     messagesSent++;
-                    context().parent().tell(new SenderMessage(getSelf(), "Spike from " + this.name + "!!", System.currentTimeMillis()), getSelf());
+                    this.backendRouter.route(new SenderMessage(getSelf(), "Spike from " + this.name + "!!", System.currentTimeMillis()), getSelf());
                     System.out.println(this.name + ": sending spike stimulus from " + getSelf().toString());
                     getContext().system().scheduler().scheduleOnce(
                             Duration.create(this.periodo, TimeUnit.MILLISECONDS),

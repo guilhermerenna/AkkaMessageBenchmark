@@ -3,6 +3,7 @@ package Artifice.Actors;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
+import akka.routing.Router;
 import scala.concurrent.duration.Duration;
 
 import java.util.concurrent.TimeUnit;
@@ -19,8 +20,9 @@ public  abstract class ArtificeActor extends UntypedActor {
     protected int messagesSent;
     protected int messagesReceived;
     protected int periodo;
+    protected Router backendRouter;
 
-    public ArtificeActor(String name, String path, String username, String password, int periodo) {
+    public ArtificeActor(String name, String path, String username, String password, int periodo, Router backendRouter) {
         this.name = name;
 
         // Database username, password and path
@@ -30,6 +32,8 @@ public  abstract class ArtificeActor extends UntypedActor {
         this.messagesSent = 0;
         this.messagesReceived = 0;
         this.periodo = periodo;
+
+        this.backendRouter = backendRouter;
 
         // System.out.println(this.name + ": creating dbactor with user "+this.username+" at db "+this.path);
     }

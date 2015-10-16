@@ -3,26 +3,20 @@ package Artifice.Actors;
 import Artifice.Mailbox.ReceiverMessage;
 import Artifice.Mailbox.SenderMessage;
 import Artifice.Mailbox.StampedSenderMessage;
-import Artifice.Creature.EyeActor;
-import Artifice.Creature.MouthActor;
-import Artifice.Creature.NoseActor;
-import akka.actor.ActorRef;
-import akka.actor.PoisonPill;
-import akka.actor.Props;
-import akka.routing.RoundRobinRouter;
+import akka.routing.Router;
 import scala.concurrent.duration.Duration;
 
 import java.util.concurrent.TimeUnit;
 
 public class CreatureActor extends ArtificeActor {
-    private final ActorRef mouth = getContext().actorOf(Props.create(MouthActor.class), "mouth");
+/*    private final ActorRef mouth = getContext().actorOf(Props.create(MouthActor.class), "mouth");
     private final ActorRef nose = getContext().actorOf(Props.create(NoseActor.class), "nose");
-    private final ActorRef eye = getContext().actorOf(Props.create(EyeActor.class), "eye");
+    private final ActorRef eye = getContext().actorOf(Props.create(EyeActor.class), "eye");*/
 
 
-    public CreatureActor(String name, String path, String username, String password, int periodo) {
+    public CreatureActor(String name, String path, String username, String password, int periodo, Router backendRouter) {
         // Actor name and Database username, password and path
-        super(name, path, username, password, periodo);
+        super(name, path, username, password, periodo, backendRouter);
     }
 
     @Override
@@ -60,7 +54,9 @@ public class CreatureActor extends ArtificeActor {
 
                 if (((String) message).equals("anycast")) {
                     ++messagesSent;
-                    context().parent().tell(new SenderMessage(getSelf(),"Touch from " + this.name + "!!", System.currentTimeMillis()), getSelf());
+
+                    this.backendRouter.route(new SenderMessage(getSelf(),"Touch from " + this.name + "!!", System.currentTimeMillis()), getSelf());
+
                     System.out.println(this.name + ": sending touch stimulus from " + getSelf().toString());
 
                     getContext().system().scheduler().scheduleOnce(
